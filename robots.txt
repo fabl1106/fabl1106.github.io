@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: http://fabl1106.github.io/sitemap.xml
+Sitemap: https://fabl1106.github.io/sitemap.xml
