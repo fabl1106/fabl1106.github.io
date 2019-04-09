@@ -1,0 +1,57 @@
+title: 대구 올빼미의 새벽 개발로그
+description: 대구 올빼미의 새벽 개발로그
+author: Byeonguk Kim
+github: https://github.com/fabl1106
+about: 안녕하세요. 29살의 조금은 늦은 나이로 새롭게 개발자로 시작하는 신입 개발자입니다.
+disqus_shortname: https-fabl1106-github-io
+google_analytics: UA-XXXXXXXX-Y
+avatar_url: /static/img/avatar.jpg
+
+enableTags: true
+tagarray: []
+
+collections:
+    project:
+        output: true
+        permalink: /project/:path/
+
+social:
+    - icon: fa-facebook
+      link: "https://web.facebook.com/byungwook.kim.923"
+    - icon: fa-twitter
+      link: "#"
+    - icon: fa-linkedin
+      link: "#"
+    - icon: fa-stack-exchange
+      link: "#"
+    - icon: fa-github
+      link: "https://github.com/fabl1106"
+
+share:
+    twitter_username: github.io
+    fb_appid: 1749788565247320
+
+urls:
+    - text: About Me
+      url: /about/
+    - text: My Projects
+      url: /projects/
+    - text: XML Feed
+      url: /feed.xml
+
+url: "https://fabl1106.github.io"
+baseurl: ""
+paginate: 20
+per_page: 20
+paginate_path: "/page/:num/"
+markdown: kramdown
+gems:
+    - jekyll-paginate
+    - jekyll-gist
+
+compress_html:
+    clippings: all
+    comments: ["<!-- ", " -->"]
+    endings: all
+    ignore:
+        envs: ["development"]

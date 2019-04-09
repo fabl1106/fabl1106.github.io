@@ -1,0 +1,173 @@
+---
+layout: post
+title:  "2019_03_20_TIL(openpyxl)"
+date:   2019-03-20 01:06:23 +0700
+categories: [python]
+---
+
+### 2019.03.20 TIL
+
+(TIL은 스스로 이해한 것을 바탕으로 정리한 것으로 오류가 있을 수 있습니다)
+
+\# 질문에 답하기.  
+1. if __name__ == "__main__" 의 의미에 대해 설명
+2. 
+3.
+
+
+# openpyxl
+openpyxl은 python에서 엑셀을 불러오기 위해 설치해야 하는 모듈이다.
+
+
+## openpyxl 기본 용어 정리
+
+1. Workbook 관련
+	* openpyxl.Workbook() ---> 새 엑셀 임시 파일 생성
+	* openpyxl.load_workbook("파일명") ---> 기존 엑셀 파일 로드
+	* Workbook.save("파일명") ---> 엑셀 파일 저장
+
+2. Worksheet 타입 관련
+	* wb.active ---> 현재 활성화된 시트 반환
+	* wb.create_sheet("시트명") ---> 새 시트 생성
+	* wb['시트명'] ---> 이름으로 시트 접근
+
+3. cell 타입 관련 접근
+	* ws['b1'] ---> <Cell 'Sheet1'.B1> 
+	* ws['b1'].value ---> b1의 실제 값 반환
+	* ws.cell(row=2, column=1) ---> <Cell 'Sheet1'.A2>
+	* ws.cell(row=2, column=1).value ---> 2번째 행의 첫번째 열 값 반환(A2)
+	* ws.append(['이름', '나이', '직업') ---> 시트의 마지막 행에 새행 추가
+	* g = ws.rows ---> 그 줄에 있는 값을 g에 넣음 (lazy로 next를 통해 값 실행)
+
+## OPENPYXL 모듈로 데이터 읽어 들이기
+
+### 해당 엑셀 데이터의 모습(exam.xlsx)
+
+<img width="507" alt="openpyxl데이터" src="https://user-images.githubusercontent.com/46436843/54654492-a82bbd00-4b01-11e9-8498-241f6ba2e672.png">
+
+### 원하는 데이터 출력 모습
+
+student_data = [ {'name' = greg, 'math' = 95, 'literature' = 65, 'science' = 75} ,   
+{'name' = greg, 'math' = 25, 'literature' = 30, 'science' = 55}, .... ]
+
+### 실행코드
+
+```python
+>>> import openpyxl
+>>> wb = openpyxl.load_workbook("exam.xlsx")
+>>> ws = wb.active
+>>> wr = ws.rows
+>>> g = next(wr)    #제일 위에 wr 한줄을 가져옴
+>>> li = []
+>>> for i in g:
+>>> 	li.append(i.value)
+>>> # li = ['name', 'math', 'literature', 'science']
+>>> keys = []
+>>>	 for j in wr:
+>>>		dic = { k : v.value for k, v in zip(li, j) }
+>>>		keys.append(dic)
+>>>
+>>> print(keys)
+```
+
+## OPENPYXL을 통해 평균 및 분산, 표준편차 구하기
+
+### 해당 데이터 모습(class_1)
+
+<img width="363" alt="평균, 분산, 표준편차" src="https://user-images.githubusercontent.com/46436843/54656550-71f23b80-4b09-11e9-96e4-93cb3bb1c1c0.png">
+
+### 원하는 것
+
+1. 평균
+2. 분산
+3. 표준편차
+4. 인터프리터로 실행하여 뽑아내기
+
+### 실행코드
+
+```python
+>>> import openpyxl
+>>> import math
+>>>
+>>> def get_data_from_excel(filename):
+>>> """
+>>> get_data_from_excel(filename) --> {'name1': 'scores1', 'name2':'scores2' ....}
+>>> """
+>>> dic = {}
+>>> wb = openpyxl.load_workbook(filename)
+>>> ws = wb.active
+>>> wr = ws.rows
+>>>
+>>> for name, score in wr:
+>>>     dic[name.value] = score.value
+>>>
+>>> return dic
+>>>
+>>> #scores = list(dic.values())
+>>> #scores = [95, 25, 50, 15, 100, 10, 25, 80, 95, 20]
+>>>
+>>> def average(scores):
+>>> 	s = 0
+>>> 	for score in scores:
+>>> 		s += score
+>>> 	aveg = round(s/len(scores), 1)
+>>> 	return aveg
+>>>
+>>> def variance(scores, aveg):
+>>>		s = 0
+>>> 	for score in scores:
+>>> 		s += (score - aveg)**2
+>>> 		var = round(s/len(scores), 1)
+>>>    	return var
+>>>
+>>> def std_dev(var):
+>>>    return round(math.sqrt(var),1)
+>>>
+>>> if __name__ == "__main__":
+>>>		raw_data = get_data_from_excel("class_1.xlsx")
+>>>    scores = list(raw_data.values())
+>>>	 	avrg = average(scores)
+>>>    variance = variance(scores, avrg)
+>>>    standard_deviation = std_dev(variance)
+>>>    print("평균 : {}, 분산:{}, 표준편차: {}".format(avrg, variance, standard_deviation))
+
+```
+
+### 초보몽키님 실행코드 참고하기(by reduce, map)
+
+```python
+# 평균
+def average(scores):
+    return reduce(lambda a, b: a + b, scores)/len(scores)
+
+# 분산
+def variance(scores, avrg):
+    return reduce(lambda a, b: a + b, map(lambda s:(s-avrg)**2, scores))/len(scores)
+    
+```
+
+## import openpyxl에서 자료 불러오기
+
+1. 불러 올 excel파일을 작성 중인 파이썬 자료의 폴더안에 함께 넣어놓는다.
+2. 사이드패키지
+	* excel파일이 python3의 site-package안에 들어가면 해당 폴더에 없어도 실행된다.
+3. 경로지정해주기
+	* export PYTHONPATH = "해당 자료의 경로" 를 통해 해당경로를 지정해준다.
+ 
+
+## 새롭게 알게 된 사실
+
+### 파이썬에서의 for문
+
+1. for i in range(1,11) ---> 1부터 10까지의 숫자가 하나하나 i에 들어간다.
+2. for i in li ---> li의 0번째 인덱스부터 하나하나 들어간다.
+	* javascript에서는 인덱스 0부터 포문에 들어갔던거 같은데 그 생각을 버려야 겠다.
+3. 파이썬에서의 구구단 설계 (단 4줄로 설계가능하다)
+
+```python
+>>>for i in range(2,10):
+>>>		for j in range(1, 10):
+>>>			print(i * j, end = " ") #각 항마다 실행
+>>>		print(" ") 
+>>>
+```

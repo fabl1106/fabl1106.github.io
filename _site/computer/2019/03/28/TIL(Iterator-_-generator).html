@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" sizes = "32x32" href="/static/img/favicon.ico"/>
+    <title>2019_03_28_TIL(Iterator & generator) - 대구 올빼미의 새벽 개발로그</title>
+    <meta name="author" content="Byeonguk Kim" />
+    <meta name="description" content="2019_03_28_TIL(Iterator & generator)" />
+    <meta name="keywords" content="2019_03_28_TIL(Iterator & generator), 대구 올빼미의 새벽 개발로그, computer" />
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml">
+    <meta content="1749788565247320" property="fb:app_id">
+    <meta content="대구 올빼미의 새벽 개발로그" property="og:site_name">
+
+    
+
+    
+      <meta content="2019_03_28_TIL(Iterator & generator)" property="og:title">
+      <meta content="article" property="og:type">
+    
+
+    
+      <meta content="대구 올빼미의 새벽 개발로그" property="og:description">
+    
+
+    
+      <meta content="http://localhost:4000/computer/2019/03/28/TIL(Iterator-&-generator).html" property="og:url">
+    
+
+    
+      <meta content="2019-03-28T03:06:23+09:00" property="article:published_time">
+      <meta content="http://localhost:4000/about/" property="article:author">
+    
+
+    
+      <meta content="http://localhost:4000/static/img/avatar.jpg" property="og:image">
+    
+
+    
+      
+        <meta content="computer" property="article:section">
+      
+    
+
+    
+      
+    
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@github.io">
+    <meta name="twitter:creator" content="@github.io">
+
+    
+      <meta name="twitter:title" content="2019_03_28_TIL(Iterator & generator)">
+    
+
+    
+      <meta name="twitter:url" content="http://localhost:4000/computer/2019/03/28/TIL(Iterator-&-generator).html">
+    
+
+    
+      <meta name="twitter:description" content="대구 올빼미의 새벽 개발로그">
+    
+
+    
+
+    <!-- Font awesome icons -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+    <!-- syntax highlighting CSS -->
+    <link rel="stylesheet" href="/static/css/syntax.css">
+    <!-- Bootstrap core CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300italic,300,400italic,700&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/super-search.css">
+    <link rel="stylesheet" href="/static/css/thickbox.css">
+    <link rel="stylesheet" href="/static/css/projects.css">
+    <link rel="stylesheet" href="/static/css/main.css">
+
+    
+  </head>
+  <body>
+    <div class="container">
+      <div class="col-sm-3">
+        <div class="fixed-condition">
+          <a href="/"><img class="profile-avatar" src="/static/img/avatar.jpg" height="120px" width="120px" /></a>
+          <h1 class="author-name">Byeonguk Kim</h1>
+          
+            <div class="profile-about">
+              <h5>안녕하세요. 29살의 조금은 늦은 나이로 새롭게 개발자로 시작하는 신입 개발자입니다.</h5>
+            </div>
+          
+          <div class="social">
+            <ul>
+              
+                <li><a href="https://web.facebook.com/byungwook.kim.923" target="_blank"><i class="fa fa-facebook"></i></a></li>
+              
+                <li><a href="#" target="_blank"><i class="fa fa-twitter"></i></a></li>
+              
+                <li><a href="#" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+              
+                <li><a href="#" target="_blank"><i class="fa fa-stack-exchange"></i></a></li>
+              
+                <li><a href="https://github.com/fabl1106" target="_blank"><i class="fa fa-github"></i></a></li>
+              
+            </ul>
+          </div>
+          <div class="search" id="js-search">
+            <input type="text" placeholder="(sitemap)~$ type to search" class="search__input form-control" id="js-search__input">
+            <ul class="search__results" id="js-search__results"></ul>
+          </div>
+          <hr />
+          <ul class="sidebar-nav">
+            <strong>Navigation</strong>
+            <li><a href="/">Home</a></li>
+            
+              <li><a class="about" href="/about/">About Me</a></li>
+            
+              <li><a class="about" href="/projects/">My Projects</a></li>
+            
+              <li><a class="about" href="/feed.xml">XML Feed</a></li>
+            
+          </ul>
+        </div>
+        <!-- end /.fixed-condition -->
+      </div>
+      <div class="col-sm-8 col-offset-1 main-layout">
+        <header class="post-header">
+  <h1 class="post-title">2019_03_28_TIL(Iterator & generator)</h1>
+</header>
+
+<span class="time">28 Mar 2019</span>
+
+  <span class="categories">
+    &raquo; <a href="/category/computer">computer</a>
+  </span>
+
+
+<div class="content">
+  <div class="post"><h3 id="20190328-til">2019.03.28 TIL</h3>
+
+<p>(TIL은 스스로 이해한 것을 바탕으로 정리한 것으로 오류가 있을 수 있습니다)</p>
+
+<ul>
+  <li>iterator와 generator는 너무나도 정리가 잘된 블로그가 있어서 첨부드립니다.</li>
+  <li>[iterator &amp; generator 원본] (https://nvie.com/posts/iterators-vs-generators/)</li>
+  <li>[이터레이터와 제너레이터 한국어 번역] (https://mingrammer.com/translation-iterators-vs-generators/)</li>
+</ul>
+
+<p># 질문에 답하기</p>
+
+<ol>
+  <li>iterator</li>
+  <li>generator</li>
+</ol>
+
+<h1 id="전체적인-그림">전체적인 그림</h1>
+
+<p><img width="770" alt="iterator generator" src="https://user-images.githubusercontent.com/46436843/55204518-9b4e4e00-5212-11e9-80f8-bff9db345b5c.png" /></p>
+
+<h1 id="iterator">Iterator</h1>
+
+<ol>
+  <li>next()함수에 의해서 값을 하나씩 반환한다. (next()함수 호출시점)</li>
+  <li>Stopiteration</li>
+</ol>
+
+<h2 id="list의-iterator">list의 iterator</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span>	<span class="n">li</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span>	<span class="n">it</span> <span class="o">=</span> <span class="n">item</span><span class="p">(</span><span class="n">li</span><span class="p">)</span>        <span class="c"># list의 내장함수 dir(list)를 통해 알 수 있다.</span>
+<span class="o">&gt;&gt;&gt;</span>	<span class="k">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">it</span><span class="p">))</span>
+<span class="n">list_iterator</span>
+<span class="o">&gt;&gt;&gt;</span>	<span class="nb">next</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>         <span class="c">#li의 값을 1부터 하나씩 반환한다.</span>
+<span class="o">&gt;&gt;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span>	<span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">li</span><span class="p">:</span>
+<span class="o">&gt;&gt;&gt;</span>		<span class="k">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>            <span class="c">#이거를 실행하는 순간 내부적으로 iter(li)가 만들어져서 하나씩 반환한다.</span>
+</code></pre></div></div>
+
+<ul>
+  <li>실제로 list는 미친듯이 느리다.</li>
+  <li>따라서 필요에 의해 list를 iterator로 바꾸어 사용한다.</li>
+</ul>
+
+<h2 id="나만의-iterator-만들기">나만의 iterator 만들기</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span>	<span class="k">class</span> <span class="nc">Myiter</span><span class="p">:</span>
+<span class="o">&gt;&gt;&gt;</span>		<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">li</span><span class="p">):</span>			
+<span class="o">&gt;&gt;&gt;</span>			<span class="bp">self</span><span class="o">.</span><span class="n">continer</span> <span class="o">=</span> <span class="n">li</span>
+<span class="o">&gt;&gt;&gt;</span>			<span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="o">&gt;&gt;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span>		<span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="o">&gt;&gt;&gt;</span>			<span class="k">return</span> <span class="bp">self</span>
+<span class="o">&gt;&gt;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span>		<span class="k">def</span> <span class="nf">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="o">&gt;&gt;&gt;</span>			<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">continer</span><span class="p">):</span>
+<span class="o">&gt;&gt;&gt;</span>				<span class="k">raise</span> <span class="nb">StopIteration</span>
+<span class="o">&gt;&gt;&gt;</span>			<span class="n">ret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">container</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span>			<span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="o">&gt;&gt;&gt;</span>			<span class="k">return</span> <span class="n">ret</span>
+<span class="o">&gt;&gt;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span>	<span class="n">it_obj</span> <span class="o">=</span> <span class="n">Myiter</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
+<span class="o">&gt;&gt;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span>	<span class="nb">next</span><span class="p">(</span><span class="n">it_obj</span><span class="p">)</span>
+<span class="mi">1</span>
+<span class="o">&gt;&gt;&gt;</span>	<span class="nb">next</span><span class="p">(</span><span class="n">it_obj</span><span class="p">)</span>
+<span class="mi">2</span>
+<span class="o">&gt;&gt;&gt;</span>	<span class="n">it</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">it_obj</span><span class="p">)</span>    <span class="c">#중간에 iter을 만들어도 기존에 것 해당x</span>
+<span class="o">&gt;&gt;&gt;</span>	<span class="nb">type</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
+<span class="n">__main__</span><span class="o">.</span><span class="n">Mylter</span>
+<span class="o">&gt;&gt;&gt;</span>	<span class="nb">next</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
+<span class="mi">3</span>
+
+</code></pre></div></div>
+
+<h2 id="파일을-불러와-iterator-추출하기">파일을 불러와 iterator 추출하기</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span>	<span class="k">class</span> <span class="nc">Reader</span><span class="p">:</span>
+<span class="o">&gt;&gt;&gt;</span>		<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+<span class="o">&gt;&gt;&gt;</span>			<span class="bp">self</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">'rt'</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span>		
+<span class="o">&gt;&gt;&gt;</span>		<span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="o">&gt;&gt;&gt;</span>			<span class="k">return</span> <span class="bp">self</span>
+<span class="o">&gt;&gt;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span>		<span class="k">def</span> <span class="nf">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="o">&gt;&gt;&gt;</span>			<span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span>			<span class="k">if</span> <span class="n">a</span> <span class="o">==</span> <span class="s">''</span><span class="p">:</span>
+<span class="o">&gt;&gt;&gt;</span>				<span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span>				<span class="k">raise</span> <span class="nb">StopIteration</span>
+<span class="o">&gt;&gt;&gt;</span>			<span class="k">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span>			
+</code></pre></div></div>
+
+<h1 id="generator">Generator</h1>
+
+<h3 id="제너레이터는-특별한-종류의-이터레이터이다">제너레이터는 특별한 종류의 이터레이터이다.</h3>
+
+<ul>
+  <li>제너레이터 역시 함수이다. 독특한 함수이다.</li>
+  <li>함수 body안에 yield라는 키워드가 있어야 한다.(이게 나오면 자동으로 generator이다)</li>
+  <li>next와 yield이 서로 서로에게 실행을 넘겨주며 호출한다.</li>
+  <li>
+    <p>yield는 양보하다 라는 뜻을 가지고 있다.</p>
+
+    <ul>
+      <li>제너레이터 에러 막기</li>
+      <li>제너레이터로 피보나치 만들기</li>
+      <li>coroutine function</li>
+      <li>send()</li>
+      <li>yield from</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="제너레이터-에러-막기">제너레이터 에러 막기</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span>	<span class="k">def</span> <span class="nf">gen</span><span class="p">():</span>
+<span class="o">&gt;&gt;&gt;</span>		<span class="k">print</span><span class="p">(</span><span class="s">'gen start'</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span>		<span class="k">yield</span> <span class="mi">1</span>
+<span class="o">&gt;&gt;&gt;</span>		<span class="k">print</span><span class="p">(</span><span class="s">"a"</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span>		<span class="k">yield</span> <span class="mi">2</span>
+<span class="o">&gt;&gt;&gt;</span>		<span class="k">print</span><span class="p">(</span><span class="s">"b"</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span>		<span class="k">yield</span> <span class="mi">3</span>
+<span class="o">&gt;&gt;&gt;</span>		<span class="k">return</span> <span class="s">'done'</span>
+<span class="o">&gt;&gt;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span>	<span class="n">g</span> <span class="o">=</span> <span class="n">gen</span><span class="p">()</span>    <span class="c">#제너레이터 객체가 생성된다. 실행x</span>
+<span class="o">&gt;&gt;&gt;</span>	<span class="k">print</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<span class="o">&lt;</span><span class="n">generator</span> <span class="nb">object</span> <span class="n">gen</span> <span class="n">at</span> <span class="mh">0x1060a85c8</span><span class="o">&gt;</span>
+<span class="o">&gt;&gt;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span>	<span class="nb">next</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>   <span class="c"># 함수를 위에서 내려오며 yield을 만날 떄까지 진행</span>
+<span class="n">gen</span> <span class="n">start</span>    <span class="c"># yield가 1을 value로 반환한다.</span>
+<span class="o">&gt;&gt;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span>	<span class="k">print</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">g</span><span class="p">))</span>
+<span class="n">a</span>           <span class="c"># yield 1을 반환하며 blocking되고 그 이후부터 실행</span>
+<span class="mi">2</span>			  <span class="c"># yield 2를 만나면서 2를 반환하다.</span>
+<span class="o">&gt;&gt;&gt;</span>	
+<span class="o">&gt;&gt;&gt;</span>	<span class="nb">next</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="c">#b를 print하며 3을 반환하고 blocking</span>
+<span class="n">b</span>
+<span class="o">&gt;&gt;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span>	<span class="c">#next(g)를 하게 되면 StopIteration error가 발생</span>
+<span class="o">&gt;&gt;&gt;</span>	<span class="c">#에러를 막기 위해 try exception을 이용</span>
+<span class="o">&gt;&gt;&gt;</span>	
+<span class="o">&gt;&gt;&gt;</span>	<span class="k">try</span><span class="p">:</span>
+<span class="o">&gt;&gt;&gt;</span>		<span class="nb">next</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span>	<span class="k">except</span> <span class="nb">StopIteration</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+<span class="o">&gt;&gt;&gt;</span>		<span class="k">print</span> <span class="n">exc</span><span class="o">.</span><span class="n">value</span>
+<span class="o">&gt;&gt;&gt;</span>		<span class="k">pass</span>
+<span class="o">&gt;&gt;&gt;</span>	
+<span class="n">c</span>
+<span class="n">done</span>
+<span class="o">&gt;&gt;&gt;</span>
+</code></pre></div></div>
+
+<h2 id="제너레이터로-피보나치-구현하기">제너레이터로 피보나치 구현하기</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span>	<span class="k">def</span> <span class="nf">fib</span><span class="p">():</span>
+<span class="o">&gt;&gt;&gt;</span>		<span class="n">prev</span><span class="p">,</span> <span class="n">curr</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
+<span class="o">&gt;&gt;&gt;</span>		<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+<span class="o">&gt;&gt;&gt;</span>			<span class="k">yield</span> <span class="n">prev</span>    <span class="c">#prev 넣으면 0부터 curr 을 넣으면 1부터</span>
+<span class="o">&gt;&gt;&gt;</span>			<span class="n">prev</span><span class="p">,</span> <span class="n">curr</span> <span class="o">=</span> <span class="n">curr</span><span class="p">,</span> <span class="n">prev</span><span class="o">+</span><span class="n">curr</span>
+<span class="o">&gt;&gt;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span>	<span class="n">f</span> <span class="o">=</span> <span class="n">fib</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span>	<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+<span class="o">&gt;&gt;&gt;</span>		<span class="k">print</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">f</span><span class="p">),</span> <span class="n">end</span> <span class="o">=</span> <span class="s">' '</span><span class="p">)</span>
+<span class="mi">0</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">5</span> <span class="mi">8</span> <span class="mi">13</span> <span class="mi">21</span> <span class="mi">34</span>
+<span class="o">&gt;&gt;&gt;</span>
+</code></pre></div></div>
+
+<h2 id="coroutine-function">coroutine function</h2>
+
+<ul>
+  <li>원래 함수는 실행할 때 스텍프레임이 생성되었다가 종료되면 스텍프레임이 없어진다. 하지만 제너레이터를 보면 실행 중에 멈추어서 다른 일을 하다가 또 호출을 해도 그 이전의 진행했던 사항들을 기억하고 있다. 이것을 가능하게 해주는 것이 coroutine function이다.</li>
+</ul>
+
+<h3 id="함수-실행-도중에-실행-주도권을-다른-함수에-넘길-수-있고-내가-원하는-시점에-다시-실행-주도권을-가져올-수-있는-함수">함수 실행 도중에 실행 주도권을 다른 함수에 넘길 수 있고, 내가 원하는 시점에 다시 실행 주도권을 가져올 수 있는 함수!!</h3>
+
+<p>함수 실행 도중이라는 것은 스텍프레임을 쌓아놓고 다른 곳에 실행주도권을 주는데 그렇게 하기위해 어디에 <strong>스텍프레임이 살아 있어야 한다.</strong>
+명시적으로 실행주도권을 넘긴다.</p>
+
+<p>원래는 os의 스케줄러가 라운드 로빈을 통해 선점형으로 실행되는데 내가 원하는 때 준다는 것은 비선점형이다.</p>
+
+<p>중요한 것은 파이썬의 스텍 프레임이 heap에 할당된다는 것이다. 파이썬의 스텍프레임이 실행주도권을 넘기더라도 살아있을 수 있다. (힙에 저장되어 있으므로)
+다른 언어에는 coroutine이 없는가라는 질문이 있을 수 있다.</p>
+
+<p>c나 c++에서는 언어차원에서는 지원하지 않으나,</p>
+
+<p>c : finite state machine기법 -&gt; FSM</p>
+<ol>
+  <li>엔트리포인트의 위치를 적절하게 저장하여서 구현(실제로는 스텍프레임이 사라지지만 실행의 순서가 이어지듯이 구현</li>
+</ol>
+
+<p>c++ : stack swapping</p>
+<ol>
+  <li>이미 스텍프레임에 쌓인 것은 어쩔수 없지만 heap영역에 마음대로 쌓을 수 있다. stack와 heap이 서로 오가며 스텍프레임을 쌓음</li>
+</ol>
+
+<p>위와 같은 방법을 통해 해결한다.</p>
+
+<p>파이썬의 코루틴은 generator 기반으로 만들어졌고 파이썬의 스텍프레임이 heap에 저장되므로 가능하다.</p>
+
+<h2 id="send">send()</h2>
+
+<ul>
+  <li>send()는 제너레이터의 내장함수이다.</li>
+  <li>next는 실행주도권을 넘기는꺼지 가능하지만 send를 통해 실행주도권뿐만 아니라 데이터까지 함께 넘길 수 있다.</li>
+</ul>
+
+<p>코드를 통해 send를 알아보자.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span>	<span class="k">def</span> <span class="nf">gen</span><span class="p">():</span>
+<span class="o">&gt;&gt;&gt;</span>		<span class="k">print</span><span class="p">(</span><span class="s">'gen start'</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span>		<span class="n">deta1</span> <span class="o">=</span> <span class="k">yield</span> <span class="mi">1</span>  <span class="c">#yield 1이 실행되면 blocking이 걸리므로 아직 data1 변수는 만들어지지 않는다.(오른쪽에서 왼쪽으로 이동)</span>
+<span class="o">&gt;&gt;&gt;</span>		<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s">"gen[1] : {data1}"</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span>		<span class="n">data2</span> <span class="o">=</span> <span class="k">yield</span> <span class="mi">2</span>
+<span class="o">&gt;&gt;&gt;</span>		<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s">"gen[2] : {data2}"</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span>		<span class="k">return</span> <span class="s">'done'</span>
+<span class="o">&gt;&gt;&gt;</span>	<span class="n">g</span> <span class="o">=</span> <span class="n">gen</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span>	<span class="n">g</span>
+<span class="n">generator</span> <span class="nb">object</span> <span class="n">gen</span> <span class="n">at</span> <span class="mh">0x1060a8a40</span>
+<span class="o">&gt;&gt;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span>	<span class="n">first</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span>     <span class="c">#보통 시직할 때는 None을 넣어준다. </span>
+<span class="n">gen</span> <span class="n">start</span>
+<span class="o">&gt;&gt;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span>	<span class="n">first</span>       <span class="c">#yield 1로부터 1을 받아온다.</span>
+<span class="mi">1</span>
+<span class="o">&gt;&gt;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span>	<span class="n">second</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s">'world'</span><span class="p">)</span>     <span class="c">#yield 1에 다시 'world'를 보내준다.</span>
+<span class="n">gen</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">:</span> <span class="n">world</span>
+<span class="o">&gt;&gt;&gt;</span>	<span class="n">second</span> <span class="c"># yield 2로부터 2를 받아온다.</span>
+<span class="mi">2</span> 
+<span class="o">&gt;&gt;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span>	<span class="k">try</span><span class="p">:</span>
+<span class="o">&gt;&gt;&gt;</span>		<span class="n">g</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s">'hello'</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span>	<span class="k">except</span> <span class="n">StopIterator</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+<span class="o">&gt;&gt;&gt;</span>		<span class="k">print</span><span class="p">(</span><span class="n">exc</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+<span class="n">gen</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="p">:</span> <span class="n">Hello</span>
+<span class="n">done</span>
+<span class="o">&gt;&gt;&gt;</span>
+</code></pre></div></div>
+
+<h2 id="yield-from">yield from</h2>
+
+<ul>
+  <li>delegate(중계)만을 한다.</li>
+  <li>아직까지 명확하게 어떻게 사용해야 할지는 감이 오지 않는다.</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span>	<span class="k">def</span> <span class="nf">gen</span><span class="p">():</span>
+<span class="o">&gt;&gt;&gt;</span>		<span class="k">print</span><span class="p">(</span><span class="s">'gen start'</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span>		<span class="n">deta1</span> <span class="o">=</span> <span class="k">yield</span> <span class="mi">1</span>
+<span class="o">&gt;&gt;&gt;</span>		<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s">"gen[1] : {data1}"</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span>		<span class="n">data2</span> <span class="o">=</span> <span class="k">yield</span> <span class="mi">2</span>
+<span class="o">&gt;&gt;&gt;</span>		<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s">"gen[2] : {data2}"</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span>		<span class="k">return</span> <span class="s">'done'</span>
+<span class="o">&gt;&gt;&gt;</span>	
+<span class="o">&gt;&gt;&gt;</span>	<span class="k">def</span> <span class="nf">delegate</span><span class="p">():</span>
+<span class="o">&gt;&gt;&gt;</span>		<span class="n">g</span> <span class="o">=</span> <span class="n">gen</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span>		<span class="k">print</span><span class="p">(</span><span class="s">'start'</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span>		<span class="n">ret</span> <span class="o">=</span> <span class="k">yield</span> <span class="k">from</span> <span class="n">g</span>   <span class="c">#g는 따로 관여하지 않고 delegate만 한다. gen()</span>
+<span class="o">&gt;&gt;&gt;</span>		<span class="k">print</span><span class="p">(</span><span class="s">'end'</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span>		<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s">'return value:{ret}'</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span>		<span class="k">return</span> <span class="n">ret</span>
+<span class="o">&gt;&gt;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span>	<span class="n">g</span> <span class="o">=</span> <span class="n">delegate</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span>	<span class="k">print</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<span class="n">generator</span> <span class="nb">object</span> <span class="n">delegate</span> 
+<span class="o">&gt;&gt;&gt;</span>	<span class="n">first</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span>       <span class="c">#yield from g를 받게 되면 gen으로 이동하며 gen실행이 끝날 때까지 다시 delegate로 내려 올 수 없다.</span>
+<span class="n">start</span>
+<span class="n">gen</span> <span class="n">start</span>
+<span class="o">&gt;&gt;&gt;</span>	<span class="k">print</span><span class="p">(</span><span class="n">first</span><span class="p">)</span>
+<span class="mi">1</span>
+<span class="o">&gt;&gt;&gt;</span>	<span class="n">second</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s">'world'</span><span class="p">)</span>
+<span class="n">gen</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">:</span> <span class="n">world</span>
+<span class="o">&gt;&gt;&gt;</span>	<span class="n">second</span>
+<span class="mi">2</span>
+<span class="o">&gt;&gt;&gt;</span>	<span class="n">g</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s">'hello'</span><span class="p">)</span>
+<span class="n">gen</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="p">:</span> <span class="n">hello</span>
+<span class="n">end</span>
+<span class="k">return</span> <span class="n">value</span> <span class="p">:</span> <span class="n">done</span>
+
+<span class="nb">StopIteration</span>  <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">)</span>
+<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">130</span><span class="o">-</span><span class="mi">40</span><span class="n">ccd6fc328d</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="o">----&gt;</span> <span class="mi">1</span> <span class="n">g</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s">'hello'</span><span class="p">)</span>
+
+<span class="nb">StopIteration</span><span class="p">:</span> <span class="n">done</span>
+<span class="o">&gt;&gt;&gt;</span>
+</code></pre></div></div>
+
+<ul>
+  <li>yield from에 대해서는 어떤 상황에 쓰는지 좀 더 공부를 해봐야 할 것 같다.</li>
+</ul>
+</div>
+  <div class="share-page">
+  <span style="float: left;">Share this on &rarr;&nbsp;&nbsp;</span>
+
+  <!-- Twitter -->
+  <a href="https://twitter.com/share" class="twitter-share-button" data-via="github.io">Tweet</a>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+  <!-- Facebook -->
+  <div class="fb-share-button" data-href="http://localhost:4000/computer/2019/03/28/TIL(Iterator-&-generator).html" data-layout="button_count" style="position: relative; top: -8px; left: 3px;"></div>
+</div>
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.6&appId=1749788565247320";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+</div>
+
+
+  
+    
+      
+        
+          
+            
+            <div class="panel-body">
+              <h4>Related Posts</h4>
+              <ul>
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/computer/2019/04/04/TIL(GIT-%E1%84%92%E1%85%A1%E1%86%AB%E1%84%87%E1%85%A5%E1%86%AB%E1%84%8B%E1%85%A6-%E1%84%8B%E1%85%B5%E1%84%92%E1%85%A2%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5).html">2019_04_04_TIL(GIT 한번에 이해하기)</a>
+                  
+                    (Categories: <a href="/category/computer">computer</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/computer/2019/04/03/TIL(%E1%84%82%E1%85%A6%E1%84%90%E1%85%B3%E1%84%8B%E1%85%AF%E1%84%8F%E1%85%B3-interface,internet-).html">2019_04_03_TIL(네트워크 - interface,internet)</a>
+                  
+                    (Categories: <a href="/category/computer">computer</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/computer/2019/03/28/TIL(Stack%E1%84%8B%E1%85%B3%E1%84%85%E1%85%A9-Queue%E1%84%80%E1%85%AE%E1%84%92%E1%85%A7%E1%86%AB%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5).html">2019_03_28_TIL(Stack으로 Queue 구현하기)</a>
+                  
+                    (Categories: <a href="/category/computer">computer</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/computer/2019/03/26/TIL(process-&-thread).html">2019_03_26_TIL(process & thread)</a>
+                  
+                    (Categories: <a href="/category/computer">computer</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+  
+  </ul>
+</div>
+
+
+<div class="PageNavigation">
+  
+    <a class="prev" href="/computer/2019/03/26/TIL(process-&-thread).html">&laquo; 2019_03_26_TIL(process & thread)</a>
+  
+  
+    <a class="next" href="/computer/2019/03/28/TIL(Stack%E1%84%8B%E1%85%B3%E1%84%85%E1%85%A9-Queue%E1%84%80%E1%85%AE%E1%84%92%E1%85%A7%E1%86%AB%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5).html">2019_03_28_TIL(Stack으로 Queue 구현하기) &raquo;</a>
+  
+</div>
+
+<div class="disqus-comments">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    /* <![CDATA[ */
+    var disqus_shortname = "https-fabl1106-github-io";
+    var disqus_identifier = "http://localhost:4000_2019_03_28_TIL(Iterator & generator)";
+    var disqus_title = "2019_03_28_TIL(Iterator & generator)";
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    /* ]]> */
+  </script>
+</div>
+
+        <footer>
+          &copy; Byeonguk Kim
+          
+            - <a href="https://github.com/fabl1106">https://github.com/fabl1106</a> - Powered by Jekyll.
+          
+          <div class="btn-github" style="float:right;">
+            <iframe src="https://ghbtns.com/github-btn.html?user=fabl1106&repo=fabl1106.github.io&type=star&count=true" frameborder="0" scrolling="0" width="85" height="20px"></iframe>
+            <iframe src="https://ghbtns.com/github-btn.html?user=fabl1106&repo=fabl1106.github.io&type=fork&count=true" frameborder="0" scrolling="0" width="85" height="20px"></iframe>
+          </div>
+        </footer>
+      </div>
+      <!-- end /.col-sm-8 -->
+    </div>
+    <!-- end /.container -->
+
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/super-search.js"></script>
+    <script src="/static/js/thickbox-compressed.js"></script>
+    <script src="/static/js/projects.js"></script>
+  </body>
+</html>
+
