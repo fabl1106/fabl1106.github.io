@@ -2,7 +2,7 @@
 layout: post
 title:  "2019_04_01_TIL(자료구조/linked List)"
 date:   2019-04-01 01:06:23 +0700
-categories: [python]
+categories: [computer]
 ---
 
 ### 2019.04.01 TIL

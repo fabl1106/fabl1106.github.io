@@ -2,7 +2,7 @@
 layout: post
 title:  "2019_03_08_TIL(First class function/기수법)"
 date:   2019-03-08 01:06:23 +0700
-categories: [computer]
+categories: [python]
 ---
 
 ### 2019.03.08 TIL

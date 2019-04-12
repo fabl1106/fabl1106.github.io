@@ -2,7 +2,7 @@
 layout: post
 title:  "2019_03_28_TIL(Iterator & generator)"
 date:   2019-03-28 01:06:23 +0700
-categories: [computer]
+categories: [python]
 ---
 
 ### 2019.03.28 TIL

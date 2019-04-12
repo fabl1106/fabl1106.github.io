@@ -2,7 +2,7 @@
 layout: post
 title:  "2019_03_12_TIL(문자,UNICODE)"
 date:   2019-03-12 01:06:23 +0700
-categories: [Computer]
+categories: [computer]
 ---
 
 ### 2019.03.12 TIL
