@@ -4,8 +4,24 @@ layout: default
 
 <div id="home">
   <h1>{{ site.title }}</h1>
+  
+  <header class="post-header">
+  <h2 class="post-title">{{ page.categories }}</h2>
+    <div class="post-content">
+      <hr />
+      {% for category in site.categories %}
+        {% capture category_slug %}{{ category | first }}{% endcapture %}
+        {% for c_slug in category_slug %}
+          {% if c_slug == page.categories %}
+            <button class="btn btn-sm btn-default active">{{ c_slug }}</button>
+          {% else %}
+            <a href="/category/{{ c_slug }}" class="btn btn-sm btn-default">{{ c_slug }}</a>
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
+  </header>
   <hr />
-
+  
   <ol class="posts">
     {% for post in paginator.posts %}
       <li><a href="{{ post.url }}">{{ post.title }}</a> &raquo; <i><span>{{ post.date | date_to_string }}</span></i></li>

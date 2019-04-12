@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://fabl1106.github.io/sitemap.xml
