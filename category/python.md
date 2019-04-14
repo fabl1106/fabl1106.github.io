@@ -1,6 +1,6 @@
 ---
 layout: posts_by_category
-categories: python
+categories: Python
 title: Python
-permalink: /category/python
+permalink: /category/Python
 ---
