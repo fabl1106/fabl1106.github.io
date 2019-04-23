@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" sizes = "32x32" href="/static/img/favicon.ico"/>
+    <title>파이썬 11. decorator - 대구 올빼미의 새벽 개발로그</title>
+    <meta name="author" content="Byeonguk Kim" />
+    <meta name="description" content="파이썬 11. decorator" />
+    <meta name="keywords" content="파이썬 11. decorator, 대구 올빼미의 새벽 개발로그, Python" />
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml">
+    <meta content="1749788565247320" property="fb:app_id">
+    <meta content="대구 올빼미의 새벽 개발로그" property="og:site_name">
+
+    
+
+    
+      <meta content="파이썬 11. decorator" property="og:title">
+      <meta content="article" property="og:type">
+    
+
+    
+      <meta content="대구 올빼미의 새벽 개발로그" property="og:description">
+    
+
+    
+      <meta content="http://localhost:4000/python/2019/03/15/%ED%8C%8C%EC%9D%B4%EC%8D%AC-11.-decorator.html" property="og:url">
+    
+
+    
+      <meta content="2019-03-15T03:06:23+09:00" property="article:published_time">
+      <meta content="http://localhost:4000/about/" property="article:author">
+    
+
+    
+      <meta content="http://localhost:4000/static/img/avatar.jpg" property="og:image">
+    
+
+    
+      
+        <meta content="Python" property="article:section">
+      
+    
+
+    
+      
+    
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@github.io">
+    <meta name="twitter:creator" content="@github.io">
+
+    
+      <meta name="twitter:title" content="파이썬 11. decorator">
+    
+
+    
+      <meta name="twitter:url" content="http://localhost:4000/python/2019/03/15/%ED%8C%8C%EC%9D%B4%EC%8D%AC-11.-decorator.html">
+    
+
+    
+      <meta name="twitter:description" content="대구 올빼미의 새벽 개발로그">
+    
+
+    
+
+    <!-- Font awesome icons -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+    <!-- syntax highlighting CSS -->
+    <link rel="stylesheet" href="/static/css/syntax.css">
+    <!-- Bootstrap core CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300italic,300,400italic,700&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/super-search.css">
+    <link rel="stylesheet" href="/static/css/thickbox.css">
+    <link rel="stylesheet" href="/static/css/projects.css">
+    <link rel="stylesheet" href="/static/css/main.css">
+
+    
+  </head>
+  <body>
+    <div class="container">
+      <div class="col-sm-3">
+        <div class="fixed-condition">
+          <a href="/"><img class="profile-avatar" src="/static/img/avatar.jpg" height="120px" width="120px" /></a>
+          <h1 class="author-name">Byeonguk Kim</h1>
+          
+            <div class="profile-about">
+              <h5>안녕하세요. 29살의 조금은 늦은 나이로 새롭게 개발자로 시작하는 신입 개발자입니다.</h5>
+            </div>
+          
+          <div class="social">
+            <ul>
+              
+                <li><a href="https://web.facebook.com/byungwook.kim.923" target="_blank"><i class="fa fa-facebook"></i></a></li>
+              
+                <li><a href="#" target="_blank"><i class="fa fa-twitter"></i></a></li>
+              
+                <li><a href="#" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+              
+                <li><a href="#" target="_blank"><i class="fa fa-stack-exchange"></i></a></li>
+              
+                <li><a href="https://github.com/fabl1106" target="_blank"><i class="fa fa-github"></i></a></li>
+              
+            </ul>
+          </div>
+          <div class="search" id="js-search">
+            <input type="text" placeholder="(sitemap)~$ type to search" class="search__input form-control" id="js-search__input">
+            <ul class="search__results" id="js-search__results"></ul>
+          </div>
+          <hr />
+          <ul class="sidebar-nav">
+            <strong>Navigation</strong>
+            <li><a href="/">Home</a></li>
+            
+              <li><a class="about" href="/about/">About Me</a></li>
+            
+              <li><a class="about" href="/projects/">My Projects</a></li>
+            
+              <li><a class="about" href="/feed.xml">XML Feed</a></li>
+            
+          </ul>
+        </div>
+        <!-- end /.fixed-condition -->
+      </div>
+      <div class="col-sm-8 col-offset-1 main-layout">
+        <header class="post-header">
+  <h1 class="post-title">파이썬 11. decorator</h1>
+</header>
+
+<span class="time">15 Mar 2019</span>
+
+  <span class="categories">
+    &raquo; <a href="/category/Python">Python</a>
+  </span>
+
+
+<div class="content">
+  <div class="post"><h3 id="20190315-til">2019.03.15 TIL</h3>
+
+<p>(TIL은 스스로 이해한 것을 바탕으로 정리한 것으로 오류가 있을 수 있습니다)</p>
+
+<p># 질문에 답하기</p>
+
+<ol>
+  <li>데코레이터에서 대해 이야기 해보기</li>
+</ol>
+
+<h1 id="데코레이터">데코레이터</h1>
+
+<p>데코레이터는 쉽게 기능을 추가할 수 있다.  <br />
+누가 만들어 놓은 함수를 내가 만들고 있는 함수에 갖다 붙이면   <br />
+그 기능이 추가되어 버린다.</p>
+
+<p>ex)</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">fancy</span> <span class="kn">import</span> <span class="n">decofunc</span>
+<span class="nd">@decofunc</span>
+<span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">):</span> <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+</code></pre></div></div>
+
+<ul>
+  <li>이렇게 하면 기능이 그냥 붙어 버림 decofunc의 기능이 실행되고 이후에 def func의 기능이 실행</li>
+</ul>
+
+<h2 id="데코레이터-기본-형태">데코레이터 기본 형태</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>def outer(org_func):       #org_func는 내가 만들고 있는 함수
+    def inner(*args, **kwargs):  # 여기서는 가변인자이고 *과 **을 통해 패킹시킴
+        print("added functionalty")
+        return org_func(*args, **kwargs)  #실행에서는 *, ** 은 튜플과 딕셔너리로 들어오는 것을 unpacking한다는 것이다.
+    return inner    
+
+def func(a,b):
+        return a+b
+</code></pre></div></div>
+
+<p>func=outer(func) —–&gt; outer(func)는 return inner가 되고   <br />
+org_func인자가 func로 됨에 따라서 inner내에서 func가 한번 더 리턴된다.</p>
+
+<p>따라서 여기서 부터 func.<strong>name</strong> == inner가 된다.</p>
+
+<p>func(10,2)을 실행하면     <br />
+added functionalty가 되고 <br />
+리턴값으로 12를 받는다. (inner함수 내부에서 실행)</p>
+
+<p>이것을 나타내기 위해서는 print(func(10,2))가 되어야 한다.    <br />
+매번 func= outer(func)를 적어줄 수는 없으므로</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@outer
+def func(a,b):
+    return a+b    # 이것 같이 적어주어도 된다.
+</code></pre></div></div>
+
+<h2 id="overloading--overriding">overloading , overriding</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>def f(a,b):
+    return a+b
+def f(a,b):
+    return a*b
+f(2,7) ===&gt; 14
+
+</code></pre></div></div>
+
+<p>python에서는 덮어씌어지지만 java같은 것은 인자만 다르면 인정해준다. 이를 overloading이라고 한다. 하지만 파이썬에서는 overloading을 인정하지 않는다.</p>
+
+<p><img width="640" alt="decorator" src="https://user-images.githubusercontent.com/46436843/56088816-268e3b80-5ec3-11e9-8a9a-3ed755b5effc.png" /></p>
+
+<p>여기서 out 9가 나온것은 실제 출력값이 아니라 함수 내부적으로의 return 값이다.</p>
+
+<h2 id="미션-함수-실행-시간-계산하기">미션 함수 실행 시간 계산하기</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import time
+def henchmarker(org_func):
+    def inner(*args, **kwargs):
+        start = time.time()
+            result = org_func(*args, **kwargs)
+            elapsed = time.time() - start
+            print(f"elapsed time : {elapsed: .2f}")  #{elapsed: .2f}는 무엇일까?
+            return result
+        return inner
+
+
+
+@henchmarker
+def something(a,b):
+    time.sleep(5) ----&gt; 5초 동안 있다가 실행
+    return a+b
+something(1,2)
+</code></pre></div></div>
+
+<h2 id="미션-callcounter">미션 callcounter</h2>
+
+<p>어떤 함수를 호출한 횟수를 보여준다.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>g_call_num = 0
+def callcounter(org_func):
+    def inner(*args, **kwargs):
+        result = org_func(*args, **kwargs)
+        global g_call_num
+        g_call_num += 1
+        print(f"{g_call_num}번 호출되었습니다.")
+        return result
+        return inner
+
+
+@callcounter
+def func(a,b):
+    return (a+b)
+
+
+for _ in range(10):
+    print(func(1,3))
+</code></pre></div></div>
+
+<h2 id="주의사항-만약에-함수를-2개-연속으로-사용할-때">주의사항 만약에 함수를 2개 연속으로 사용할 때</h2>
+
+<p><img width="640" alt="decorator2" src="https://user-images.githubusercontent.com/46436843/56088848-bf24bb80-5ec3-11e9-9a0d-a04c18c424ba.png" /></p>
+
+<p>from functools import wraps와 @wraps를 꼭 적어주어야지만</p>
+
+<p>함수가 중복적으로 계산되지 않는다.</p>
+
+<p>하나의 공식으로 알아두자.!!</p>
+
+</div>
+  <div class="share-page">
+  <span style="float: left;">Share this on &rarr;&nbsp;&nbsp;</span>
+
+  <!-- Twitter -->
+  <a href="https://twitter.com/share" class="twitter-share-button" data-via="github.io">Tweet</a>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+  <!-- Facebook -->
+  <div class="fb-share-button" data-href="http://localhost:4000/python/2019/03/15/%ED%8C%8C%EC%9D%B4%EC%8D%AC-11.-decorator.html" data-layout="button_count" style="position: relative; top: -8px; left: 3px;"></div>
+</div>
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.6&appId=1749788565247320";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+</div>
+
+
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+            
+            <div class="panel-body">
+              <h4>Related Posts</h4>
+              <ul>
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/python/2019/03/28/%ED%8C%8C%EC%9D%B4%EC%8D%AC-18.-Iterator%EC%99%80-Generator.html">파이썬 18. Iterator와 Generator</a>
+                  
+                    (Categories: <a href="/category/Python">Python</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/python/2019/03/24/%ED%8C%8C%EC%9D%B4%EC%8D%AC-17.-%EA%B9%8A%EC%9D%80-%EB%B3%B5%EC%82%AC-%EC%96%95%EC%9D%80-%EB%B3%B5%EC%82%AC.html">파이썬 17. 깊은 복사 얕은 복사</a>
+                  
+                    (Categories: <a href="/category/Python">Python</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/python/2019/03/23/%ED%8C%8C%EC%9D%B4%EC%8D%AC-16.-%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5(OOP).html">파이썬 16. 객체지향(OOP)</a>
+                  
+                    (Categories: <a href="/category/Python">Python</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/python/2019/03/22/%ED%8C%8C%EC%9D%B4%EC%8D%AC-15.-%ED%81%B4%EB%9E%98%EC%8A%A4%EA%B0%84%EC%9D%98-%EA%B4%80%EA%B3%84.html">파이썬 15. 클래스간의 관계</a>
+                  
+                    (Categories: <a href="/category/Python">Python</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/python/2019/03/21/%ED%8C%8C%EC%9D%B4%EC%8D%AC-14.-%EC%BD%94%EB%93%9C%EB%A5%BC-%ED%86%B5%ED%95%B4-%EB%B3%B4%EB%8A%94-class.html">파이썬 14. 코드를 통해 보는 class</a>
+                  
+                    (Categories: <a href="/category/Python">Python</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/python/2019/03/20/%ED%8C%8C%EC%9D%B4%EC%8D%AC-13.-openpyxl.html">파이썬 13. openpyxl</a>
+                  
+                    (Categories: <a href="/category/Python">Python</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+  
+  </ul>
+</div>
+
+
+<div class="PageNavigation">
+  
+    <a class="prev" href="/%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%B5%ED%95%99/2019/03/15/%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%B5%ED%95%99-07.-CPU.html">&laquo; 컴퓨터공학 07. CPU</a>
+  
+  
+    <a class="next" href="/%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%B5%ED%95%99/2019/03/15/%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%B5%ED%95%99-08.-%EB%A9%94%EB%AA%A8%EB%A6%AC&%EA%B0%80%EC%83%81%EB%A9%94%EB%AA%A8%EB%A6%AC.html">컴퓨터공학 08. 메모리&가상메모리 &raquo;</a>
+  
+</div>
+
+<div class="disqus-comments">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    /* <![CDATA[ */
+    var disqus_shortname = "https-fabl1106-github-io";
+    var disqus_identifier = "http://localhost:4000_파이썬 11. decorator";
+    var disqus_title = "파이썬 11. decorator";
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    /* ]]> */
+  </script>
+</div>
+
+        <footer>
+          &copy; Byeonguk Kim
+          
+            - <a href="https://github.com/fabl1106">https://github.com/fabl1106</a> - Powered by Jekyll.
+          
+          <div class="btn-github" style="float:right;">
+            <iframe src="https://ghbtns.com/github-btn.html?user=fabl1106&repo=fabl1106.github.io&type=star&count=true" frameborder="0" scrolling="0" width="85" height="20px"></iframe>
+            <iframe src="https://ghbtns.com/github-btn.html?user=fabl1106&repo=fabl1106.github.io&type=fork&count=true" frameborder="0" scrolling="0" width="85" height="20px"></iframe>
+          </div>
+        </footer>
+      </div>
+      <!-- end /.col-sm-8 -->
+    </div>
+    <!-- end /.container -->
+
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/super-search.js"></script>
+    <script src="/static/js/thickbox-compressed.js"></script>
+    <script src="/static/js/projects.js"></script>
+  </body>
+</html>
+

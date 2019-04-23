@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" sizes = "32x32" href="/static/img/favicon.ico"/>
+    <title>자료구조 01. linear_search, binary_search - 대구 올빼미의 새벽 개발로그</title>
+    <meta name="author" content="Byeonguk Kim" />
+    <meta name="description" content="자료구조 01. linear_search, binary_search" />
+    <meta name="keywords" content="자료구조 01. linear_search, binary_search, 대구 올빼미의 새벽 개발로그, 자료구조" />
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml">
+    <meta content="1749788565247320" property="fb:app_id">
+    <meta content="대구 올빼미의 새벽 개발로그" property="og:site_name">
+
+    
+
+    
+      <meta content="자료구조 01. linear_search, binary_search" property="og:title">
+      <meta content="article" property="og:type">
+    
+
+    
+      <meta content="대구 올빼미의 새벽 개발로그" property="og:description">
+    
+
+    
+      <meta content="http://localhost:4000/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0/2019/03/11/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0-01.-linear_search,-binary_search.html" property="og:url">
+    
+
+    
+      <meta content="2019-03-11T03:06:23+09:00" property="article:published_time">
+      <meta content="http://localhost:4000/about/" property="article:author">
+    
+
+    
+      <meta content="http://localhost:4000/static/img/avatar.jpg" property="og:image">
+    
+
+    
+      
+        <meta content="자료구조" property="article:section">
+      
+    
+
+    
+      
+    
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@github.io">
+    <meta name="twitter:creator" content="@github.io">
+
+    
+      <meta name="twitter:title" content="자료구조 01. linear_search, binary_search">
+    
+
+    
+      <meta name="twitter:url" content="http://localhost:4000/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0/2019/03/11/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0-01.-linear_search,-binary_search.html">
+    
+
+    
+      <meta name="twitter:description" content="대구 올빼미의 새벽 개발로그">
+    
+
+    
+
+    <!-- Font awesome icons -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+    <!-- syntax highlighting CSS -->
+    <link rel="stylesheet" href="/static/css/syntax.css">
+    <!-- Bootstrap core CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300italic,300,400italic,700&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/super-search.css">
+    <link rel="stylesheet" href="/static/css/thickbox.css">
+    <link rel="stylesheet" href="/static/css/projects.css">
+    <link rel="stylesheet" href="/static/css/main.css">
+
+    
+  </head>
+  <body>
+    <div class="container">
+      <div class="col-sm-3">
+        <div class="fixed-condition">
+          <a href="/"><img class="profile-avatar" src="/static/img/avatar.jpg" height="120px" width="120px" /></a>
+          <h1 class="author-name">Byeonguk Kim</h1>
+          
+            <div class="profile-about">
+              <h5>안녕하세요. 29살의 조금은 늦은 나이로 새롭게 개발자로 시작하는 신입 개발자입니다.</h5>
+            </div>
+          
+          <div class="social">
+            <ul>
+              
+                <li><a href="https://web.facebook.com/byungwook.kim.923" target="_blank"><i class="fa fa-facebook"></i></a></li>
+              
+                <li><a href="#" target="_blank"><i class="fa fa-twitter"></i></a></li>
+              
+                <li><a href="#" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+              
+                <li><a href="#" target="_blank"><i class="fa fa-stack-exchange"></i></a></li>
+              
+                <li><a href="https://github.com/fabl1106" target="_blank"><i class="fa fa-github"></i></a></li>
+              
+            </ul>
+          </div>
+          <div class="search" id="js-search">
+            <input type="text" placeholder="(sitemap)~$ type to search" class="search__input form-control" id="js-search__input">
+            <ul class="search__results" id="js-search__results"></ul>
+          </div>
+          <hr />
+          <ul class="sidebar-nav">
+            <strong>Navigation</strong>
+            <li><a href="/">Home</a></li>
+            
+              <li><a class="about" href="/about/">About Me</a></li>
+            
+              <li><a class="about" href="/projects/">My Projects</a></li>
+            
+              <li><a class="about" href="/feed.xml">XML Feed</a></li>
+            
+          </ul>
+        </div>
+        <!-- end /.fixed-condition -->
+      </div>
+      <div class="col-sm-8 col-offset-1 main-layout">
+        <header class="post-header">
+  <h1 class="post-title">자료구조 01. linear_search, binary_search</h1>
+</header>
+
+<span class="time">11 Mar 2019</span>
+
+  <span class="categories">
+    &raquo; <a href="/category/자료구조">자료구조</a>
+  </span>
+
+
+<div class="content">
+  <div class="post"><h3 id="20190311-til">2019.03.11 TIL</h3>
+
+<p>(TIL은 스스로 이해한 것을 바탕으로 정리한 것으로 오류가 있을 수 있습니다)</p>
+
+<p># 질문에 답하기</p>
+
+<ol>
+  <li></li>
+</ol>
+
+<h1 id="linear_search">linear_search</h1>
+
+<p>li라는 list에서 특정한 target의 인덱스를 찾으려면 어떻게 해야할까?    <br />
+li = [ 5, 7, 2, 8, 3, 9, 1] 이라는 것에서    <br />
+3이라는 target의 인덱스를 찾을 수 있는 함수를 구현해보자.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>linear_search(li, target)--&gt; idx
+반환값은 target이 있다면 target의 인덱스
+target이 없다면 None을 반환
+
+def linear_search(li, target):
+        for i in len(li):
+            if li[i] == target:
+                return i
+        return None      # target이 없으면  None을 반환해라.
+
+</code></pre></div></div>
+
+<p>굉장히 간단한 함수이다. 하지만 함수의 성능을 보면 굉장히 비효율적으로 볼 수 있다.</p>
+
+<p>알고리즘의 성능차이 비교 절대 시간을 비교 하면 안된다.   <br />
+컴퓨터 성능이 차이나므로 상대 시간 : 어떤 알고리즘을 실행하는데 해비한 연산의 연산 횟수를 비교하자.   <br />
+즉 데이터의 갯수에 따른 연산 횟수를 계산해서 성능을 계산하자</p>
+
+<p>이 연산에 + - 등 보다는 그 알고리즘을 구성하는데 가장 헤비하게 미치는 연산은 for문이다.           <br />
+일반적으로 for문 혹은 if문 비교 연산 if문을 많이 호출하면 느린거고 if문을 조금 호출하면 빠른 것이다.</p>
+
+<p>또한 데이터가 늘어남에 따라 연산횟수가 얼마나 변화하는지를 비교해 봐야 한다.</p>
+
+<p>성능을 평가할떄는  3가지 방법이 있다.</p>
+
+<ol>
+  <li>최선의 경우</li>
+  <li>평균의 경우 –&gt; quick sort</li>
+  <li>최악의 경우 –&gt; 알고리즘을 말할때는 항상 최악의 경우를 가정한다.
+    <ul>
+      <li>이 알고리즘은 아무리 최악의 경우 몇회의 연산횟수를 보장한다.</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="성능-평가에-대해-조금-더-공부해보려고-한다">성능 평가에 대해 조금 더 공부해보려고 한다.</h2>
+
+<p>What does T(n) mean in relation to O(n)?</p>
+
+<p>When discussing an algorithm, the common usage of the symbol 𝑇T is to represent its time complexity.
+𝑇T is a function. The input to this function is the input size, the output is the (worst-case) running time for an input of that size.
+Therefore, 𝑇(𝑛)T(n) is a number: the number returned by the function 𝑇T when given the number 𝑛n. This number is the running time of our algorithm on an input of size 𝑛n.
+The 𝑂O in “𝑂(𝑛)O(n)” is not a function. This is Big O notation. In particular, the symbol 𝑂(𝑛)O(n) represents the class of all functions that grow (asymptotically) at most as quickly as the linear function 𝑓(𝑛)=𝑛f(n)=n.
+Big O notation gives us a convenient way to talk about upper bounds. For example, we can say “the time complexity of this algorithm is 𝑂(𝑛2)O(n2)” (formally: “𝑇∈𝑂(𝑛2)T∈O(n2)”) to say that the running time of the algorithm is at most quadratic in the input size.
+Sometimes, you can see both symbols being used in a single equation. For example, the time complexity of MergeSort is commonly described by the following recurrence: “𝑇(𝑛)=2𝑇(𝑛/2)+𝑂(𝑛)T(n)=2T(n/2)+O(n)”.
+The meaning of the above statement: For any 𝑛n, the time 𝑇(𝑛)T(n) needed to sort 𝑛n elements can be computed by taking the time 𝑇(𝑛/2)T(n/2) needed to sort 𝑛/2n/2 elements, multiplying that time by 2, and adding something extra. That something extra must be at most linear in 𝑛n.</p>
+
+<p><a href="https://www.quora.com/What-does-T-n-mean-in-relation-to-O-n">What does T(n) mean in relation to O(n)? - Quora</a></p>
+
+<p>해석 :</p>
+
+<p>알고리즘을 논할 때, 기호 T의 일반적인 용도는 시간 복잡성을 나타내는 것이다.</p>
+
+<p>T는 함수다. 이 함수에 대한 입력은 입력 크기, 출력은 해당 크기의 입력에 대한 (최악의) 실행 시간이다.</p>
+
+<p>따라서, T(n)는 숫자다: n을 부여했을 때 T 함수가 반환하는 숫자다. 이 숫자는 크기 n의 입력에 대한 우리의 알고리즘의 실행시간이다.</p>
+
+<p>“O(n)”의 O는 기능이 아니다. 이것은 Big O 표기법이다. 특히 기호 O(n)는 선형 함수 f(n)=n만큼 빠르게(증식적으로) 성장하는 모든 기능의 클래스를 나타낸다.</p>
+
+<p>Big O 표기법은 우리에게 상위에 대해 이야기할 수 있는 편리한 방법을 제공한다. 예를 들어, 우리는 “이 알고리즘의 시간 복잡성은 O(n2)”(공식적으로 “TOO(n2))라고 말할 수 있다.</p>
+
+<p>때때로, 당신은 하나의 방정식에 두 개의 기호가 사용되는 것을 볼 수 있다. 예를 들어, MergeSort의 시간 복잡성은 일반적으로 “T(n)=2T(n/2)+O(n)”에 의해 설명된다.</p>
+
+<p>상기 문장의 의미 : 어떤 n에 대해서도 n 요소를 분류하는데 필요한 T(n/2)는 n/2 요소를 분류하는 데 필요한 시간을 취하고 그 시간을 2로 곱한 후, 어떤 것을 추가함으로써 계산할 수 있다. 그 어떤 특별한 것은 n에 가장 직선적일 것이다.</p>
+
+<p>—-» T 함수는 함수에 대한 최악의 실행시간이다. T(n)은 숫자인데 n 크기에 대한 자료를 함수에 넣었을 때 걸리는 실행시간이다.</p>
+
+<p>—-» 우리가 말하는 알고리즘의 성능이 어떤 것인지 T of N 을 항상 구할 수는 없으므로 big O를 구하는 것을 배운다.</p>
+
+<h1 id="binary_search">binary_search</h1>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>def binary_search(li, target):
+    """
+    binary_search(li, target)--&gt; idx
+    반환값은 target이 있다면 target의 인덱스
+    target이 없다면 None을 반환
+    """
+</code></pre></div></div>
+
+<p><img width="640" alt="binary search" src="https://user-images.githubusercontent.com/46436843/56087739-e079ad80-5eab-11e9-9b9a-be49160c0c39.png" /></p>
+
+<p>binary_search는 기본적으로 들어오는 자료가 정렬이 되었다고 가정하고 시작한다.     <br />
+이를 통해 우리는 정렬된 자료의 중간값과 target을 비교하고, target이 중간값보다 작다면     <br />
+중간값 이후의 배열에는 신경쓰지 않고 중간값이 전의 값들로만 비교하겠다는 것이다.  <br />
+이를 통해 우리는 for 문을 돌렸을 때보다 훨씬 좋은 성능의 알고리즘을 구현할 수 있다.   <br />
+(실제로도 많이 쓰이는 알고리즘이다)</p>
+
+<h3 id="구현">구현</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>def binary_search(li, target):
+        start = 0       #(인덱스는 0부터 시작하므로)
+        end = len(li) - 1       #(인덱스를 기준으로 해야함으로 1을 빼줘야 한다)
+        while start &lt;= end:
+                mid = (start + end) // 2
+                if li(mid) &gt; target:
+                    end = mid - 1
+                elif li(mid) &lt; target:
+                    start = mid + 1
+                else:
+                    return mid   # 이러면 실제로 리턴 값에만 들어가게 되므로 시스템적으로 나오는 것은 없다. 따라서 꼭 print를 해서 화면에 나오게 해줘야 한다. or 이 함수를 다른 변수에 할당하고 그 변수를 print하도록 한다.
+        return None
+</code></pre></div></div>
+<p>[
+참고자료] (https://github.com/fabl1106/CS/blob/master/data_structure/binary_search/binary_search.pdf)</p>
+
+<h3 id="새롭게-알게-된-중요한-사실">새롭게 알게 된 중요한 사실</h3>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>def exam():
+        return 1
+
+exam() 
+</code></pre></div></div>
+<p>을 실행해보면 아무것도 나오지 않는다. 숫자 혹은 string을 적어도 마찬가지 이다.</p>
+
+<p>여기서 중요하게 알아야 할 것은 return을 해주는 것은 그 함수에서 리턴 값을 거기에 할당해주는 것이기 때문에 화면에는 나타나지 않는다.   <br />
+이것을 해결하기 위해서는 return 위에 print 를 적어 화면에 표시하고 싶은 것을 적고 아래에 
+return 만을 적어서 함수를 빠져나오게 하거나     <br />
+exam()을 특정변수에 할당해주어서 ( a = exam()  ) 그 변수를 print 하는 방법이 있다.</p>
+
+<p>다시 방법을 적어보면</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>def exam():
+        print(1)
+        return
+exam()        # 이렇게 하면 return 값은 None이 반환된다. 따라서 상황에 따라 return 뒤에 1을 적어줘야 한다.
+</code></pre></div></div>
+<p>혹은</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>def exam():
+        return 1
+
+a = exam()
+print(a)     #print를 해주어야 한다. 정 위와 같이 해주고 싶다고 하면 exam() 앞에 print를 해주면 된다.
+
+def exam():
+        return 1
+print(exam())
+
+</code></pre></div></div>
+</div>
+  <div class="share-page">
+  <span style="float: left;">Share this on &rarr;&nbsp;&nbsp;</span>
+
+  <!-- Twitter -->
+  <a href="https://twitter.com/share" class="twitter-share-button" data-via="github.io">Tweet</a>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+  <!-- Facebook -->
+  <div class="fb-share-button" data-href="http://localhost:4000/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0/2019/03/11/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0-01.-linear_search,-binary_search.html" data-layout="button_count" style="position: relative; top: -8px; left: 3px;"></div>
+</div>
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.6&appId=1749788565247320";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+</div>
+
+
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+            
+            <div class="panel-body">
+              <h4>Related Posts</h4>
+              <ul>
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0/2019/04/12/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0-06.-%EC%84%A0%ED%98%95%EA%B5%AC%EC%A1%B0,-%EB%B9%84%EC%84%A0%ED%98%95%EA%B5%AC%EC%A1%B0.html">자료구조 06. 선형구조, 비선형구조</a>
+                  
+                    (Categories: <a href="/category/자료구조">자료구조</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0/2019/04/09/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0-05.-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EB%B2%A0%EC%9D%B4%EC%8A%A4-&-MYSQL.html">자료구조 05. 데이터 베이스 & MYSQL</a>
+                  
+                    (Categories: <a href="/category/자료구조">자료구조</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0/2019/04/01/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0-04.-linked_list.html">자료구조 04. linked_list</a>
+                  
+                    (Categories: <a href="/category/자료구조">자료구조</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0/2019/03/28/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0-03.-Stack%EC%9C%BC%EB%A1%9C-Queue%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0.html">자료구조 03. Stack으로 Queue구현하기</a>
+                  
+                    (Categories: <a href="/category/자료구조">자료구조</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0/2019/03/14/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0-02.-Stack%EA%B3%BC-queue.html">자료구조 02. Stack과 queue</a>
+                  
+                    (Categories: <a href="/category/자료구조">자료구조</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+  
+  </ul>
+</div>
+
+
+<div class="PageNavigation">
+  
+    <a class="prev" href="/%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%B5%ED%95%99/2019/03/10/%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%B5%ED%95%99-05.-%EC%97%A1%EC%8B%A4%EB%A1%A0%EA%B3%BC-%EC%8B%A4%EC%88%98-%EB%B9%84%EA%B5%90.html">&laquo; 컴퓨터공학 05. 엡실론과 실수 비교</a>
+  
+  
+    <a class="next" href="/%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%B5%ED%95%99/2019/03/12/%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%B5%ED%95%99-06.-%EB%AC%B8%EC%9E%90%EC%99%80-UNICODE.html">컴퓨터공학 06. 문자와 UNICODE &raquo;</a>
+  
+</div>
+
+<div class="disqus-comments">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    /* <![CDATA[ */
+    var disqus_shortname = "https-fabl1106-github-io";
+    var disqus_identifier = "http://localhost:4000_자료구조 01. linear_search, binary_search";
+    var disqus_title = "자료구조 01. linear_search, binary_search";
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    /* ]]> */
+  </script>
+</div>
+
+        <footer>
+          &copy; Byeonguk Kim
+          
+            - <a href="https://github.com/fabl1106">https://github.com/fabl1106</a> - Powered by Jekyll.
+          
+          <div class="btn-github" style="float:right;">
+            <iframe src="https://ghbtns.com/github-btn.html?user=fabl1106&repo=fabl1106.github.io&type=star&count=true" frameborder="0" scrolling="0" width="85" height="20px"></iframe>
+            <iframe src="https://ghbtns.com/github-btn.html?user=fabl1106&repo=fabl1106.github.io&type=fork&count=true" frameborder="0" scrolling="0" width="85" height="20px"></iframe>
+          </div>
+        </footer>
+      </div>
+      <!-- end /.col-sm-8 -->
+    </div>
+    <!-- end /.container -->
+
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/super-search.js"></script>
+    <script src="/static/js/thickbox-compressed.js"></script>
+    <script src="/static/js/projects.js"></script>
+  </body>
+</html>
+

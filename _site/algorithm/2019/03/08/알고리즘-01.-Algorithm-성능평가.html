@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" sizes = "32x32" href="/static/img/favicon.ico"/>
+    <title>알고리즘 01. Algorithm 성능평가 - 대구 올빼미의 새벽 개발로그</title>
+    <meta name="author" content="Byeonguk Kim" />
+    <meta name="description" content="알고리즘 01. Algorithm 성능평가" />
+    <meta name="keywords" content="알고리즘 01. Algorithm 성능평가, 대구 올빼미의 새벽 개발로그, Algorithm" />
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml">
+    <meta content="1749788565247320" property="fb:app_id">
+    <meta content="대구 올빼미의 새벽 개발로그" property="og:site_name">
+
+    
+
+    
+      <meta content="알고리즘 01. Algorithm 성능평가" property="og:title">
+      <meta content="article" property="og:type">
+    
+
+    
+      <meta content="대구 올빼미의 새벽 개발로그" property="og:description">
+    
+
+    
+      <meta content="http://localhost:4000/algorithm/2019/03/08/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98-01.-Algorithm-%EC%84%B1%EB%8A%A5%ED%8F%89%EA%B0%80.html" property="og:url">
+    
+
+    
+      <meta content="2019-03-08T03:06:23+09:00" property="article:published_time">
+      <meta content="http://localhost:4000/about/" property="article:author">
+    
+
+    
+      <meta content="http://localhost:4000/static/img/avatar.jpg" property="og:image">
+    
+
+    
+      
+        <meta content="Algorithm" property="article:section">
+      
+    
+
+    
+      
+    
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@github.io">
+    <meta name="twitter:creator" content="@github.io">
+
+    
+      <meta name="twitter:title" content="알고리즘 01. Algorithm 성능평가">
+    
+
+    
+      <meta name="twitter:url" content="http://localhost:4000/algorithm/2019/03/08/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98-01.-Algorithm-%EC%84%B1%EB%8A%A5%ED%8F%89%EA%B0%80.html">
+    
+
+    
+      <meta name="twitter:description" content="대구 올빼미의 새벽 개발로그">
+    
+
+    
+
+    <!-- Font awesome icons -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+    <!-- syntax highlighting CSS -->
+    <link rel="stylesheet" href="/static/css/syntax.css">
+    <!-- Bootstrap core CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300italic,300,400italic,700&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/super-search.css">
+    <link rel="stylesheet" href="/static/css/thickbox.css">
+    <link rel="stylesheet" href="/static/css/projects.css">
+    <link rel="stylesheet" href="/static/css/main.css">
+
+    
+  </head>
+  <body>
+    <div class="container">
+      <div class="col-sm-3">
+        <div class="fixed-condition">
+          <a href="/"><img class="profile-avatar" src="/static/img/avatar.jpg" height="120px" width="120px" /></a>
+          <h1 class="author-name">Byeonguk Kim</h1>
+          
+            <div class="profile-about">
+              <h5>안녕하세요. 29살의 조금은 늦은 나이로 새롭게 개발자로 시작하는 신입 개발자입니다.</h5>
+            </div>
+          
+          <div class="social">
+            <ul>
+              
+                <li><a href="https://web.facebook.com/byungwook.kim.923" target="_blank"><i class="fa fa-facebook"></i></a></li>
+              
+                <li><a href="#" target="_blank"><i class="fa fa-twitter"></i></a></li>
+              
+                <li><a href="#" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+              
+                <li><a href="#" target="_blank"><i class="fa fa-stack-exchange"></i></a></li>
+              
+                <li><a href="https://github.com/fabl1106" target="_blank"><i class="fa fa-github"></i></a></li>
+              
+            </ul>
+          </div>
+          <div class="search" id="js-search">
+            <input type="text" placeholder="(sitemap)~$ type to search" class="search__input form-control" id="js-search__input">
+            <ul class="search__results" id="js-search__results"></ul>
+          </div>
+          <hr />
+          <ul class="sidebar-nav">
+            <strong>Navigation</strong>
+            <li><a href="/">Home</a></li>
+            
+              <li><a class="about" href="/about/">About Me</a></li>
+            
+              <li><a class="about" href="/projects/">My Projects</a></li>
+            
+              <li><a class="about" href="/feed.xml">XML Feed</a></li>
+            
+          </ul>
+        </div>
+        <!-- end /.fixed-condition -->
+      </div>
+      <div class="col-sm-8 col-offset-1 main-layout">
+        <header class="post-header">
+  <h1 class="post-title">알고리즘 01. Algorithm 성능평가</h1>
+</header>
+
+<span class="time">08 Mar 2019</span>
+
+  <span class="categories">
+    &raquo; <a href="/category/Algorithm">Algorithm</a>
+  </span>
+
+
+<div class="content">
+  <div class="post"><h1 id="알고리즘-성능평가">알고리즘 성능평가</h1>
+
+<p>알고리즘 성능을 계산할 때는 절대시간과 상대시간이 나오는데 <br />
+상대시간에서 연산(if연산으로 가정했음)의 횟수를 계산한다.</p>
+
+<p>연산횟수를 계산을 할 때는</p>
+
+<ol>
+  <li>
+    <p>최선의 경우 (best case)</p>
+  </li>
+  <li>
+    <p>평균의 경우 (average case)  —- quick sort만 쓴다.</p>
+  </li>
+  <li>
+    <p>최악의 경우 (worst case)</p>
+
+    <ul>
+      <li>이 알고리즘은 최악의 경우에도 big o(n)가 이것임을 보장한다.</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="그럼-big-o는-무엇일까">그럼 big o는 무엇일까?</h2>
+
+<p>n –&gt; T(n) = 3n ** 2 + 2n - 1  –&gt; 그림을 결정하는데 차수가 가장 좋은 것이다.</p>
+
+<p>여기서 3도 버리고 n ** 2 을 O(n ** 2)이렇게 적는다. 이거를 Big O of 엔 제곱이다 라고 말하거나 order of 엔 제곱 으로 표현하기도 한다.</p>
+
+<p>O(n ** 2) 이것만 보고도 성능을 파악할 수 있다.</p>
+
+<p>O(n) —&gt; upper bound     —–&gt; 최악의 경우에도 이것보다 나빠지지 않는다.</p>
+
+<p>W(n) —&gt; under bound     —–&gt; 최선의 경우에도 이거보다 나아질 수 없다. (쓰지 않음)</p>
+
+<p>세타(n) —&gt; 위에 2개를 더한것  —–&gt; 최선의 경우에도 이거보다 나아질 수 없고 최악에도 이것보다 나빠지진 않는다. 제일 좋은 것인데 구하기가 어렵다.</p>
+
+<p>T(n)의 트랜드가 중요하다. 즉 데이터의 갯수가 늘어날때 점점 성능이 좋아지는지     <br />
+아니면 성능이 나빠지는지가 중요하다</p>
+
+<h3 id="가장-좋은-성능">가장 좋은 성능</h3>
+
+<ol>
+  <li>O(1) : 상수시간(constant) 데이터의 갯수가 4개에서 100만개로 늘어나도 연산횟수는 늘어나지 않는다.
+    <ul>
+      <li>array의 indexing arr[3]  # 꼭 1일 필요는 없다.</li>
+      <li>linked list 의 insert(), delete()</li>
+    </ul>
+  </li>
+  <li>
+    <p>O(log n) : 로그시간 데이터 갯수가 늘어나도 연산횟수는 log 그래프로 증가</p>
+
+    <ul>
+      <li>
+        <p>binary search</p>
+      </li>
+      <li>
+        <p>BST insert(), search(), delete()</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>O(n) : 선형시간</p>
+
+    <ul>
+      <li>
+        <p>linear search</p>
+      </li>
+      <li>
+        <p>array의 insert , delete</p>
+      </li>
+      <li>
+        <p>linked list의 search()</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>O(n*log n)—&gt; 일반 n그래프에 log n을 꼽해서 조금 더 높아지는 그래프</p>
+
+    <ul>
+      <li>
+        <p>quick sort</p>
+      </li>
+      <li>
+        <p>merse sort</p>
+      </li>
+      <li>
+        <p>hoop sort</p>
+      </li>
+      <li>
+        <p>comparison sorting은 그 알고리즘 속도가 nlogn보다 더 좋아질 수 없다.</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>O(n ** 2) —&gt; 미친듯이 가팔라진다.</p>
+
+    <ul>
+      <li>
+        <p>bubble sort</p>
+      </li>
+      <li>
+        <p>msert sort</p>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<p>5번과 4번을 비교하면 4번이 훨씬 훨씬 좋다.!</p>
+
+<p>예를 들어보면)</p>
+
+<p>Time complexity     <br />
+O(n)을 보장한다 해서 막 썼는데 서버가 터짐    <br />
+ram에서 cpu로 갈때는 20cycle    <br />
+하드 디스크 500000cycle이다.   <br />
+만약에 n이 하드디스크에 있는 것이라고 하면 미친듯이 느린 것이다.      <br />
+그럼 그것을 제공하는 곳에 전화해서 하드에서 가져오는지 파악</p>
+
+<p>실제 현업에서 나가서 뻗는다 이러면 벤치마킹을 해보고 판단해야 한다.         <br />
+if for문을 3개 쓰는 알고리즘이 있으면 쓰면 안된다. 우리가 알고리즘 짜는데 만약에 for문이 3개 나온다하면 그냥 다시 짜면 된다.</p>
+
+<p>double에서는   <br />
+mantisadigit - 53      <br />
+1111 1111 1111 1111—-&gt; 53개까지 했을 때 어디까지 커버가 가능할까?</p>
+
+<p>9,007,199,254,740,991 —&gt; 총 15자리까지 완벽 커버가능하다.</p>
+
+<p>여기서 제일 마지막 1은 더 이상 커져도 신뢰할 수 없다.</p>
+
+<h3 id="결론-도출">결론 도출</h3>
+
+<ul>
+  <li>나는 데이터를 삽입하는 경우보다 서칭만 한다 —&gt; 꼭 배열을 쓴다.</li>
+  <li>나는 데이터를 찾는 경우는 잘 없지만 삽입 및 딜리트를 한다 –&gt; linked</li>
+  <li>나는 다 적당히 한다. —&gt; BST</li>
+</ul>
+
+<h2 id="성능-평가에-대해-조금-더-공부해보려고-한다">성능 평가에 대해 조금 더 공부해보려고 한다.</h2>
+
+<p>What does T(n) mean in relation to O(n)?</p>
+
+<p>When discussing an algorithm, the common usage of the symbol 𝑇T is to represent its time complexity.
+𝑇T is a function. The input to this function is the input size, the output is the (worst-case) running time for an input of that size.
+Therefore, 𝑇(𝑛)T(n) is a number: the number returned by the function 𝑇T when given the number 𝑛n. This number is the running time of our algorithm on an input of size 𝑛n.
+The 𝑂O in “𝑂(𝑛)O(n)” is not a function. This is Big O notation. In particular, the symbol 𝑂(𝑛)O(n) represents the class of all functions that grow (asymptotically) at most as quickly as the linear function 𝑓(𝑛)=𝑛f(n)=n.
+Big O notation gives us a convenient way to talk about upper bounds. For example, we can say “the time complexity of this algorithm is 𝑂(𝑛2)O(n2)” (formally: “𝑇∈𝑂(𝑛2)T∈O(n2)”) to say that the running time of the algorithm is at most quadratic in the input size.
+Sometimes, you can see both symbols being used in a single equation. For example, the time complexity of MergeSort is commonly described by the following recurrence: “𝑇(𝑛)=2𝑇(𝑛/2)+𝑂(𝑛)T(n)=2T(n/2)+O(n)”.
+The meaning of the above statement: For any 𝑛n, the time 𝑇(𝑛)T(n) needed to sort 𝑛n elements can be computed by taking the time 𝑇(𝑛/2)T(n/2) needed to sort 𝑛/2n/2 elements, multiplying that time by 2, and adding something extra. That something extra must be at most linear in 𝑛n.</p>
+
+<p><a href="https://www.quora.com/What-does-T-n-mean-in-relation-to-O-n">What does T(n) mean in relation to O(n)? - Quora</a></p>
+
+<p>해석 :</p>
+
+<p>알고리즘을 논할 때, 기호 T의 일반적인 용도는 시간 복잡성을 나타내는 것이다.</p>
+
+<p>T는 함수다. 이 함수에 대한 입력은 입력 크기, 출력은 해당 크기의 입력에 대한 (최악의) 실행 시간이다.</p>
+
+<p>따라서, T(n)는 숫자다: n을 부여했을 때 T 함수가 반환하는 숫자다. 이 숫자는 크기 n의 입력에 대한 우리의 알고리즘의 실행시간이다.</p>
+
+<p>“O(n)”의 O는 기능이 아니다. 이것은 Big O 표기법이다. 특히 기호 O(n)는 선형 함수 f(n)=n만큼 빠르게(증식적으로) 성장하는 모든 기능의 클래스를 나타낸다.</p>
+
+<p>Big O 표기법은 우리에게 상위에 대해 이야기할 수 있는 편리한 방법을 제공한다. 예를 들어, 우리는 “이 알고리즘의 시간 복잡성은 O(n2)”(공식적으로 “TOO(n2))라고 말할 수 있다.</p>
+
+<p>때때로, 당신은 하나의 방정식에 두 개의 기호가 사용되는 것을 볼 수 있다. 예를 들어, MergeSort의 시간 복잡성은 일반적으로 “T(n)=2T(n/2)+O(n)”에 의해 설명된다.</p>
+
+<p>상기 문장의 의미 : 어떤 n에 대해서도 n 요소를 분류하는데 필요한 T(n/2)는 n/2 요소를 분류하는 데 필요한 시간을 취하고 그 시간을 2로 곱한 후, 어떤 것을 추가함으로써 계산할 수 있다. 그 어떤 특별한 것은 n에 가장 직선적일 것이다.</p>
+
+<p>—-» T 함수는 함수에 대한 최악의 실행시간이다. T(n)은 숫자인데 n 크기에 대한 자료를 함수에 넣었을 때 걸리는 실행시간이다.</p>
+
+<p>—-» 우리가 말하는 알고리즘의 성능이 어떤 것인지 T of N 을 항상 구할 수는 없으므로 big O를 구하는 것을 배운다.</p>
+
+</div>
+  <div class="share-page">
+  <span style="float: left;">Share this on &rarr;&nbsp;&nbsp;</span>
+
+  <!-- Twitter -->
+  <a href="https://twitter.com/share" class="twitter-share-button" data-via="github.io">Tweet</a>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+  <!-- Facebook -->
+  <div class="fb-share-button" data-href="http://localhost:4000/algorithm/2019/03/08/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98-01.-Algorithm-%EC%84%B1%EB%8A%A5%ED%8F%89%EA%B0%80.html" data-layout="button_count" style="position: relative; top: -8px; left: 3px;"></div>
+</div>
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.6&appId=1749788565247320";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+</div>
+
+
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+            
+            <div class="panel-body">
+              <h4>Related Posts</h4>
+              <ul>
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/algorithm/2019/04/21/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98-03.-%EC%99%84%EC%A3%BC%ED%95%98%EC%A7%80-%EB%AA%BB%ED%95%9C-%EC%84%A0%EC%88%98(lv1).html">알고리즘 03. 완주하지 못한 선수(lv1)</a>
+                  
+                    (Categories: <a href="/category/Algorithm">Algorithm</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/algorithm/2019/03/13/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98-02.-1%EB%B6%80%ED%84%B0-1000000%EA%B9%8C%EC%A7%80-%EB%8D%94%ED%95%98%EA%B8%B0.html">알고리즘 02. 1부터 1000000까지 더하기</a>
+                  
+                    (Categories: <a href="/category/Algorithm">Algorithm</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+  
+  </ul>
+</div>
+
+
+<div class="PageNavigation">
+  
+    <a class="prev" href="/python/2019/03/07/%ED%8C%8C%EC%9D%B4%EC%8D%AC-05.-%EA%B0%80%EB%B3%80%EC%9D%B8%EC%9E%90,-%EC%82%BC%ED%95%AD%EC%97%B0%EC%82%B0%EC%9E%90.html">&laquo; 파이썬 05. 가변인자, 삼항연산자</a>
+  
+  
+    <a class="next" href="/%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%B5%ED%95%99/2019/03/08/%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%B5%ED%95%99-01.-%EA%B8%B0%EC%88%98%EB%B2%95.html">컴퓨터공학 01. 기수법 &raquo;</a>
+  
+</div>
+
+<div class="disqus-comments">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    /* <![CDATA[ */
+    var disqus_shortname = "https-fabl1106-github-io";
+    var disqus_identifier = "http://localhost:4000_알고리즘 01. Algorithm 성능평가";
+    var disqus_title = "알고리즘 01. Algorithm 성능평가";
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    /* ]]> */
+  </script>
+</div>
+
+        <footer>
+          &copy; Byeonguk Kim
+          
+            - <a href="https://github.com/fabl1106">https://github.com/fabl1106</a> - Powered by Jekyll.
+          
+          <div class="btn-github" style="float:right;">
+            <iframe src="https://ghbtns.com/github-btn.html?user=fabl1106&repo=fabl1106.github.io&type=star&count=true" frameborder="0" scrolling="0" width="85" height="20px"></iframe>
+            <iframe src="https://ghbtns.com/github-btn.html?user=fabl1106&repo=fabl1106.github.io&type=fork&count=true" frameborder="0" scrolling="0" width="85" height="20px"></iframe>
+          </div>
+        </footer>
+      </div>
+      <!-- end /.col-sm-8 -->
+    </div>
+    <!-- end /.container -->
+
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/super-search.js"></script>
+    <script src="/static/js/thickbox-compressed.js"></script>
+    <script src="/static/js/projects.js"></script>
+  </body>
+</html>
+
