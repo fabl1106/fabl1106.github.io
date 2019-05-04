@@ -5,452 +5,111 @@
     <description>대구 올빼미의 새벽 개발로그</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 23 Apr 2019 19:28:31 +0900</pubDate>
-    <lastBuildDate>Tue, 23 Apr 2019 19:28:31 +0900</lastBuildDate>
+    <pubDate>Sat, 04 May 2019 16:18:38 +0900</pubDate>
+    <lastBuildDate>Sat, 04 May 2019 16:18:38 +0900</lastBuildDate>
     <generator>Jekyll v3.7.4</generator>
     
       <item>
-        <title>2019_04_22_TIL</title>
-        <description>&lt;h3 id=&quot;20190422-til&quot;&gt;2019.04.22 TIL&lt;/h3&gt;
+        <title>Django 08. Bookmark 개별 템플릿 만들기 및 링크연결</title>
+        <description>&lt;h3 id=&quot;20190504-북마크-프로젝트의-개별-상세페이지를-만들고-링크를-연동하여-연결시켜-줍니다&quot;&gt;2019.05.04 북마크 프로젝트의 개별 상세페이지를 만들고 링크를 연동하여 연결시켜 줍니다.&lt;/h3&gt;
 
-&lt;h1 id=&quot;to-do&quot;&gt;To do&lt;/h1&gt;
+&lt;h1 id=&quot;개인-bookmark웹-만들기&quot;&gt;개인 Bookmark웹 만들기&lt;/h1&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;DEV
+  &lt;li&gt;웹사이트를 통해 개인 북마크를 설정할 수 있다.
     &lt;ul&gt;
-      &lt;li&gt;장고걸스 튜터리얼 복습 마무리하기
-        &lt;ul&gt;
-          &lt;li&gt;장고 튜터리얼을 배우고 있어서 비교해가며 마무리하기로 하였다.&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-      &lt;li&gt;알고리즘 문제 1문제 풀기
-        &lt;ul&gt;
-          &lt;li&gt;한 문제에 대해 완벽한 풀이를 하지 못했다. 어느정도 제한시간을 두고 진행을 해야 될 것 같다.&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-      &lt;li&gt;유튜브 1회 올리기
-        &lt;ul&gt;
-          &lt;li&gt;virtualenv 와 venv에 대해 비교하며 진행할 수 있도록 공부를 더하고 찍어야 되겠다.&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-      &lt;li&gt;수업 듣고 수업 TIL 진행하기
-        &lt;ul&gt;
-          &lt;li&gt;복습은 어느정도 진행하였으나 TIL을 하지 못하였다.&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
+      &lt;li&gt;북마크에는 url 주소와 사이트명이 들어간다.&lt;/li&gt;
+      &lt;li&gt;해당 사이트에 대한 설명과 작성일자가 자동으로 생성된다.&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
-  &lt;li&gt;About me
+  &lt;li&gt;메인 페이지에서 해당 북마크에 대한 리스트를 보여준다.
     &lt;ul&gt;
-      &lt;li&gt;&lt;del&gt;독서하기&lt;/del&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;del&gt;영어 1회 외우기&lt;/del&gt;&lt;/li&gt;
-      &lt;li&gt;영어 단어 암기&lt;/li&gt;
-      &lt;li&gt;&lt;del&gt;운동하기&lt;/del&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;del&gt;데일리 리포트 및 피드백 진행&lt;/del&gt;&lt;/li&gt;
+      &lt;li&gt;메인페이지에서 북마크 추가하기 버튼으로 추가할 수 있다.&lt;/li&gt;
+      &lt;li&gt;해당 북마크를 클릭하면 상세페이지로 이동한다.&lt;/li&gt;
+      &lt;li&gt;상세페이지에서 수정 및 삭제를 할 수 있다.&lt;/li&gt;
+      &lt;li&gt;base.html과 연동하여 쉽게 구현할 수 있도록 한다.&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&quot;til&quot;&gt;TIL&lt;/h1&gt;
+&lt;h2 id=&quot;이번-시간에-할-것&quot;&gt;이번 시간에 할 것&lt;/h2&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;오늘은 장고 튜터리얼을 따라가며 배웠다. 장고 튜터리얼은 virtualenv 가상환경을 이용하여 투표 웹사이트를 제작한다. 이 부분을 장고걸스 튜터리얼과 비교하여 하나씩 정리해봐야겠다.&lt;/li&gt;
+  &lt;li&gt;개별 템플릿 꾸미기&lt;/li&gt;
+  &lt;li&gt;base.html과 연동시켜주기&lt;/li&gt;
+  &lt;li&gt;링크를 연결하여 페이지 이동시키기&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&quot;today-was&quot;&gt;Today was&lt;/h1&gt;
+&lt;h1 id=&quot;개별-템플릿-만들기&quot;&gt;개별 템플릿 만들기&lt;/h1&gt;
+
+&lt;h2 id=&quot;bookmark-템플릿-수정하기&quot;&gt;bookmark 템플릿 수정하기&lt;/h2&gt;
+
+&lt;h3 id=&quot;bookmark-list&quot;&gt;bookmark list&lt;/h3&gt;
+
+&lt;p&gt;&lt;img width=&quot;1017&quot; alt=&quot;스크린샷 2019-05-04 오후 1 31 39&quot; src=&quot;https://user-images.githubusercontent.com/46436843/57174130-69b14e00-6e74-11e9-9fd7-b0bc40fed86f.png&quot; /&gt;&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;05:00 ~ 06:00 기상 및 빨래, 샐러드 채 썰이기, 준비&lt;/li&gt;
-  &lt;li&gt;06:00 ~ 07:30 헬스&lt;/li&gt;
-  &lt;li&gt;07:30 ~ 08:30 아침 식사 및 영어 1회 외우기&lt;/li&gt;
-  &lt;li&gt;08:30 ~ 09:30 장고걸스 튜터리얼 복습&lt;/li&gt;
-  &lt;li&gt;10:00 ~ 12:00 장고 수업 실시&lt;/li&gt;
-  &lt;li&gt;12:00 ~ 13:00 점심식사 with 재범형님&lt;/li&gt;
-  &lt;li&gt;13:00 ~ 15:30 장고 수업 실시&lt;/li&gt;
-  &lt;li&gt;15:30 ~ 17:30 휴식??&lt;/li&gt;
-  &lt;li&gt;17:30 ~ 18:00 저녁식사&lt;/li&gt;
-  &lt;li&gt;18:00 ~ 20:00 수업복습&lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;20:30 ~ 퇴근&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;음.. 왜 공부를 하다가 지킬까? 텐션이 떨어지는 행동들을 지속하고, 내가 어떤 행동들을 할 때 텐션이 떨어지는지 잘 조사해서 적어보자. 데이터로 적어보면 해결책이 나올 수 있을 것 같다.&lt;/li&gt;
-  &lt;li&gt;일단 피곤하면 텐션이 매우 떨어진다는 것을 알 수 있다. 하루 7시간은 수면을 할 수 있도록 해보자.&lt;/li&gt;
-  &lt;li&gt;말도 안되는 휴식이 왜 존재했는지 잘 체크해보자.&lt;/li&gt;
-  &lt;li&gt;내가 어떤 것을 할 때 행복하고, 기분이 좋고, 어떤 것을 할 때 텐션이 덜어지는지 그 상황에 대해서 하나씩 적어보자.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&quot;tomorrow-do&quot;&gt;Tomorrow do&lt;/h1&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;DEV
+  &lt;li&gt;block content 구성&lt;/li&gt;
+  &lt;li&gt;models 을 통해 생성된 object의 list들을 돌면서 한 줄씩 가지고 온다.
     &lt;ul&gt;
-      &lt;li&gt;장고 프로젝트 명확히 구체화시켜보기&lt;/li&gt;
-      &lt;li&gt;장고걸스 튜터리얼 TIL하기&lt;/li&gt;
-      &lt;li&gt;장고 튜터리얼 TIL하기&lt;/li&gt;
-      &lt;li&gt;알고리즘 문제 1문제 풀기&lt;/li&gt;
-      &lt;li&gt;유튜브 1회 올리기&lt;/li&gt;
+      &lt;li&gt;해당 object의 id/ site_name/ url 나열&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
-  &lt;li&gt;About me
-    &lt;ul&gt;
-      &lt;li&gt;독서하기&lt;/li&gt;
-      &lt;li&gt;영어 1회 외우기&lt;/li&gt;
-      &lt;li&gt;영어 단어 암기&lt;/li&gt;
-      &lt;li&gt;운동하기&lt;/li&gt;
-      &lt;li&gt;데일리 리포트 및 피드백 진행&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
+  &lt;li&gt;각각의 링크 연결&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;h3 id=&quot;bookmark_create&quot;&gt;bookmark_create&lt;/h3&gt;
+
+&lt;p&gt;&lt;img width=&quot;769&quot; alt=&quot;스크린샷 2019-05-04 오후 1 36 08&quot; src=&quot;https://user-images.githubusercontent.com/46436843/57174131-6b7b1180-6e74-11e9-9f56-c48aa384de5f.png&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;form을 활용하여 입력창 생성&lt;/li&gt;
+  &lt;li&gt;post형식으로 전송&lt;/li&gt;
+  &lt;li&gt;{ csrf_token }을 작성하여 보안문제 해결&lt;/li&gt;
+  &lt;li&gt;를 적어줌으로서 한줄씩 띄우면서 create의 field에 등록된 것을 가지고 옴&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;bookmark_detail&quot;&gt;bookmark_detail&lt;/h3&gt;
+
+&lt;p&gt;&lt;img width=&quot;1243&quot; alt=&quot;D2667FDE-3F5D-4A6F-8B80-7B1587ABCA8A&quot; src=&quot;https://user-images.githubusercontent.com/46436843/57174133-6ddd6b80-6e74-11e9-91f2-17b3c0f608f1.png&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;해당 컨텐츠의 이름/ url / content를 보여준다.&lt;/li&gt;
+  &lt;li&gt;수정과 삭제를 할 수 있도록 링크 연결&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;bookmark_delete&quot;&gt;bookmark_delete&lt;/h3&gt;
+
+&lt;p&gt;&lt;img width=&quot;796&quot; alt=&quot;F11BCB62-DAD1-474D-8EC6-72B10C33BD98&quot; src=&quot;https://user-images.githubusercontent.com/46436843/57174134-6f0e9880-6e74-11e9-8bea-2f1d5d7bc24f.png&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;form 형식으로 구현&lt;/li&gt;
+  &lt;li&gt;한번 더 실제로 지울지를 확인하는 페이지로 구성&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;bookmark_update&quot;&gt;bookmark_update&lt;/h3&gt;
+
+&lt;p&gt;&lt;img width=&quot;759&quot; alt=&quot;81B685AD-43C9-470D-AA9B-502CB6D026A9&quot; src=&quot;https://user-images.githubusercontent.com/46436843/57174136-70d85c00-6e74-11e9-9828-e37f98133bbb.png&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;create와 비슷하게 구현&lt;/li&gt;
+  &lt;li&gt;폼 형태로 입력할 수 있도록 구현&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;실제-실행-및-실제-페이지-확인&quot;&gt;실제 실행 및 실제 페이지 확인&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;python manage.py runserver&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img width=&quot;1254&quot; alt=&quot;스크린샷 2019-05-04 오후 2 30 54&quot; src=&quot;https://user-images.githubusercontent.com/46436843/57174398-3f15c400-6e79-11e9-8fc8-11c4874754a2.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img width=&quot;1234&quot; alt=&quot;스크린샷 2019-05-04 오후 2 20 46&quot; src=&quot;https://user-images.githubusercontent.com/46436843/57174392-1e4d6e80-6e79-11e9-8923-90a675568879.png&quot; /&gt;&lt;/p&gt;
 
 </description>
-        <pubDate>Mon, 22 Apr 2019 03:06:23 +0900</pubDate>
-        <link>http://localhost:4000/til/2019/04/22/TIL.html</link>
-        <guid isPermaLink="true">http://localhost:4000/til/2019/04/22/TIL.html</guid>
-        
-        
-        <category>TIL</category>
-        
-      </item>
-    
-      <item>
-        <title>알고리즘 03. 완주하지 못한 선수(lv1)</title>
-        <description>&lt;h3 id=&quot;20190421-til&quot;&gt;2019.04.21 TIL&lt;/h3&gt;
-
-&lt;h2 id=&quot;프로그래머스-알고리즘-문제-lv1&quot;&gt;프로그래머스 알고리즘 문제 (lv1)&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;완주하지 못한 선수&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;문제-설명&quot;&gt;문제 설명&lt;/h3&gt;
-
-&lt;p&gt;수많은 마라톤 선수들이 마라톤에 참여하였습니다. 단 한 명의 선수를 제외하고는 모든 선수가 마라톤을 완주하였습니다.&lt;/p&gt;
-
-&lt;p&gt;마라톤에 참여한 선수들의 이름이 담긴 배열 participant와 완주한 선수들의 이름이 담긴 배열 completion이 주어질 때, 완주하지 못한 선수의 이름을 return 하도록 solution 함수를 작성해주세요.&lt;/p&gt;
-
-&lt;h3 id=&quot;제한사항&quot;&gt;제한사항&lt;/h3&gt;
-
-&lt;p&gt;마라톤 경기에 참여한 선수의 수는 1명 이상 100,000명 이하입니다.
-completion의 길이는 participant의 길이보다 1 작습니다.
-참가자의 이름은 1개 이상 20개 이하의 알파벳 소문자로 이루어져 있습니다.
-참가자 중에는 동명이인이 있을 수 있습니다.&lt;/p&gt;
-
-&lt;h3 id=&quot;예시&quot;&gt;예시&lt;/h3&gt;
-
-&lt;p&gt;&lt;img width=&quot;651&quot; alt=&quot;스크린샷 2019-04-21 오후 12 45 40&quot; src=&quot;https://user-images.githubusercontent.com/46436843/56465172-6d37e480-6433-11e9-8427-7dbb2399bb0f.png&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;나의-풀이-방법&quot;&gt;나의 풀이 방법&lt;/h3&gt;
-
-&lt;p&gt;&lt;strong&gt;의식의 흐름&lt;/strong&gt;&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;먼저 participant와 completion이 주어지는 것을 확인했다.&lt;/li&gt;
-  &lt;li&gt;내가 만약에 이 문제를 그냥 푼다고 하면 completion의 한명씩 가지고 와서 participant에서 찾아서 X표를 하나씩 할 것이다.&lt;/li&gt;
-  &lt;li&gt;그리고 마지막에 participant에서 지워지지 않은 사람을 이야기한다.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;strong&gt;컴퓨터에게는?&lt;/strong&gt;&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;컴퓨터에게는 for문으로 completion을 돌면서 해당 요소를 participant에서 지우고 마지막에 participant를 반환하도록 할 것이다.&lt;/li&gt;
-  &lt;li&gt;추가적으로 그냥 반환하면 li를 반환하게 될 것이므로 문제에서 요구한 string으로 반환하게 해준다.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;코드&quot;&gt;코드&lt;/h2&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;solution&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;participant&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;completion&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;completion&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;participant&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;remove&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;participant&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;  &lt;span class=&quot;c&quot;&gt;#string으로 반환을 위해&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;participant&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;li의 특정요소를 지우기 위해 remove 함수를 사용하였다.&lt;/li&gt;
-  &lt;li&gt;print와 return 2개를 모두 적어주어 실제로도 볼 수 있도록 하였다.&lt;/li&gt;
-  &lt;li&gt;첫 번째 인덱스를 반환하게 해주어 string으로 반환해주었다.
-    &lt;ul&gt;
-      &lt;li&gt;현재 문제에서는 불완주자가 1명밖에 없지만 더 많은 불완주자가 있다고 하면 결과값 participant의 for문을 다시 돌면서 print하도록 해주어야 한다.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;solution&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;participant&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;completion&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;completion&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-    	&lt;span class=&quot;n&quot;&gt;participant&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;remove&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;j&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;participant&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-    	&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;다른-사람-풀이&quot;&gt;다른 사람 풀이&lt;/h3&gt;
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;collections&lt;/span&gt;
-
-
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;solution&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;participant&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;completion&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;answer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;collections&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Counter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;participant&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;collections&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Counter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;completion&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;answer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;keys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;remove는 효율이 굉장히 좋지 않다고 한다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;remove의 time complexity는 O(N)이에요.
-for 문과 합치면 이 코드의 time complexity는 O(N2)이에요.&lt;/p&gt;
-
-&lt;p&gt;시간 복잡도가 너무 높아서, 지금 코드로는 효율성 테스트케이스를 통과할 수 없을 겁니다 ㅜㅜ
-시간 복잡도를 O(N)까지 줄여보세요.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;counter 함수에 대해서 새롭게 배우게 되었다.&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        <pubDate>Sun, 21 Apr 2019 23:06:23 +0900</pubDate>
-        <link>http://localhost:4000/algorithm/2019/04/21/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98-03.-%EC%99%84%EC%A3%BC%ED%95%98%EC%A7%80-%EB%AA%BB%ED%95%9C-%EC%84%A0%EC%88%98(lv1).html</link>
-        <guid isPermaLink="true">http://localhost:4000/algorithm/2019/04/21/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98-03.-%EC%99%84%EC%A3%BC%ED%95%98%EC%A7%80-%EB%AA%BB%ED%95%9C-%EC%84%A0%EC%88%98(lv1).html</guid>
-        
-        
-        <category>Algorithm</category>
-        
-      </item>
-    
-      <item>
-        <title>2019_04_21_TIL</title>
-        <description>&lt;h3 id=&quot;20190421-til&quot;&gt;2019.04.21 TIL&lt;/h3&gt;
-
-&lt;h1 id=&quot;to-do&quot;&gt;To do&lt;/h1&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;DEV
-    &lt;ul&gt;
-      &lt;li&gt;&lt;del&gt;장고걸스 튜터리얼 복습하기 (혼자서 해보기)&lt;/del&gt;&lt;/li&gt;
-      &lt;li&gt;장고걸스 튜터리얼 TIL하기&lt;/li&gt;
-      &lt;li&gt;&lt;del&gt;알고리즘 문제 1문제 풀기&lt;/del&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;About me
-    &lt;ul&gt;
-      &lt;li&gt;&lt;del&gt;독서하기&lt;/del&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;del&gt;데일리 리포트 및 피드백 진행&lt;/del&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&quot;til&quot;&gt;TIL&lt;/h1&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;오늘은 장고걸스 튜터리얼을 다시 한번 따라가면서 복습해보았다.&lt;/li&gt;
-  &lt;li&gt;앞으로 배운 것들에 대해 유튜브 진행해보기로 하였다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&quot;today-was&quot;&gt;Today was&lt;/h1&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;06:00 ~ 12:00 오전 휴식&lt;/li&gt;
-  &lt;li&gt;12:00 ~ 12:30 점심식사&lt;/li&gt;
-  &lt;li&gt;12:30 ~ 13:30 알고리즘 1문제 및 TIL&lt;/li&gt;
-  &lt;li&gt;14:00 ~ 16:30 영화시청 (이걸 왜 했는지 모르겠네…)&lt;/li&gt;
-  &lt;li&gt;16:30 ~ 18:00 장고걸스 튜터리얼&lt;/li&gt;
-  &lt;li&gt;18:00 ~ 19:30 저녁식사 및 반찬거리 구입&lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;19:30 ~ 21:30 장고걸스 튜터리얼&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;오늘은 일요일이었다. 하지만 굉장히 아쉬운 일요일이다. 잘 쉬지도… 그렇다고 열심히 하지도 못한 하루다. 이런 하루를 애매한 하루라고 표현을 하면 좋겠다. 이런 애매한 하루들은 나에게 아무런 도움이 되지 못한다. 오히려 몸은 몸대로 텐션이 떨어지고, 제대로 쉰 것 같지도 않은게 아쉽다. 음… 제대로 휴식시간을 정해서 휴식을 할 수 있도록 해주면 좋을 것 같다. 일주일 중 하루는 온전히 휴식하는 시간. 그리고 그 시간은 무엇을 해도 상관하지 않도록 하는 시간을 주면 좋을 것 같다. 그 휴식 시간을 만약 공부를 하면 그것은 나의 선택이니 전혀 공부에 대해 스트레스를 받지 않을 것 같다. 일단 다음 주부터 장고 수업이 시작하니 여기에 집중해서 또 해보자! 화이팅&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&quot;tomorrow-do&quot;&gt;Tomorrow do&lt;/h1&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;DEV
-    &lt;ul&gt;
-      &lt;li&gt;장고걸스 튜터리얼 복습 마무리하기&lt;/li&gt;
-      &lt;li&gt;장고걸스 튜터리얼 TIL하기&lt;/li&gt;
-      &lt;li&gt;알고리즘 문제 1문제 풀기&lt;/li&gt;
-      &lt;li&gt;유튜브 1회 올리기&lt;/li&gt;
-      &lt;li&gt;수업 듣고 수업 TIL 진행하기&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;About me
-    &lt;ul&gt;
-      &lt;li&gt;독서하기&lt;/li&gt;
-      &lt;li&gt;영어 1회 외우기&lt;/li&gt;
-      &lt;li&gt;영어 단어 암기&lt;/li&gt;
-      &lt;li&gt;운동하기&lt;/li&gt;
-      &lt;li&gt;데일리 리포트 및 피드백 진행&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-</description>
-        <pubDate>Sun, 21 Apr 2019 03:06:23 +0900</pubDate>
-        <link>http://localhost:4000/til/2019/04/21/TIL.html</link>
-        <guid isPermaLink="true">http://localhost:4000/til/2019/04/21/TIL.html</guid>
-        
-        
-        <category>TIL</category>
-        
-      </item>
-    
-      <item>
-        <title>2019_04_19_TIL</title>
-        <description>&lt;h3 id=&quot;20190419-til&quot;&gt;2019.04.19 TIL&lt;/h3&gt;
-
-&lt;h1 id=&quot;to-do&quot;&gt;To do&lt;/h1&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;DEV
-    &lt;ul&gt;
-      &lt;li&gt;&lt;del&gt;장고걸스 튜터리얼 복습하기 (혼자서 해보기)&lt;/del&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;del&gt;장고걸스 튜터리얼 TIL하기&lt;/del&gt;&lt;/li&gt;
-      &lt;li&gt;알고리즘 문제 TIL하기&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;About me
-    &lt;ul&gt;
-      &lt;li&gt;&lt;del&gt;영어 암기&lt;/del&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;del&gt;운동하기&lt;/del&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;del&gt;독서하기&lt;/del&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;del&gt;데일리 리포트 및 피드백 진행&lt;/del&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;del&gt;포항에 내려가서 부모님과 시간보내기&lt;/del&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;del&gt;점심 식사 약속&lt;/del&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&quot;til&quot;&gt;TIL&lt;/h1&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;오늘은 장고걸스 튜터리얼을 다시 한번 따라가면서 복습해보았다.&lt;/li&gt;
-  &lt;li&gt;앞으로 배운 것들에 대해 유튜브 진행해보기로 하였다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&quot;today-was&quot;&gt;Today was&lt;/h1&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;05:30 ~ 7:30 기상 및 운동 (중)&lt;/li&gt;
-  &lt;li&gt;07:30 ~ 8:30 영어공부 및 아침식사 (중)&lt;/li&gt;
-  &lt;li&gt;08:30 ~ 11:00 장고걸스 튜터리얼 TIL&lt;/li&gt;
-  &lt;li&gt;11:00 ~ 12:30&lt;/li&gt;
-  &lt;li&gt;12:30 ~ 14:30 점심식사 약속&lt;/li&gt;
-  &lt;li&gt;14:30 ~ 18:00 포항 이동&lt;/li&gt;
-  &lt;li&gt;18:00 ~ 20:00 저녁식사&lt;/li&gt;
-  &lt;li&gt;20:00 ~ 22:00 부모님과 시간보내기&lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;18:30 ~ 20:00&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;오늘은 박조은 선생님과 점심 식사를 하였다. 굉장히 의미가 깊은 시간이었다. 막연하게 어렵다고 할 수 없다고 생각하였던 유튜브를 단 10분만에 할 수 있도록 유도해주셨다… 갑자기 보고나니깐 나도 할 수 있다는 생각이 들었다. 앞으로 매일 배운 것을 TIL로 정리하고 직접 유튜브 영상으로 올려보기로 하였다. 이것도 꾸준히면 정말 도움이 많이 될 것 같다. 그리고 장고를 열심히 공부하고 추가적으로 딥러닝 공부를 조금씩 하여서 8월달에는 딥러닝 기술을 활용한 서비를 진행하는 회사의 백엔드로 들어가고자 하는 목표를 가지게 되었다. 할 수 있다는 생각을 많이 가지게 되었다. 나도 할 수 있다!&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&quot;tomorrow-do&quot;&gt;Tomorrow do&lt;/h1&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;포항에서 모내기 잘 마무리하고 서울로 올라오기&lt;/li&gt;
-  &lt;li&gt;살아서 오기&lt;/li&gt;
-&lt;/ul&gt;
-
-</description>
-        <pubDate>Fri, 19 Apr 2019 03:06:23 +0900</pubDate>
-        <link>http://localhost:4000/til/2019/04/19/TIL.html</link>
-        <guid isPermaLink="true">http://localhost:4000/til/2019/04/19/TIL.html</guid>
-        
-        
-        <category>TIL</category>
-        
-      </item>
-    
-      <item>
-        <title>Django 01. 장고시작하기</title>
-        <description>&lt;h3 id=&quot;20190419-장고시작하기&quot;&gt;2019.04.19 장고시작하기&lt;/h3&gt;
-
-&lt;p&gt;(TIL은 스스로 이해한 것을 바탕으로 정리한 것으로 오류가 있을 수 있습니다)&lt;/p&gt;
-
-&lt;p&gt;# 질문에 답하기&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;장고란 무엇인가?&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h1 id=&quot;장고란&quot;&gt;장고란&lt;/h1&gt;
-
-&lt;p&gt;파이썬으로 작성된 오픈 소스 웹 애플리케이션 프레임워크로 모델 - 뷰 - 컨트롤러(MVC) 패턴을 따르고 있다.    &lt;br /&gt;
-고도의 데이터베이스 기반 웹사이트를 작성하는데 있어서 수고를 더는 것이 장고의 주된 목표!   &lt;br /&gt;
-컴포넌트의 재사용성과 플러그인화 가능성 빠른 개발등을 강조하고 있다.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;컴포넌트 : 소프트웨어 시스템에서 독립적인 업무 또는 독립적인 기능을 수행하는 모듈로서 이후 시스템을 유지보수하는데 있어 교체가 가능한 부품&lt;/li&gt;
-  &lt;li&gt;플러그인 : 웹 브라우저의 표진 기능을 확장해주는 프로그램을 의미한다.(flash, pdfreader등)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;장고의-특징&quot;&gt;장고의 특징&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;MVC 패턴 기반 ( Model - View - Controller)
-    &lt;ol&gt;
-      &lt;li&gt;장고에서는 view를 Template, Controller를 View라고 부르므로 MTV 프레임워크라고 부르기도 한다.&lt;/li&gt;
-    &lt;/ol&gt;
-  &lt;/li&gt;
-  &lt;li&gt;우아한 URL  설계
-    &lt;ol&gt;
-      &lt;li&gt;URL형태를 개발자가 직접 결정할 수 있고 각 URL형태를 파이썬 함수에 직접 연결하도록 되어 있어 개발이 편리하고 이해하기 쉽다.&lt;/li&gt;
-    &lt;/ol&gt;
-  &lt;/li&gt;
-  &lt;li&gt;관리자 웹 인터페이스 제공
-    &lt;ol&gt;
-      &lt;li&gt;사용자 관리, 사용자 그룹관리, 권한 뿐만 아니라 모델 객체에 대해서도 목록, 추가, 삭제, 변경의 기능이 관리자 인터페이스에서 모두 제공되어 웹 어플리케이션을 실험해보기에 좋다.&lt;/li&gt;
-    &lt;/ol&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h1 id=&quot;장고-시작하기&quot;&gt;장고 시작하기&lt;/h1&gt;
-
-&lt;h2 id=&quot;프로젝트-할-폴더-생성&quot;&gt;프로젝트 할 폴더 생성&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;mkdir djangoproject&lt;/li&gt;
-  &lt;li&gt;cd djangoproject&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;가상-환경-설치-및-실행&quot;&gt;가상 환경 설치 및 실행&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;장고의 경우 각 프로젝트에 맞게 버전을 설정하여 관리하기 위해 가상 환경 위해서 진행해주는게 좋다.&lt;/li&gt;
-  &lt;li&gt;python3 -m venv myvenv : myvenv라는 가상환경 설치&lt;/li&gt;
-  &lt;li&gt;source myvenv/bin/activate  : myvenv / bin 폴더의 activate 실행 (가상환경실행)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;가상-환경-내에서-django-설치&quot;&gt;가상 환경 내에서 django 설치&lt;/h2&gt;
-&lt;ul&gt;
-  &lt;li&gt;pip install django~=2.0.0 (가상 환경위에서는 자동으로 python3가 잡히므로 pip3 해줄필요 없음)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;프로젝트-시작하기&quot;&gt;프로젝트 시작하기&lt;/h2&gt;
-&lt;ul&gt;
-  &lt;li&gt;django-admin startproject mysite .     : mysite라는 프로젝트 시작&lt;/li&gt;
-  &lt;li&gt;mysite라는 폴더 생성&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;img width=&quot;612&quot; alt=&quot;장고1&quot; src=&quot;https://user-images.githubusercontent.com/46436843/56418371-b839e680-62d1-11e9-9c62-40673a2850e5.png&quot; /&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;위와 같이 진행하고 나면 위의 구조로 파일이 생성된다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;데이터베이스-설정&quot;&gt;데이터베이스 설정&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;python3 manage.py migrate : 현재 장고 프로젝트에서 데이터베이스를 어떤 식으로 저장할지에 대한 자동설정&lt;/li&gt;
-  &lt;li&gt;python manage.py runserver : 장고 서버 시작&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;이까지-진행하면-장고-서버를-시작하여-웹사이트-운영을-시작할-단계가-되었다&quot;&gt;이까지 진행하면 장고 서버를 시작하여 웹사이트 운영을 시작할 단계가 되었다.&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;다음부터는 장고의 MVC 패턴 기반 ( Model - View - Controller)에 맞추어서 하나씩 추가적으로 설명해보려고 한다. django 02. 에서 Model에 대해 추가적으로 알아보자!&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        <pubDate>Fri, 19 Apr 2019 03:06:23 +0900</pubDate>
-        <link>http://localhost:4000/django/2019/04/19/Django-01.-%EC%9E%A5%EA%B3%A0%EC%8B%9C%EC%9E%91%ED%95%98%EA%B8%B0.html</link>
-        <guid isPermaLink="true">http://localhost:4000/django/2019/04/19/Django-01.-%EC%9E%A5%EA%B3%A0%EC%8B%9C%EC%9E%91%ED%95%98%EA%B8%B0.html</guid>
+        <pubDate>Sat, 04 May 2019 14:06:23 +0900</pubDate>
+        <link>http://localhost:4000/django/2019/05/04/Django-08.-Bookmark-%E1%84%80%E1%85%A2%E1%84%87%E1%85%A7%E1%86%AF-%E1%84%90%E1%85%A6%E1%86%B7%E1%84%91%E1%85%B3%E1%86%AF%E1%84%85%E1%85%B5%E1%86%BA-%E1%84%86%E1%85%A1%E1%86%AB%E1%84%83%E1%85%B3%E1%86%AF%E1%84%80%E1%85%B5-%E1%84%86%E1%85%B5%E1%86%BE-%E1%84%85%E1%85%B5%E1%86%BC%E1%84%8F%E1%85%B3%E1%84%8B%E1%85%A7%E1%86%AB%E1%84%80%E1%85%A7%E1%86%AF.html</link>
+        <guid isPermaLink="true">http://localhost:4000/django/2019/05/04/Django-08.-Bookmark-%E1%84%80%E1%85%A2%E1%84%87%E1%85%A7%E1%86%AF-%E1%84%90%E1%85%A6%E1%86%B7%E1%84%91%E1%85%B3%E1%86%AF%E1%84%85%E1%85%B5%E1%86%BA-%E1%84%86%E1%85%A1%E1%86%AB%E1%84%83%E1%85%B3%E1%86%AF%E1%84%80%E1%85%B5-%E1%84%86%E1%85%B5%E1%86%BE-%E1%84%85%E1%85%B5%E1%86%BC%E1%84%8F%E1%85%B3%E1%84%8B%E1%85%A7%E1%86%AB%E1%84%80%E1%85%A7%E1%86%AF.html</guid>
         
         
         <category>Django</category>
@@ -458,25 +117,623 @@ for 문과 합치면 이 코드의 time complexity는 O(N2)이에요.&lt;/p&gt;
       </item>
     
       <item>
-        <title>2019_04_18_TIL</title>
-        <description>&lt;h3 id=&quot;20190418-til&quot;&gt;2019.04.18 TIL&lt;/h3&gt;
+        <title>Django 07. Bookmark 템플릿 만들기 및 base.html에 연동시키기</title>
+        <description>&lt;h3 id=&quot;20190504-북마크-프로젝트의-템플릿-만들기-및-basehtml에-연동시키기&quot;&gt;2019.05.04 북마크 프로젝트의 템플릿 만들기 및 base.html에 연동시키기&lt;/h3&gt;
+
+&lt;h1 id=&quot;개인-bookmark웹-만들기&quot;&gt;개인 Bookmark웹 만들기&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;웹사이트를 통해 개인 북마크를 설정할 수 있다.
+    &lt;ul&gt;
+      &lt;li&gt;북마크에는 url 주소와 사이트명이 들어간다.&lt;/li&gt;
+      &lt;li&gt;해당 사이트에 대한 설명과 작성일자가 자동으로 생성된다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;메인 페이지에서 해당 북마크에 대한 리스트를 보여준다.
+    &lt;ul&gt;
+      &lt;li&gt;메인페이지에서 북마크 추가하기 버튼으로 추가할 수 있다.&lt;/li&gt;
+      &lt;li&gt;해당 북마크를 클릭하면 상세페이지로 이동한다.&lt;/li&gt;
+      &lt;li&gt;상세페이지에서 수정 및 삭제를 할 수 있다.&lt;/li&gt;
+      &lt;li&gt;base.html과 연동하여 쉽게 구현할 수 있도록 한다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;이번-시간에-할-것&quot;&gt;이번 시간에 할 것&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;템플릿 만들기&lt;/li&gt;
+  &lt;li&gt;base.html에 연결하기&lt;/li&gt;
+  &lt;li&gt;템플릿 꾸미기
+    &lt;ul&gt;
+      &lt;li&gt;부트스트랩 활용&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;템플릿-만들기&quot;&gt;템플릿 만들기&lt;/h1&gt;
+
+&lt;h2 id=&quot;1-템플릿-만들기&quot;&gt;1. 템플릿 만들기&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;bookmark 아래에 templates 폴더 만들기&lt;/li&gt;
+  &lt;li&gt;templates 아래에 bookmark 폴더 만들기&lt;/li&gt;
+  &lt;li&gt;그 아래에 html 파일들 생성해주기&lt;/li&gt;
+  &lt;li&gt;이후 많은 앱들이 생기는 경우 서로 겹치는 문제를 해결하기 위해 templates 아래에 bookmark폴더를 다시 만들고 html파일 생성&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img width=&quot;1035&quot; alt=&quot;590CF98A-B512-47DE-B9F0-593788F31DD2&quot; src=&quot;https://user-images.githubusercontent.com/46436843/57174125-60c07c80-6e74-11e9-9253-ecfd632abb34.png&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;2-basehtml에-연결하기&quot;&gt;2. base.html에 연결하기&lt;/h2&gt;
+
+&lt;h3 id=&quot;템플릿-분리형-확장&quot;&gt;템플릿 분리형 확장&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;매번 있어야하는 내용을 지속적으로 넣어주기가 귀찮음&lt;/li&gt;
+  &lt;li&gt;앱 별로는 각각의 템플릿에 필요하나 전체 앱에 있어야하는 것은 전체 루트위로 뺀다.&lt;/li&gt;
+  &lt;li&gt;전체 프로젝트 아래에 layout을 만들고 아래에 base.html을 만든다.&lt;/li&gt;
+  &lt;li&gt;내가 원하는 부분부분 나누어 놓는다.(by block)
+    &lt;ul&gt;
+      &lt;li&gt;bookmark 템플릿들은 base.html을 확장받아 사용한다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;settings templates
+    &lt;ul&gt;
+      &lt;li&gt;base.html을 찾을 수 있도록 경로를 지정해준다.&lt;/li&gt;
+      &lt;li&gt;DIR에 추가적으로 등록해놓는다. (directorys)
+        &lt;ul&gt;
+          &lt;li&gt;os.path.join(베이스디렉토리의 layout 폴더를 등록해놓는다.)&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;base.html을 부트스트랩을 디자인 할 것이다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img width=&quot;1338&quot; alt=&quot;3797052E-BBF5-4F7F-9D27-C5ED880B0FDD&quot; src=&quot;https://user-images.githubusercontent.com/46436843/57174126-64ec9a00-6e74-11e9-84cd-b960072e093a.png&quot; /&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;layout 디렉토리를 만들고 그 아래에 base.html을 만듭니다.&lt;/li&gt;
+  &lt;li&gt;layout 경로를 찾을 수 있도록 setting에 templates 경로를 지정해줍니다.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;3-bootstrap-적용하기&quot;&gt;3. Bootstrap 적용하기&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;부트스트랩을 적용하면 누구나 손쉽게 웹사이트 디자인을 할 수 있습니다.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://getbootstrap.com/&quot;&gt;Bootstrap · The most popular HTML, CSS, and JS library in the world.&lt;/a&gt; 에 접속합니다.&lt;/li&gt;
+  &lt;li&gt;base.html 파일에 부트스트랩을 사용하기 위해 필요한 css 및 javascript 링크를 넣습니다.
+    &lt;ol&gt;
+      &lt;li&gt;css 파일은 head의 마지막에 위치&lt;/li&gt;
+      &lt;li&gt;javascript 파일은 body의 마지막에 위치&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#css &lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;link&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;stylesheet&quot;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;href&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css&quot;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;integrity&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T&quot;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;crossorigin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;anonymous&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; 
+
+&lt;span class=&quot;c&quot;&gt;#javascript&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;src&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;https://code.jquery.com/jquery-3.3.1.slim.min.js&quot;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;integrity&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo&quot;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;crossorigin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;anonymous&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;src&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js&quot;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;integrity&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1&quot;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;crossorigin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;anonymous&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;src&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js&quot;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;integrity&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM&quot;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;crossorigin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;anonymous&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;부트스트랩에서 마음에 드는 navbar를 가지고 옵니다.&lt;/p&gt;
+
+    &lt;ol&gt;
+      &lt;li&gt;&lt;a href=&quot;https://getbootstrap.com/docs/4.3/components/navbar/&quot;&gt;Navbar · Bootstrap&lt;/a&gt;&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img width=&quot;1240&quot; alt=&quot;950BEEB6-C57F-42DD-A23D-BAEB19DA1A8F&quot; src=&quot;https://user-images.githubusercontent.com/46436843/57174127-66b65d80-6e74-11e9-932a-32dd1b00b0c9.png&quot; /&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;마음에 드는 포맷을 찾으면 해당 포맷을 적용할 html에 넣어줍니다.
+    &lt;ol&gt;
+      &lt;li&gt;지금은  base.html에 넣어줍니다.(body tag내 위치)&lt;/li&gt;
+      &lt;li&gt;파일들을 적절하게 수정하고 클릭시 연결할 링크를 연결해줍니다.
+        &lt;ol&gt;
+          &lt;li&gt;&amp;lt;a href = “ “ &amp;gt; 내 위치&lt;/li&gt;
+          &lt;li&gt;url ‘bookmark:index’ 등과 같이 연결&lt;/li&gt;
+        &lt;/ol&gt;
+      &lt;/li&gt;
+      &lt;li&gt;block content를 만들어서 다른 템플릿에서 추가할 수 있도록 구성합니다.&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img width=&quot;1244&quot; alt=&quot;21BCAAC7-3E89-48CC-87D2-F7510382814D&quot; src=&quot;https://user-images.githubusercontent.com/46436843/57174128-68802100-6e74-11e9-9f2a-91dda319b098.png&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;상단 링크 구성을 Home과  북마크 생성하기로 구성&lt;/li&gt;
+  &lt;li&gt;아래쪽에 { block content } { endblock } 을 구성&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;다음-시간에는-상세-페이지들을-하나씩-구성해보겠습니다&quot;&gt;다음 시간에는 상세 페이지들을 하나씩 구성해보겠습니다.&lt;/h2&gt;
+</description>
+        <pubDate>Sat, 04 May 2019 13:06:23 +0900</pubDate>
+        <link>http://localhost:4000/django/2019/05/04/Django-07.-Bookmark-%E1%84%90%E1%85%A6%E1%86%B7%E1%84%91%E1%85%B3%E1%86%AF%E1%84%85%E1%85%B5%E1%86%BA-%E1%84%86%E1%85%A1%E1%86%AB%E1%84%83%E1%85%B3%E1%86%AF%E1%84%80%E1%85%B5-%E1%84%86%E1%85%B5%E1%86%BE-base.html%E1%84%8B%E1%85%A6-%E1%84%8B%E1%85%A7%E1%86%AB%E1%84%83%E1%85%A9%E1%86%BC%E1%84%89%E1%85%B5%E1%84%8F%E1%85%B5%E1%84%80%E1%85%B5.html</link>
+        <guid isPermaLink="true">http://localhost:4000/django/2019/05/04/Django-07.-Bookmark-%E1%84%90%E1%85%A6%E1%86%B7%E1%84%91%E1%85%B3%E1%86%AF%E1%84%85%E1%85%B5%E1%86%BA-%E1%84%86%E1%85%A1%E1%86%AB%E1%84%83%E1%85%B3%E1%86%AF%E1%84%80%E1%85%B5-%E1%84%86%E1%85%B5%E1%86%BE-base.html%E1%84%8B%E1%85%A6-%E1%84%8B%E1%85%A7%E1%86%AB%E1%84%83%E1%85%A9%E1%86%BC%E1%84%89%E1%85%B5%E1%84%8F%E1%85%B5%E1%84%80%E1%85%B5.html</guid>
+        
+        
+        <category>Django</category>
+        
+      </item>
+    
+      <item>
+        <title>Django 06. Bookmark views 및 url 구현하기</title>
+        <description>&lt;h3 id=&quot;20190504-장고를-활용하여-북마크의-view-및-url-구현하기&quot;&gt;2019.05.04 장고를 활용하여 북마크의 view 및 url 구현하기&lt;/h3&gt;
+
+&lt;h1 id=&quot;개인-bookmark웹-만들기&quot;&gt;개인 Bookmark웹 만들기&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;웹사이트를 통해 개인 북마크를 설정할 수 있다.
+    &lt;ul&gt;
+      &lt;li&gt;북마크에는 url 주소와 사이트명이 들어간다.&lt;/li&gt;
+      &lt;li&gt;해당 사이트에 대한 설명과 작성일자가 자동으로 생성된다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;메인 페이지에서 해당 북마크에 대한 리스트를 보여준다.
+    &lt;ul&gt;
+      &lt;li&gt;메인페이지에서 북마크 추가하기 버튼으로 추가할 수 있다.&lt;/li&gt;
+      &lt;li&gt;해당 북마크를 클릭하면 상세페이지로 이동한다.&lt;/li&gt;
+      &lt;li&gt;상세페이지에서 수정 및 삭제를 할 수 있다.&lt;/li&gt;
+      &lt;li&gt;base.html과 연동하여 쉽게 구현할 수 있도록 한다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;이번-시간에-할-것&quot;&gt;이번 시간에 할 것&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;Views.py 만들기
+    &lt;ul&gt;
+      &lt;li&gt;함수형 뷰 및 클래스형 뷰 공부하기&lt;/li&gt;
+      &lt;li&gt;클래스형 뷰를 통해 구현하기&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;2차 url 만들기&lt;/li&gt;
+  &lt;li&gt;1차 url에 연결시켜주기&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;1-북마크-만들기&quot;&gt;1. 북마크 만들기&lt;/h1&gt;
+
+&lt;h1 id=&quot;1-viewspy-만들기&quot;&gt;1. VIews.py 만들기&lt;/h1&gt;
+
+&lt;h2 id=&quot;views에-대해-먼저-알고-가기&quot;&gt;views에 대해 먼저 알고 가기&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;클래스형 뷰와 함수형 뷰는 서로 상호 기능 제약이 거의 없다.
+    &lt;ul&gt;
+      &lt;li&gt;클래스형 뷰로 만드는 것은 모두 함수형 뷰로 가능하고 서로 바꿔서도 가능하다.
+        &lt;ul&gt;
+          &lt;li&gt;하지만 구현 방법이 조금씩 달라질 수 있다.&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;가장 기본적인 것들을 많이 쓰면 클래스형 뷰가 좋고&lt;/li&gt;
+      &lt;li&gt;기본적으로 처리해야되는 것조차 커스터마이징이 필요하면 함수형 뷰가 좋다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;함수형 뷰
+    &lt;ul&gt;
+      &lt;li&gt;def 뷰이름(request[, 추가인수]) : 처리할 내용&lt;/li&gt;
+      &lt;li&gt;CRUDL에 특별한 처리를 추가해야 되는 경우&lt;/li&gt;
+      &lt;li&gt;함수형 뷰는 자유도가 클래스형 뷰에 비해 높다.&lt;/li&gt;
+      &lt;li&gt;처리할 코드를 직접 다 개발자가 작성&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;클래스형 뷰
+    &lt;ul&gt;
+      &lt;li&gt;class 뷰이름(제네릭뷰 상속): 처리할 내용&lt;/li&gt;
+      &lt;li&gt;CRUDL에 관련된 기능은 자주 사용하기 때문에 장고에서 제네릭 형태로 미리 만들어 놓음&lt;/li&gt;
+      &lt;li&gt;클래스형 뷰는 생산형이 함수형 뷰에 비해 높다.&lt;/li&gt;
+      &lt;li&gt;제네릭 기능 외우 추가적인 기능을 개발자가 작성&lt;/li&gt;
+      &lt;li&gt;쭉 적는 것이 아닌 메서드 방식 - 커스터마이징에 관련된 메서드를 찾아야 한다.
+        &lt;ul&gt;
+          &lt;li&gt;어떤 기능에 대한 커스터마이징을 하느냐에 따라서 찾아봐야한다.(쿼리셋)&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;뷰의 기본 : CRUDL!
+    &lt;ul&gt;
+      &lt;li&gt;Create : 생성과 관련된 로직 구성&lt;/li&gt;
+      &lt;li&gt;Read : 한 개의 파일에 대한 상세 페이지 구성 (detail로 활용)&lt;/li&gt;
+      &lt;li&gt;Update : 수정하기와 관련된 로직 구성&lt;/li&gt;
+      &lt;li&gt;Delete : 삭제하기와 관련된 로직 구성&lt;/li&gt;
+      &lt;li&gt;List : 메인 화면과 관련된 로직 구성&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;뷰를 만든 다음에는 url을 연결해줘야한다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;viewspy-구성하기&quot;&gt;views.py 구성하기&lt;/h2&gt;
+&lt;ol&gt;
+  &lt;li&gt;클래스형 뷰를 통한 구현 실행&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img width=&quot;859&quot; alt=&quot;스크린샷 2019-05-04 오후 2 28 17&quot; src=&quot;https://user-images.githubusercontent.com/46436843/57174385-e6dec200-6e78-11e9-9044-3195347c9c3f.png&quot; /&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Listview, Createview, deleteview,detailview,updateview  임포트 해오기&lt;/li&gt;
+  &lt;li&gt;BookmarkList:
+    &lt;ol&gt;
+      &lt;li&gt;가장 메인에서 보여줄 로직&lt;/li&gt;
+      &lt;li&gt;북마크 모델을 불러와서 데이터를 활용할 것이라고 기제&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+  &lt;li&gt;BookmarkCreate:
+    &lt;ol&gt;
+      &lt;li&gt;북마크 모델을 활용하는데&lt;/li&gt;
+      &lt;li&gt;생성할 때 채워야 할 필드 확인&lt;/li&gt;
+      &lt;li&gt;이후 연결될 템플릿 이름은 bookmark_create 일 것이다.&lt;/li&gt;
+      &lt;li&gt;성공하면 메인 페이지로 돌아가도록 연결(이후 url로 연결)&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+  &lt;li&gt;BookmarkUpdate:
+    &lt;ol&gt;
+      &lt;li&gt;Create와 마찬가지로 field가 꼭 필요하다&lt;/li&gt;
+      &lt;li&gt;대부분 Create와 동일&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+  &lt;li&gt;BookmarkDelete와 BookmarkDetail
+    &lt;ol&gt;
+      &lt;li&gt;삭제와 상세페이지는 특별한 로직이 필요하지 않음&lt;/li&gt;
+      &lt;li&gt;템플릿과 연결을 잘 시킬 수 있도록 신경&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h1 id=&quot;url-연결하기&quot;&gt;URL 연결하기&lt;/h1&gt;
+
+&lt;h2 id=&quot;2차-url-연결하기&quot;&gt;2차 URL 연결하기&lt;/h2&gt;
+&lt;ol&gt;
+  &lt;li&gt;bookmark의  urls.py 생성&lt;/li&gt;
+  &lt;li&gt;URL 작성하기&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img width=&quot;1424&quot; alt=&quot;F56E6C48-629C-4DD0-86D7-E90FBBFAAB79&quot; src=&quot;https://user-images.githubusercontent.com/46436843/57173384-04585f80-6e6a-11e9-80d5-c1d7e18188e8.png&quot; /&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;app_name 설정을 통해 namespace(이름공간)확보
+    &lt;ol&gt;
+      &lt;li&gt;다른 앱들과 url pattern 이름이 겹치는 것을 방지하기 위해 사용한다.&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+  &lt;li&gt;path(url pattern, view, url pattern name)
+    &lt;ul&gt;
+      &lt;li&gt;함수형 뷰는 이름만 적으면 되고 클래스형 뷰는 이름.as_view()&lt;/li&gt;
+      &lt;li&gt;name은 나중에 불러쓰기 위해 지정한다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;url pattern
+    &lt;ol&gt;
+      &lt;li&gt;&amp;lt;int:pk&amp;gt;
+        &lt;ol&gt;
+          &lt;li&gt;해당 작성에 대한 번호로 이동해야지 상세페이지 및 그 글에 대한 삭제, 수정을 할 수 있다.&lt;/li&gt;
+        &lt;/ol&gt;
+      &lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+  &lt;li&gt;views 경로 지정
+    &lt;ol&gt;
+      &lt;li&gt;해당 url이 들어오면 views의 해당 view의 로직을 따라서 처리한다.&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+  &lt;li&gt;name
+    &lt;ol&gt;
+      &lt;li&gt;네임 설정을 통해 이후 클릭하면 해당 url로 이동하도록 설정한다.&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;1차-url-연결하기&quot;&gt;1차 URL 연결하기&lt;/h2&gt;
+&lt;ol&gt;
+  &lt;li&gt;config의 url.py에 작성&lt;/li&gt;
+  &lt;li&gt;2차 URL을 설정한 이후에 가장 기본이 되는 URL과 연결시켜준다.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img width=&quot;947&quot; alt=&quot;BCE395FA-A008-4EBA-BF47-EEFF09F362F6&quot; src=&quot;https://user-images.githubusercontent.com/46436843/57173385-07535000-6e6a-11e9-9eba-b157978ae0c4.png&quot; /&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;기본적으로 admin 주소는 설정되어 있다.&lt;/li&gt;
+  &lt;li&gt;include를 통해서 해당 주소로 연결시켜준다.
+    &lt;ol&gt;
+      &lt;li&gt;가장 기본 주소가 들어오면 bookmark의 url로 연결시켜줘라.&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;이까지-하면-views-로직을-만들고-url까지-연결시켜주었다-다음-시간에는-직접-화면에-구성해줄-template를-구성한다&quot;&gt;이까지 하면 views 로직을 만들고 URL까지 연결시켜주었다. 다음 시간에는 직접 화면에 구성해줄 Template를 구성한다.&lt;/h2&gt;
+</description>
+        <pubDate>Sat, 04 May 2019 12:06:23 +0900</pubDate>
+        <link>http://localhost:4000/django/2019/05/04/Django-06.-Bookmark-views-%E1%84%86%E1%85%B5%E1%86%BE-url-%E1%84%80%E1%85%AE%E1%84%92%E1%85%A7%E1%86%AB%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.html</link>
+        <guid isPermaLink="true">http://localhost:4000/django/2019/05/04/Django-06.-Bookmark-views-%E1%84%86%E1%85%B5%E1%86%BE-url-%E1%84%80%E1%85%AE%E1%84%92%E1%85%A7%E1%86%AB%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.html</guid>
+        
+        
+        <category>Django</category>
+        
+      </item>
+    
+      <item>
+        <title>Django 05. Bookmark프로젝트 시작하기(models)</title>
+        <description>&lt;h3 id=&quot;20190504-장고-bookmark-만들기-프로젝트&quot;&gt;2019.05.04 장고 Bookmark 만들기 프로젝트&lt;/h3&gt;
+
+&lt;h1 id=&quot;개인-bookmark웹-만들기&quot;&gt;개인 Bookmark웹 만들기&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;웹사이트를 통해 개인 북마크를 설정할 수 있다.
+    &lt;ul&gt;
+      &lt;li&gt;북마크에는 url 주소와 사이트명이 들어간다.&lt;/li&gt;
+      &lt;li&gt;해당 사이트에 대한 설명과 작성일자가 자동으로 생성된다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;메인 페이지에서 해당 북마크에 대한 리스트를 보여준다.
+    &lt;ul&gt;
+      &lt;li&gt;메인페이지에서 북마크 추가하기 버튼으로 추가할 수 있다.&lt;/li&gt;
+      &lt;li&gt;해당 북마크를 클릭하면 상세페이지로 이동한다.&lt;/li&gt;
+      &lt;li&gt;상세페이지에서 수정 및 삭제를 할 수 있다.&lt;/li&gt;
+      &lt;li&gt;base.html과 연동하여 쉽게 구현할 수 있도록 한다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;이번-시간에-할-것&quot;&gt;이번 시간에 할 것&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;프로젝트 시작하기&lt;/li&gt;
+  &lt;li&gt;앱 만들기&lt;/li&gt;
+  &lt;li&gt;models를 통해 DB 구축하기&lt;/li&gt;
+  &lt;li&gt;만들어진 DB를 admin 사이트에 접속하여 확인하기&lt;/li&gt;
+  &lt;li&gt;DB 등록하기&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;1-북마크-만들기&quot;&gt;1. 북마크 만들기&lt;/h1&gt;
+
+&lt;h2 id=&quot;프로젝트-시작-준비하기&quot;&gt;프로젝트 시작 준비하기&lt;/h2&gt;
+
+&lt;h3 id=&quot;가상-환경-만들기&quot;&gt;가상 환경 만들기&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;pip3 install virtualenv&lt;/li&gt;
+  &lt;li&gt;virtualenv -python = python3.7 venv&lt;/li&gt;
+  &lt;li&gt;venv라는 가상환경 생성&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;가상-환경-실행하기&quot;&gt;가상 환경 실행하기&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;source venv/bin/activate&lt;/li&gt;
+  &lt;li&gt;해당 터미널에 venv ) 표시 확인&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;장고-설치하기&quot;&gt;장고 설치하기&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;pip install django==2.2&lt;/li&gt;
+  &lt;li&gt;원하는 버전의 장고 설치&lt;/li&gt;
+  &lt;li&gt;가상환경이므로 더 이상 pip3를 해줄 필요 없음&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;프로젝트-생성하기&quot;&gt;프로젝트 생성하기&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;django-admin startproject config .&lt;/li&gt;
+  &lt;li&gt;config는 프로젝트명 뒤에 .은 해당 디렉토리에 생성&lt;/li&gt;
+  &lt;li&gt;config내에 setting 및 url.py 등 관련 내용 생성&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;데이터베이스-migrate해주기&quot;&gt;데이터베이스 migrate해주기&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;생성된 프로젝트에 대한 데이터베이스 초기화&lt;/li&gt;
+  &lt;li&gt;python manage.py migrate&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;북마크-앱-만들기&quot;&gt;북마크 앱 만들기&lt;/h2&gt;
+
+&lt;h3 id=&quot;앱-설치하기&quot;&gt;앱 설치하기&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;python manage.py startapp bookmark&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img width=&quot;1112&quot; alt=&quot;EF0BAE6D-9615-436F-A81A-00425884F267&quot; src=&quot;https://user-images.githubusercontent.com/46436843/57172928-f9013600-6e61-11e9-81c4-70b60ececfd5.png&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;프로젝트 및 앱 설치 이후 상태 확인&lt;/li&gt;
+  &lt;li&gt;settings.py에 installed app에 bookmark 추가&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;model-설계하기&quot;&gt;model 설계하기&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;해당 bookmark 폴더의 models.py 이동
+    &lt;ol&gt;
+      &lt;li&gt;site_name/url/contents/created 구성&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+  &lt;li&gt;str 구성을 통해 admin 화면에서 보이는 모습 구현
+    &lt;ol&gt;
+      &lt;li&gt;site_name 및 url 보이도록 구현&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+  &lt;li&gt;class Meta : ordering을 통해 정렬 순서 구현
+    &lt;ol&gt;
+      &lt;li&gt;생성일자 역순으로 정렬 순서 구현&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img width=&quot;1100&quot; alt=&quot;052805CF-1848-4786-9582-B5D6ADE34ACD&quot; src=&quot;https://user-images.githubusercontent.com/46436843/57172933-17673180-6e62-11e9-8a41-6418cd3a60ab.png&quot; /&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;모델 설계 이후에 데이터베이스에 migration 해주기
+    &lt;ol&gt;
+      &lt;li&gt;python manage.py makemigrations bookmark : 변경 사항 추적 및 기록하기&lt;/li&gt;
+      &lt;li&gt;python manage.py migrate bookmark 0001 : 변경 사항 DB에 적용하기
+        &lt;ol&gt;
+          &lt;li&gt;migrate뒤 bookmark 0001 은 굳이 안해줘도 되나 실무에서 여러 사람이 함께 프로젝트를 진행해야되는 상황이 외면 꼭 해줘야 한다.&lt;/li&gt;
+        &lt;/ol&gt;
+      &lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;model에-대한-추가적인-공부&quot;&gt;model에 대한 추가적인 공부&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;모델의 형태 - class
+    &lt;ul&gt;
+      &lt;li&gt;class Bookmark(models.Model)
+        &lt;ul&gt;
+          &lt;li&gt;models.Model을 상속 받는 이유&lt;/li&gt;
+          &lt;li&gt;상속 : 어떤 클래스가 부모 클래스를 상속 받는다.&lt;/li&gt;
+          &lt;li&gt;부모클래스가 가지고 있는 메서드 및 속성 값을 사용하기 위해서&lt;/li&gt;
+          &lt;li&gt;models.Model이 가지고 있는 메서드나 속성값을 사용하기 위해서 사용&lt;/li&gt;
+          &lt;li&gt;models.Model : ORM 관련 기능들
+            &lt;ul&gt;
+              &lt;li&gt;DB를 추상화해서 코드로 조작할 수 있게 하는 기능&lt;/li&gt;
+              &lt;li&gt;데이터를 추가, 수정, 검색, 삭제&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;사용자에게 안 받지만 필요한 것
+    &lt;ul&gt;
+      &lt;li&gt;작성자 : 로그인한 유저정보를 찾아서 추가
+        &lt;ul&gt;
+          &lt;li&gt;장고에서는 기본적으로 id값을 생성하여 저장시켜준다.&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;작성일 : 서버 시간을 읽어서 timestamp값을 만들어 추가
+        &lt;ul&gt;
+          &lt;li&gt;자동 옵션 auto_now, auto_now_add를 하면 자동 서버시간을 저장해준다.&lt;/li&gt;
+          &lt;li&gt;단 setting에서 TIME_ZONE = “Asia/Seoul” 로 해준다.&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;admin에서-모델-확인하기&quot;&gt;admin에서 모델 확인하기&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;admin.py로 이동&lt;/li&gt;
+  &lt;li&gt;from .models import Bookmark&lt;/li&gt;
+  &lt;li&gt;admin.site.register(Bookmark)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;￼
+&lt;img width=&quot;1053&quot; alt=&quot;393886A4-1AE2-4F51-A535-1D2EC41E8186&quot; src=&quot;https://user-images.githubusercontent.com/46436843/57172932-1504d780-6e62-11e9-87f8-0fce0433ee22.png&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;model-확인해보기&quot;&gt;model 확인해보기&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;superuser 생성 : admin 사이트 로그인을 위해
+    &lt;ol&gt;
+      &lt;li&gt;python manage.py createsuperuser&lt;/li&gt;
+      &lt;li&gt;아이디 및 비밀번호 등록&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;파이썬-서버-실행-시켜보기&quot;&gt;파이썬 서버 실행 시켜보기&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;서버 실행하기
+    &lt;ol&gt;
+      &lt;li&gt;python manage.py runserver [포트번호]&lt;/li&gt;
+      &lt;li&gt;실행 이후 나오는 url로 접속&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img width=&quot;1239&quot; alt=&quot;F40C76E0-3161-4FFA-9DEE-00E0152EE7D1&quot; src=&quot;https://user-images.githubusercontent.com/46436843/57172934-1930f500-6e62-11e9-8a0b-ec6141c4ca15.png&quot; /&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;url 뒤에 admin을 붙여서 해당 admin으로 접근 및 로그인&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;해당 bookmark를 통해 몇가지를 직접 add 해보기&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img width=&quot;1874&quot; alt=&quot;8817740F-675B-4301-8ADA-858DBCC72666&quot; src=&quot;https://user-images.githubusercontent.com/46436843/57172935-1a622200-6e62-11e9-982e-c451009406b8.png&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;다음에서-직접-viewspy를-작성하여-url에-연결하여-봅니다&quot;&gt;다음에서 직접 views.py를 작성하여 url에 연결하여 봅니다.&lt;/h2&gt;
+
+</description>
+        <pubDate>Sat, 04 May 2019 11:06:23 +0900</pubDate>
+        <link>http://localhost:4000/django/2019/05/04/Django-05.-Bookmark%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%8C%E1%85%A6%E1%86%A8%E1%84%90%E1%85%B3-%E1%84%89%E1%85%B5%E1%84%8C%E1%85%A1%E1%86%A8%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5(models).html</link>
+        <guid isPermaLink="true">http://localhost:4000/django/2019/05/04/Django-05.-Bookmark%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%8C%E1%85%A6%E1%86%A8%E1%84%90%E1%85%B3-%E1%84%89%E1%85%B5%E1%84%8C%E1%85%A1%E1%86%A8%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5(models).html</guid>
+        
+        
+        <category>Django</category>
+        
+      </item>
+    
+      <item>
+        <title>2019_05_02_TIL</title>
+        <description>&lt;h3 id=&quot;20190502-til&quot;&gt;2019.05.02 TIL&lt;/h3&gt;
 
 &lt;h1 id=&quot;to-do&quot;&gt;To do&lt;/h1&gt;
 
 &lt;ul&gt;
   &lt;li&gt;DEV
     &lt;ul&gt;
-      &lt;li&gt;&lt;del&gt;장고걸스 튜터리얼 기초편 clear 하기!!&lt;/del&gt;&lt;/li&gt;
-      &lt;li&gt;알고리즘 2개 정리하기&lt;/li&gt;
-      &lt;li&gt;장고걸스 튜터리얼 TIL&lt;/li&gt;
+      &lt;li&gt;유튜브 1회 올리기 - django 관련
+        &lt;ul&gt;
+          &lt;li&gt;토요일날 북마크 만들기 영상 한번에 다 촬영해서 올리기!&lt;/li&gt;
+          &lt;li&gt;일요일 혹은 월요일날 인스타그램 만들기 영상 한번에 다 촬영해서 올리기!&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;배운 것 TIL하기
+        &lt;ul&gt;
+          &lt;li&gt;BOOKMARK TIL 진행하기&lt;/li&gt;
+          &lt;li&gt;&lt;del&gt;오늘 배운 것 공부 진행&lt;/del&gt;&lt;/li&gt;
+          &lt;li&gt;인스타그램 끝나면 인스타그램 다시 해보기
+            &lt;ul&gt;
+              &lt;li&gt;로직을 구성하기 위해 노력하자(수업의 흐름을 잃어도 로직을 적자. 완벽하지 않아도 된다.)&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;&lt;del&gt;서버 배포해보기&lt;/del&gt;
+        &lt;ul&gt;
+          &lt;li&gt;서버를 배포해보지 못했다…&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;알고리즘 1문제 풀기
+        &lt;ul&gt;
+          &lt;li&gt;해결을 하지 못했다.&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;프로젝트
+    &lt;ul&gt;
+      &lt;li&gt;폼 2개 동시에 띄우게 해보기&lt;/li&gt;
+      &lt;li&gt;회원가입 구현하기&lt;/li&gt;
+      &lt;li&gt;form.as_p 해결하기&lt;/li&gt;
+      &lt;li&gt;&lt;del&gt;댓글 기능 구현&lt;/del&gt;&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;About me
     &lt;ul&gt;
-      &lt;li&gt;&lt;del&gt;영어 암기&lt;/del&gt;&lt;/li&gt;
       &lt;li&gt;&lt;del&gt;운동하기&lt;/del&gt;&lt;/li&gt;
-      &lt;li&gt;독서하기&lt;/li&gt;
       &lt;li&gt;&lt;del&gt;데일리 리포트 및 피드백 진행&lt;/del&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;del&gt;독서&lt;/del&gt;&lt;/li&gt;
+      &lt;li&gt;영어 단어 암기&lt;/li&gt;
+      &lt;li&gt;&lt;del&gt;영어 1개 암기&lt;/del&gt;&lt;/li&gt;
+      &lt;li&gt;~~블로그 글쓰기 ~~&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
 &lt;/ul&gt;
@@ -484,95 +741,84 @@ for 문과 합치면 이 코드의 time complexity는 O(N2)이에요.&lt;/p&gt;
 &lt;h1 id=&quot;til&quot;&gt;TIL&lt;/h1&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;오늘은 장고의 전체적인 흐름에 대해서 배웠다. 내가 장고를 보며 느낀 것은 장고는 웹 서버를 구성하는 프레임워크고 웹 서버라는 말은 웹 클라이언트 (크롬 혹은 익스플로러) 가 요청하는 것을 (결국 요청은 사람이 하지만) 장고가 받아들이고 그것을 데이터베이스 혹은 다른 곳에서 호출해주는 역할을 맡고 있는 것 그리고 그것을 다시 클라이언트로 전달해주는 것을 맡고 있다는 것을 느꼈다. 또한 장고 내부에 html 파일을 가지고 있으면서 클라이언트에게 보이는 페이지 자체를 보여주는 것으로 보아서 장고 내부에서 웹페이지를 만들고 서버와 바로 연동시키는 것으로 보이기도 하였다. 따라서 장고를 통해 웹 프로그래밍을 한다고 하는 것은 장고 내부적으로 서버를 돌림과 동시에 html , css 등을 통해서 바로 웹 표면적인 페이지를 만들 수 있다는 것. 그리고 그 부분에 있어서 프론트엔드 들과 함께 하면 더욱 더 완벽한 웹 페이지를 만들 수 있다는 것, 프론트 단에서 짠 html 과 css를 받아와서 장고 내부적으로 다시 구현하면 훨씬 더 좋은 웹 페이지를 만들 수 있다는 생각이 들었다. 전체적인 그림은 이러한데 실제로도 그렇게 되는지는 잘 모르겠다. 처음이다 보니 대부분 따라치는 것이 많았고, 아마도 프레임워크다 보니 어떻게 사용하는게 좋은지에 대해서 익히는 시간이 굉장히 중요할 것 같다.&lt;/li&gt;
-  &lt;li&gt;오늘은 프레임워크에 대해서도 배웠는데 프레임워크는 우리가 웹 페이지를 개발한다고 할 때, 모든 사람들이 다 만들게 되는 로그인 혹은 회원가입, 글 등록과 같은 것들을 미리 구현해놓음으로서 우리에게 개발 편의를 극대화 시켜주는 툴 같다. 이렇게 나는 프레임워크를 이해했다.&lt;/li&gt;
+  &lt;li&gt;오늘이 최악의 하루라도 기억하고 반성해야 한다.&lt;/li&gt;
+  &lt;li&gt;오늘 수업을 잘 못 따라갔다. ㅠㅠ 퓨 그런 감정은 굉장히 답답한 감정이었다.&lt;/li&gt;
+  &lt;li&gt;주말에 복습을 통해서 좀 더 확실하게 할 수 있도록 해야되겠다.&lt;/li&gt;
+  &lt;li&gt;요즘 TIL에 대해서 못 올리고 있는데… BOOKMARK부터 시작해서 인스타그램까지 완벽하게 할 수 있도록 만들어놓자. 이번 금요일 저녁 토일월 까지 해서 2가지 및 서버에 대해서 TIL 확실히 해 놓을 수 있도록 하자.&lt;/li&gt;
+  &lt;li&gt;오늘 배운 기능 중에 굉장히 신기했던 것은 권한에 관한 내용이었는데 굉장히 간단하게 html 단에서 특정 상황에 대해 분기시켜서 보이지 않도록 만들어주는 것이었고, 또 views를 통해 권한에 대해서 다룰 수  있었다. 또한 슬슬 자바스크립트가 나오기 시작하는데 이 부분에 대해서도 공부를 좀 더 해야되겠다.&lt;/li&gt;
+  &lt;li&gt;책을 구입하고 공부를 하자.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h1 id=&quot;today-was&quot;&gt;Today was&lt;/h1&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;05:30 ~ 7:30 기상 및 운동 (중)&lt;/li&gt;
-  &lt;li&gt;07:30 ~ 8:30 영어공부 및 아침식사 (중)&lt;/li&gt;
-  &lt;li&gt;08:30 ~ 11:00 장고걸스 튜터리얼 (하)&lt;/li&gt;
-  &lt;li&gt;11:00 ~ 12:00 쇼핑 (중)&lt;/li&gt;
-  &lt;li&gt;12:00 ~ 13:00 장고걸스 튜터리얼 (중)&lt;/li&gt;
-  &lt;li&gt;13:00 ~ 13:30 식사&lt;/li&gt;
-  &lt;li&gt;13:30 ~ 15:00 장고걸스 튜터리얼 (중)&lt;/li&gt;
-  &lt;li&gt;15:00 ~ 16:00 운동 &amp;amp; 블로그 배경음악 삽입 해보기&lt;/li&gt;
-  &lt;li&gt;16:00 ~ 18:00 장고걸스 튜터리얼 (중)&lt;/li&gt;
-  &lt;li&gt;18:00 ~ 18:30 식사&lt;/li&gt;
+  &lt;li&gt;05:40 기상&lt;/li&gt;
+  &lt;li&gt;06:00 ~ 07:30 운동&lt;/li&gt;
+  &lt;li&gt;08:00 ~ 09:20 django 공부&lt;/li&gt;
+  &lt;li&gt;09:20 ~ 09:40 영어 1개 암기&lt;/li&gt;
+  &lt;li&gt;09:40 ~ 10:00 학교 이동&lt;/li&gt;
+  &lt;li&gt;10:00 ~ 12:00 수업 1&lt;/li&gt;
+  &lt;li&gt;12:40 ~ 13:00 수업 1 복습&lt;/li&gt;
+  &lt;li&gt;13:00 ~ 15:00 수업 2&lt;/li&gt;
+  &lt;li&gt;15:30 ~ 16:00 알고리즘 문제&lt;/li&gt;
+  &lt;li&gt;16:00 ~ 17:00 수업 1, 2 복습&lt;/li&gt;
+  &lt;li&gt;17:00 ~ 18:00 치과 및 저녁식사&lt;/li&gt;
+  &lt;li&gt;19:00 ~ 21:30 수업 복습 및 프로젝트 진행&lt;/li&gt;
+  &lt;li&gt;21:30 ~ 22:20 인스타그램 로직 구성&lt;/li&gt;
   &lt;li&gt;
-    &lt;p&gt;18:30 ~ 20:00 장고걸스 튜터리얼 마무리!!&lt;/p&gt;
+    &lt;p&gt;22:30 ~ 23:30 씻기 및 잠자기 전에 독서하기&lt;/p&gt;
   &lt;/li&gt;
-  &lt;li&gt;오늘은 정말 힘든 하루였다. ㅠㅠ 무언가 혼자서 계속 강의를 듣고 실습하고 이것을 반복하니깐 굉장히 지치는 느낌이다. 학원이 필요한 이유도, 혼자서 공부가 힘들다는 이유도 느껴진다. 어느 적정선이 필요할 것 같다. 따라서 음.. 내일은 학원을 가볼까 하는 생각도 있다. 요즘 학원을 안가고 혼자서 계속 하니깐 굉장히 또 텐션이 떨어지는 느낌이다. 그래도 목표하였던 장고걸스 튜터리얼을 다 수강하게 되어서 기분이 좋다!!. 오늘은 조금 일찍 집에가서 내일을 또 준비하자!&lt;/li&gt;
+  &lt;li&gt;오늘 하루는 완벽한 하루였나?&lt;/li&gt;
+  &lt;li&gt;나는 오늘 하루도 후회가 없냐?&lt;/li&gt;
+  &lt;li&gt;나는 내일 일어나는 것이 설레는가?&lt;/li&gt;
+  &lt;li&gt;오늘 하루를 어떤 기대감으로 시작하는가? 오늘 하루를 어떤 생각을 하며 살아가는가? 오늘 하루를 마무리하며 어떤 꿈을 꾸는가? 가 나를 결정한다.&lt;/li&gt;
 &lt;/ul&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/46436843/56357291-55cfe000-6216-11e9-855f-7c8de30975c1.jpg&quot; alt=&quot;수료증&quot; /&gt;&lt;/p&gt;
 
 &lt;h1 id=&quot;tomorrow-do&quot;&gt;Tomorrow do&lt;/h1&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;장고걸스 튜터리얼 복습하기 (혼자서 해보기)&lt;/li&gt;
-  &lt;li&gt;장고걸스 튜터리얼 TIL하기&lt;/li&gt;
-  &lt;li&gt;점심 식사 약속&lt;/li&gt;
-  &lt;li&gt;알고리즘 문제 TIL하기&lt;/li&gt;
-  &lt;li&gt;포항에 내려가서 부모님과 시간보내기&lt;/li&gt;
-&lt;/ul&gt;
-
-</description>
-        <pubDate>Thu, 18 Apr 2019 03:06:23 +0900</pubDate>
-        <link>http://localhost:4000/til/2019/04/18/TIL.html</link>
-        <guid isPermaLink="true">http://localhost:4000/til/2019/04/18/TIL.html</guid>
-        
-        
-        <category>TIL</category>
-        
-      </item>
-    
-      <item>
-        <title>2019_04_17_TIL</title>
-        <description>&lt;h3 id=&quot;20190417-til&quot;&gt;2019.04.17 TIL&lt;/h3&gt;
-
-&lt;h1 id=&quot;to-do&quot;&gt;To do&lt;/h1&gt;
-
-&lt;ul&gt;
   &lt;li&gt;DEV
     &lt;ul&gt;
-      &lt;li&gt;Python and Django Full Stack Web Developer Bootcamp 수강하기(&lt;del&gt;javascript&lt;/del&gt;, jquery)&lt;/li&gt;
-      &lt;li&gt;&lt;del&gt;선배님과의 만남 진행(강남역으로 이동)&lt;/del&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;del&gt;1일 1 알고리즘&lt;/del&gt;&lt;/li&gt;
+      &lt;li&gt;인스타그램 선생님이 요청한 사항 할 수 있는데 까지 해보기&lt;/li&gt;
+      &lt;li&gt;배운 것 TIL하기 (금,토,일,월)
+        &lt;ul&gt;
+          &lt;li&gt;BOOKMARK 다시 만들어보기&lt;/li&gt;
+          &lt;li&gt;BOOKMARK TIL 하기&lt;/li&gt;
+          &lt;li&gt;인스타그램 다시 만들기&lt;/li&gt;
+          &lt;li&gt;인스타그램 TIL하기&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;서버 배포해보기
+        &lt;ul&gt;
+          &lt;li&gt;북마크 및 디스타그램 상용 서비스로 만들기&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;알고리즘 1문제 풀기&lt;/li&gt;
+      &lt;li&gt;자바스크립트 공부하기&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;프로젝트
+    &lt;ul&gt;
+      &lt;li&gt;폼 2개 동시에 띄우게 해보기&lt;/li&gt;
+      &lt;li&gt;회원가입 구현하기&lt;/li&gt;
+      &lt;li&gt;form.as_p 해결하기&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;About me
     &lt;ul&gt;
-      &lt;li&gt;&lt;del&gt;영어 암기&lt;/del&gt;&lt;/li&gt;
       &lt;li&gt;운동하기&lt;/li&gt;
-      &lt;li&gt;독서하기&lt;/li&gt;
-      &lt;li&gt;&lt;del&gt;데일리 리포트 및 피드백 진행&lt;/del&gt;&lt;/li&gt;
-      &lt;li&gt;TIL&lt;/li&gt;
+      &lt;li&gt;데일리 리포트 및 피드백 진행&lt;/li&gt;
+      &lt;li&gt;독서&lt;/li&gt;
+      &lt;li&gt;영어 단어 암기&lt;/li&gt;
+      &lt;li&gt;영어 1개 암기&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&quot;today-was&quot;&gt;Today was&lt;/h1&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;후… 오늘은 진짜 너무 정신 없는 하루였다. 오전에 공부가 좀 잘된다 싶으니깐 특강을 생각 못하고 있었고 특강 다녀와서 점심 먹고 조금 더 있으니깐 선배님과의 만남 프로그램에 참여를 했다. 그래서 다시 독서실에 오니깐 9시 … 주륵 ㅠㅠ 오늘은 무언가 많은 것을 하지 못했던 시간인 것 같다.&lt;/li&gt;
-  &lt;li&gt;python and Django full stack 프로그램은 정말 좋다…. 근데 내가 못 따라가는게 아쉽다. 영어 공부도 더 해야 되겠다는 생각이 들고… 포기라기 보다는 조금은 미루어두어야 겠다. 일단 장고걸스 튜터리얼을 따라가면서 한개를 만들어보고 수업에 참여할 수 있도록 !! 내일은 장고걸스 튜터리얼을 열심히 따라가 보자. 내일 최대한 많은 시간 집중해서 할 수 있도록 노력하자. 가즈아!!&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&quot;tomorrow-do&quot;&gt;Tomorrow do&lt;/h1&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;장고걸스 튜터리얼 기초편 clear 하기!!&lt;/li&gt;
-  &lt;li&gt;About me 진행!&lt;/li&gt;
-  &lt;li&gt;알고리즘 2개 정리하기&lt;/li&gt;
-  &lt;li&gt;장고걸스 튜터리얼 TIL&lt;/li&gt;
-&lt;/ul&gt;
 </description>
-        <pubDate>Wed, 17 Apr 2019 03:06:23 +0900</pubDate>
-        <link>http://localhost:4000/til/2019/04/17/TIL.html</link>
-        <guid isPermaLink="true">http://localhost:4000/til/2019/04/17/TIL.html</guid>
+        <pubDate>Thu, 02 May 2019 23:06:23 +0900</pubDate>
+        <link>http://localhost:4000/til/2019/05/02/TIL.html</link>
+        <guid isPermaLink="true">http://localhost:4000/til/2019/05/02/TIL.html</guid>
         
         
         <category>TIL</category>
@@ -580,46 +826,122 @@ for 문과 합치면 이 코드의 time complexity는 O(N2)이에요.&lt;/p&gt;
       </item>
     
       <item>
-        <title>2019_04_16_TIL</title>
-        <description>&lt;h3 id=&quot;20190416-til&quot;&gt;2019.04.16 TIL&lt;/h3&gt;
+        <title>2019_05_01_TIL</title>
+        <description>&lt;h3 id=&quot;20190501-til&quot;&gt;2019.05.01 TIL&lt;/h3&gt;
 
 &lt;h1 id=&quot;to-do&quot;&gt;To do&lt;/h1&gt;
 
 &lt;ul&gt;
   &lt;li&gt;DEV
     &lt;ul&gt;
-      &lt;li&gt;Python and Django Full Stack Web Developer Bootcamp 수강하기(&lt;del&gt;css, capstone project, Bootstrap,&lt;/del&gt; javascript)&lt;/li&gt;
-      &lt;li&gt;&lt;del&gt;css &amp;amp; capston project &amp;amp; Bootstrap 진행&lt;/del&gt;&lt;/li&gt;
+      &lt;li&gt;유튜브 1회 올리기 - django 관련&lt;/li&gt;
+      &lt;li&gt;&lt;del&gt;배운 것 TIL하기&lt;/del&gt;
+        &lt;ul&gt;
+          &lt;li&gt;요즘 계속 배우는 것들을 TIL 못하고 있다. 장고가 워낙 방대하다 보니 어디서 부터 해야할지 감이 안 오는 것 같다…&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;서버 배포해보기&lt;/li&gt;
+      &lt;li&gt;알고리즘 1문제 풀기
+        &lt;ul&gt;
+          &lt;li&gt;알고리즘 스터디 관련 글 올려보기&lt;/li&gt;
+          &lt;li&gt;문제는 시도 하였으나 실패 ㅠㅠ&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;프로젝트
+    &lt;ul&gt;
+      &lt;li&gt;&lt;del&gt;url 관련 해결하기&lt;/del&gt;&lt;/li&gt;
+      &lt;li&gt;form.as_p 해결하기&lt;/li&gt;
+      &lt;li&gt;&lt;del&gt;진도 나가보기&lt;/del&gt;&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;About me
     &lt;ul&gt;
-      &lt;li&gt;영어 암기&lt;/li&gt;
       &lt;li&gt;&lt;del&gt;운동하기&lt;/del&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;del&gt;독서하기&lt;/del&gt;&lt;/li&gt;
       &lt;li&gt;&lt;del&gt;데일리 리포트 및 피드백 진행&lt;/del&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;del&gt;TIL&lt;/del&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;del&gt;독서&lt;/del&gt;&lt;/li&gt;
+      &lt;li&gt;영어 단어 암기&lt;/li&gt;
+      &lt;li&gt;&lt;del&gt;영어 1개 암기&lt;/del&gt;&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;til&quot;&gt;TIL&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;요즘은 계속 수업 배운 것에 대해 TIL을 못하고 있다. 일단 배운 것부터 한개씩 적용해봐야겠다. 내일은 북마크 만들기에 대해 TIL을 진행한다.&lt;/li&gt;
+  &lt;li&gt;오늘은 인스타그램 코딩을 시작하였다. 굉장히 많은 것들을 하였는데 기본적으로 이미지를 사이트에 등록하는 방법. 그냥 폼 형식으로만 하면 다 text로 인식하여서 업로드가 안되는 문제를 해결했던 것, 그리고 파이썬에서 accounts의 로그인과 로그아웃 기능을 구현해주고 있어서 views만 연결해주면 되었던 것도 굉장히 신기하였다. (대신 setting에 로그인 이후에 갈 루트를 정해주어야 한다.)&lt;/li&gt;
+  &lt;li&gt;BOOKMARK 프로젝트부터 하나씩 적어보고 나의 포트폴리오에 넣자.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h1 id=&quot;today-was&quot;&gt;Today was&lt;/h1&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;와… 생각보다 영어로 공부하니깐 시간이 2배는 더 걸린다. 그리고 무엇보다 더 잘 알아듣지를 못하고… 음 이거는 생각보다 심각한 문제다 ㅠㅠ. 그래서 또 오늘 이것을 계속 진행해야하나 아니면 한글로 된 다른 수업을 들어야 하나 심히 고민이 되었다…. 또 시작한 것에 대해 마무리를 못하는건가… 아무튼 오늘 한번 또 참고 수업을 들었다. 지금 진행률은 25% 정도 될 것 같다. 아무리 계산해 봐도 ㅋㅋㅋㅋ 수업 전에 모든 것을 다 듣는 것은 불가능 할 것 같고 ㅠㅠ. 수업 시작하고도 한 일주일은 더 들어야 할 것 같다.&lt;/li&gt;
-  &lt;li&gt;오늘 패스트캠퍼스에서 송종근 강사님과 상담을 진행했다. 좋으신 분 같았다. 10분 20분 단위로 끊어서 공부를 하신다는게 인상 깊었다. 그리고 이번에는 정말 무언가를 끝내는 습관을 들일 수 있도록 노력해야겠다. 완벽한 시간은 없다. 핑계를 대지말자.&lt;/li&gt;
+  &lt;li&gt;05:40 기상&lt;/li&gt;
+  &lt;li&gt;06:00 ~ 09:00 개인 공부(웹프로그래밍)&lt;/li&gt;
+  &lt;li&gt;09:00 ~ 09:30 운동&lt;/li&gt;
+  &lt;li&gt;09:30 ~ 09:40 영어 1개 암기&lt;/li&gt;
+  &lt;li&gt;09:40 ~ 10:00 학교 이동&lt;/li&gt;
+  &lt;li&gt;10:00 ~ 12:00 수업 1&lt;/li&gt;
+  &lt;li&gt;12:40 ~ 13:00 수업 1 복습&lt;/li&gt;
+  &lt;li&gt;13:00 ~ 15:00 수업 2&lt;/li&gt;
+  &lt;li&gt;15:30 ~ 16:00 사장님 상담&lt;/li&gt;
+  &lt;li&gt;16:20 ~ 18:30 수업 1, 2 복습&lt;/li&gt;
+  &lt;li&gt;18:30 ~ 19:00 저녁 식사&lt;/li&gt;
+  &lt;li&gt;19:00 ~ 21:30 수업 복습 및 프로젝트 진행&lt;/li&gt;
+  &lt;li&gt;21:30 ~ 22:20 코딩 1문제 풀기 클리어 못했다.&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;22:30 ~ 23:30 씻기 및 잠자기 전에 독서하기&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;음… 텐션이 떨어질때는 음악을 들으면서 알고리즘 문제를 풀어보자!!&lt;/li&gt;
+  &lt;li&gt;장고 부분도 TIL을 해가면서 나가자. 무언가 계속 정리를 안하고 앞으로만 나가니깐 나도 힘들고 다 힘들다 ㅠㅠ.&lt;/li&gt;
+  &lt;li&gt;체력 운동을 하자! 러닝머신 20분 하기!!&lt;/li&gt;
+  &lt;li&gt;근력 운동은 정말 빡세게 해서 단기간에 조지기&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h1 id=&quot;tomorrow-do&quot;&gt;Tomorrow do&lt;/h1&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;Python and Django Full Stack Web Developer Bootcamp 수강하기(javascript, jquery)&lt;/li&gt;
-  &lt;li&gt;선배님과의 만남 진행(강남역으로 이동)&lt;/li&gt;
+  &lt;li&gt;DEV
+    &lt;ul&gt;
+      &lt;li&gt;유튜브 1회 올리기 - django 관련&lt;/li&gt;
+      &lt;li&gt;배운 것 TIL하기
+        &lt;ul&gt;
+          &lt;li&gt;BOOKMARK 다시 만들어보기&lt;/li&gt;
+          &lt;li&gt;인스타그램 끝나면 인스타그램 다시 해보기&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;서버 배포해보기&lt;/li&gt;
+      &lt;li&gt;알고리즘 1문제 풀기
+        &lt;ul&gt;
+          &lt;li&gt;알고리즘 스터디 관련 글 올려보기&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;프로젝트
+    &lt;ul&gt;
+      &lt;li&gt;폼 2개 동시에 띄우게 해보기&lt;/li&gt;
+      &lt;li&gt;회원가입 구현하기&lt;/li&gt;
+      &lt;li&gt;form.as_p 해결하기&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;About me
+    &lt;ul&gt;
+      &lt;li&gt;운동하기&lt;/li&gt;
+      &lt;li&gt;데일리 리포트 및 피드백 진행&lt;/li&gt;
+      &lt;li&gt;독서&lt;/li&gt;
+      &lt;li&gt;영어 단어 암기&lt;/li&gt;
+      &lt;li&gt;영어 1개 암기&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
 &lt;/ul&gt;
+
 </description>
-        <pubDate>Tue, 16 Apr 2019 03:06:23 +0900</pubDate>
-        <link>http://localhost:4000/til/2019/04/16/TIL.html</link>
-        <guid isPermaLink="true">http://localhost:4000/til/2019/04/16/TIL.html</guid>
+        <pubDate>Wed, 01 May 2019 23:06:23 +0900</pubDate>
+        <link>http://localhost:4000/til/2019/05/01/TIL.html</link>
+        <guid isPermaLink="true">http://localhost:4000/til/2019/05/01/TIL.html</guid>
         
         
         <category>TIL</category>
@@ -627,147 +949,280 @@ for 문과 합치면 이 코드의 time complexity는 O(N2)이에요.&lt;/p&gt;
       </item>
     
       <item>
-        <title>HTML 04. clone page+Bootstrap</title>
-        <description>&lt;h3 id=&quot;20190416-python-and-django-full-stack-web-developer-bootcamp---bootstrap&quot;&gt;2019.04.16 Python and Django Full Stack Web Developer Bootcamp - Bootstrap&lt;/h3&gt;
+        <title>알고리즘 05. k번째 수</title>
+        <description>&lt;h3 id=&quot;20190430&quot;&gt;2019.04.30&lt;/h3&gt;
 
-&lt;p&gt;(스스로 이해한 것을 바탕으로 정리한 것으로 오류가 있을 수 있습니다)&lt;/p&gt;
+&lt;h2 id=&quot;프로그래머스-알고리즘-문제-lv1&quot;&gt;프로그래머스 알고리즘 문제 (lv1)&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;K번째 수&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;문제-설명&quot;&gt;문제 설명&lt;/h3&gt;
+
+&lt;p&gt;배열 array의 i번째 숫자부터 j번째 숫자까지 자르고 정렬했을 때, k번째에 있는 수를 구하려 합니다.&lt;/p&gt;
+
+&lt;p&gt;예를 들어 array가 [1, 5, 2, 6, 3, 7, 4], i = 2, j = 5, k = 3이라면&lt;/p&gt;
+
+&lt;p&gt;array의 2번째부터 5번째까지 자르면 [5, 2, 6, 3]입니다.  &lt;br /&gt;
+1에서 나온 배열을 정렬하면 [2, 3, 5, 6]입니다.  &lt;br /&gt;
+2에서 나온 배열의 3번째 숫자는 5입니다.    &lt;br /&gt;
+배열 array, [i, j, k]를 원소로 가진 2차원 배열 commands가 매개변수로 주어질 때, &lt;br /&gt;
+commands의 모든 원소에 대해 앞서 설명한 연산을 적용했을 때 나온 결과를 배열에 담아 return 하도록  &lt;br /&gt;
+solution 함수를 작성해주세요.&lt;/p&gt;
+
+&lt;h3 id=&quot;제한사항&quot;&gt;제한사항&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;array의 길이는 1 이상 100 이하입니다.&lt;/li&gt;
+  &lt;li&gt;array의 각 원소는 1 이상 100 이하입니다.&lt;/li&gt;
+  &lt;li&gt;commands의 길이는 1 이상 50 이하입니다.&lt;/li&gt;
+  &lt;li&gt;commands의 각 원소는 길이가 3입니다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;예시&quot;&gt;예시&lt;/h3&gt;
+
+&lt;p&gt;&lt;img width=&quot;468&quot; alt=&quot;스크린샷 2019-04-30 오후 4 13 04&quot; src=&quot;https://user-images.githubusercontent.com/46436843/56945666-e38ac400-6b62-11e9-90dd-f9e793ffd01e.png&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;나의-풀이-방법&quot;&gt;나의 풀이 방법&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;의식의 흐름&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;command가 3개만 들어오는게 아니라 여러개가 들어올 수도 있다.&lt;/li&gt;
+  &lt;li&gt;command의 한개씩 뽑아내서 계산해서 값에 담는다.&lt;/li&gt;
+  &lt;li&gt;뽑아낸 것에서 첫 번째 숫자와 2번 째 숫자 만큼 array에서 뽑고 정렬해서 3번째 숫자의 정렬 번째를 찾는다.&lt;/li&gt;
+  &lt;li&gt;찾아낸 것을 return에 넣는다.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;strong&gt;컴퓨터에게는?&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;for문으로 command를 돈다.&lt;/li&gt;
+  &lt;li&gt;포문으로 돈 array에서 첫 번째 숫자와 두 번째 숫자를 빼내서 array[:]를 해준다.&lt;/li&gt;
+  &lt;li&gt;array를 통해 나온 것을 sort를 통해 정렬 시켜준다.&lt;/li&gt;
+  &lt;li&gt;세 번째 숫자를 빼내서 인덱싱을 한다.&lt;/li&gt;
+  &lt;li&gt;뽑아 낸 값을 return에 담는다.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;코드&quot;&gt;코드&lt;/h2&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;array&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;commands&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;solution&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;array&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;commands&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;answer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;commands&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;array&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;answer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;answer&lt;/span&gt;
+    
+&lt;span class=&quot;n&quot;&gt;solution&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;array&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;commands&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;    
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;생각보다 굉장히 간단하게 해결했다.&lt;/li&gt;
+  &lt;li&gt;하지만 다른 사람의 코드를 보고 좌절했다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;다른-사람-풀이&quot;&gt;다른 사람 풀이&lt;/h3&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;solution&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;array&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;commands&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;lambda&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sorted&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;array&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]])[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;commands&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;…?&lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+        <pubDate>Tue, 30 Apr 2019 23:06:23 +0900</pubDate>
+        <link>http://localhost:4000/algorithm/2019/04/30/%E1%84%8B%E1%85%A1%E1%86%AF%E1%84%80%E1%85%A9%E1%84%85%E1%85%B5%E1%84%8C%E1%85%B3%E1%86%B7-05.-k%E1%84%87%E1%85%A5%E1%86%AB%E1%84%8D%E1%85%A2-%E1%84%89%E1%85%AE.html</link>
+        <guid isPermaLink="true">http://localhost:4000/algorithm/2019/04/30/%E1%84%8B%E1%85%A1%E1%86%AF%E1%84%80%E1%85%A9%E1%84%85%E1%85%B5%E1%84%8C%E1%85%B3%E1%86%B7-05.-k%E1%84%87%E1%85%A5%E1%86%AB%E1%84%8D%E1%85%A2-%E1%84%89%E1%85%AE.html</guid>
+        
+        
+        <category>Algorithm</category>
+        
+      </item>
+    
+      <item>
+        <title>2019_04_30_TIL</title>
+        <description>&lt;h3 id=&quot;20190430-til&quot;&gt;2019.04.30 TIL&lt;/h3&gt;
+
+&lt;h1 id=&quot;to-do&quot;&gt;To do&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;DEV
+    &lt;ul&gt;
+      &lt;li&gt;&lt;del&gt;유튜브 1회 올리기 - CSV, TXT 파일 다루기&lt;/del&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;del&gt;서버 부분 TIL하기&lt;/del&gt;&lt;/li&gt;
+      &lt;li&gt;배운 것 TIL하기
+        &lt;ul&gt;
+          &lt;li&gt;복습은 하였으나 아직 TIL하기에는 부족하옵니다 ㅠㅠ&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;&lt;del&gt;알고리즘 1문제 풀기&lt;/del&gt;
+        &lt;ul&gt;
+          &lt;li&gt;알고리즘 스터디 관련 글 올려보기&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;프로젝트
+    &lt;ul&gt;
+      &lt;li&gt;&lt;del&gt;부트스트랩 적용하기&lt;/del&gt;&lt;/li&gt;
+      &lt;li&gt;선생님께 헬프 요청하기&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;About me
+    &lt;ul&gt;
+      &lt;li&gt;&lt;del&gt;운동하기&lt;/del&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;del&gt;데일리 리포트 및 피드백 진행&lt;/del&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;del&gt;독서&lt;/del&gt;&lt;/li&gt;
+      &lt;li&gt;영어 단어 암기&lt;/li&gt;
+      &lt;li&gt;&lt;del&gt;영어 1개 암기&lt;/del&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;til&quot;&gt;TIL&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;오늘 수업 중에는 bootstrap 위주로 많이 배웠다. 전체적인 틀은 가져가되 각각의 템플릿에 적용해야 될 때는 어떻게 해야되는지 알 수 있었다.&lt;/li&gt;
+  &lt;li&gt;그리고 배포도 해보았는데 내일은 한번 더 배포하는 연습을 해봐야되겠다.&lt;/li&gt;
+  &lt;li&gt;오늘은 피곤해서 조금 일찍 잠을 자려고 한다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;today-was&quot;&gt;Today was&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;05:40 기상&lt;/li&gt;
+  &lt;li&gt;06:00 ~ 07:30 운동&lt;/li&gt;
+  &lt;li&gt;07:30 ~ 08:00 유튜브 영상 촬영 및 업로드 (간단한 식사 병행)&lt;/li&gt;
+  &lt;li&gt;08:00 ~ 09:20 TIL 및 프로젝트 진행&lt;/li&gt;
+  &lt;li&gt;09:20 ~ 09:40 영어 1개 암기&lt;/li&gt;
+  &lt;li&gt;09:40 ~ 10:00 학교 이동&lt;/li&gt;
+  &lt;li&gt;10:00 ~ 12:00 수업 1&lt;/li&gt;
+  &lt;li&gt;12:40 ~ 13:00 수업 1 복습&lt;/li&gt;
+  &lt;li&gt;13:00 ~ 15:00 수업 2&lt;/li&gt;
+  &lt;li&gt;15:30 ~ 16:00 코딩 1문제 + TIL&lt;/li&gt;
+  &lt;li&gt;16:20 ~ 18:00 수업 1, 2 복습&lt;/li&gt;
+  &lt;li&gt;18:00 ~ 19:00 저녁 식사 + 영어 단어 암기 x&lt;/li&gt;
+  &lt;li&gt;19:00 ~ 21:30 수업 복습 및 프로젝트 진행&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;21:30 ~ 23:30 씻기 및 잠자기 전에 독서하기&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;오늘은 정말 저녁 먹으면서 집에 갈까 고민을 많이 하였다. 하지만 그래도 참고 잘 마무리할 수 있었다.&lt;/li&gt;
+  &lt;li&gt;요즘 수업이 끝나고 나면 너무 급격하게 체력이 빠진다. 이 문제를 해결하도록 노력하자!&lt;/li&gt;
+  &lt;li&gt;체력 운동을 좀 하자 ㅠㅠ&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;tomorrow-do&quot;&gt;Tomorrow do&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;DEV
+    &lt;ul&gt;
+      &lt;li&gt;유튜브 1회 올리기 - django 관련&lt;/li&gt;
+      &lt;li&gt;배운 것 TIL하기&lt;/li&gt;
+      &lt;li&gt;서버 배포해보기&lt;/li&gt;
+      &lt;li&gt;알고리즘 1문제 풀기
+        &lt;ul&gt;
+          &lt;li&gt;알고리즘 스터디 관련 글 올려보기&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;프로젝트
+    &lt;ul&gt;
+      &lt;li&gt;url 관련 해결하기&lt;/li&gt;
+      &lt;li&gt;form.as_p 해결하기&lt;/li&gt;
+      &lt;li&gt;진도 나가보기&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;About me
+    &lt;ul&gt;
+      &lt;li&gt;운동하기&lt;/li&gt;
+      &lt;li&gt;데일리 리포트 및 피드백 진행&lt;/li&gt;
+      &lt;li&gt;독서&lt;/li&gt;
+      &lt;li&gt;영어 단어 암기&lt;/li&gt;
+      &lt;li&gt;영어 1개 암기&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+        <pubDate>Tue, 30 Apr 2019 23:06:23 +0900</pubDate>
+        <link>http://localhost:4000/til/2019/04/30/TIL.html</link>
+        <guid isPermaLink="true">http://localhost:4000/til/2019/04/30/TIL.html</guid>
+        
+        
+        <category>TIL</category>
+        
+      </item>
+    
+      <item>
+        <title>HTML 06. Server만들기(POST 및 CGI)</title>
+        <description>&lt;h3 id=&quot;20190430-html을-통한-간단한-서버-구축하기2post&quot;&gt;2019.04.30 HTML을 통한 간단한 서버 구축하기2(POST)&lt;/h3&gt;
 
 &lt;p&gt;# 질문에 답하기&lt;/p&gt;
 
 &lt;ol&gt;
-  &lt;li&gt;clone coding 다시해보기&lt;/li&gt;
+  &lt;li&gt;&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h2 id=&quot;문제&quot;&gt;문제&lt;/h2&gt;
-
-&lt;h3 id=&quot;main-page&quot;&gt;main page&lt;/h3&gt;
-
-&lt;p&gt;&lt;img width=&quot;1013&quot; alt=&quot;스크린샷 2019-04-16 오후 10 33 25&quot; src=&quot;https://user-images.githubusercontent.com/46436843/56214583-2051b800-6099-11e9-9629-961b5d6d0579.png&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img width=&quot;1013&quot; alt=&quot;스크린샷 2019-04-16 오후 10 33 44&quot; src=&quot;https://user-images.githubusercontent.com/46436843/56214588-2182e500-6099-11e9-997f-365bea5181c9.png&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;login-page&quot;&gt;login page&lt;/h3&gt;
-
-&lt;p&gt;&lt;img width=&quot;1025&quot; alt=&quot;스크린샷 2019-04-16 오후 10 43 03&quot; src=&quot;https://user-images.githubusercontent.com/46436843/56214591-234ca880-6099-11e9-835b-9588eb3107ca.png&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;해답&quot;&gt;해답&lt;/h2&gt;
-
-&lt;h3 id=&quot;main-page-1&quot;&gt;main page&lt;/h3&gt;
-
-&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;!DOCTYPE html&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;html&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;lang=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;dir=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ltr&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;charset=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;utf-8&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;title&amp;gt;&lt;/span&gt;Project&lt;span class=&quot;nt&quot;&gt;&amp;lt;/title&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;link&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;rel=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;stylesheet&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;href=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;integrity=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;crossorigin=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;anonymous&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;nav&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;navbar navbar-expand-lg navbar-dark bg-dark&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;nt&quot;&gt;&amp;lt;a&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;navbar-brand&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;href=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;#&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;Welcome&lt;span class=&quot;nt&quot;&gt;&amp;lt;/a&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;nt&quot;&gt;&amp;lt;button&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;navbar-toggler&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;button&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;data-toggle=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;collapse&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;data-target=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;#navbarNavAltMarkup&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;aria-controls=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;navbarNavAltMarkup&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;aria-expanded=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;false&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;aria-label=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Toggle navigation&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;span&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;navbar-toggler-icon&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/span&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;nt&quot;&gt;&amp;lt;/button&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;collapse navbar-collapse&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;navbarNavAltMarkup&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;navbar-nav&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-          &lt;span class=&quot;nt&quot;&gt;&amp;lt;a&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;nav-item nav-link active&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;href=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;signin.html&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;Sign in &lt;span class=&quot;nt&quot;&gt;&amp;lt;span&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sr-only&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;(current)&lt;span class=&quot;nt&quot;&gt;&amp;lt;/span&amp;gt;&amp;lt;/a&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/nav&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;container&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;jumbotron jumbotron-fluid&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;container&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-          &lt;span class=&quot;nt&quot;&gt;&amp;lt;h1&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;display-4&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;Coffee Lover Project&lt;span class=&quot;nt&quot;&gt;&amp;lt;/h1&amp;gt;&lt;/span&gt;
-          &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;lead&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;Welcome to your Bootstrap Project: Coffee Lover&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
-          &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;lead&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;You will recreate this webpage and an additional Form Page&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
-          &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;lead&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;Just follow the instruction steps here to re-create these webpages!&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
-          &lt;span class=&quot;nt&quot;&gt;&amp;lt;ol&amp;gt;&lt;/span&gt;
-            &lt;span class=&quot;nt&quot;&gt;&amp;lt;li&amp;gt;&lt;/span&gt;Create a general landing page with a JumboTron&lt;span class=&quot;nt&quot;&gt;&amp;lt;/li&amp;gt;&lt;/span&gt;
-            &lt;span class=&quot;nt&quot;&gt;&amp;lt;li&amp;gt;&lt;/span&gt;Next create a NavBar on the Page that links to another html file&lt;span class=&quot;nt&quot;&gt;&amp;lt;/li&amp;gt;&lt;/span&gt;
-            &lt;span class=&quot;nt&quot;&gt;&amp;lt;li&amp;gt;&lt;/span&gt;Add two paragrahs of lorem-ipsum below the jumbotron&lt;span class=&quot;nt&quot;&gt;&amp;lt;/li&amp;gt;&lt;/span&gt;
-            &lt;span class=&quot;nt&quot;&gt;&amp;lt;li&amp;gt;&lt;/span&gt;Next use the Grid system to add in thumbnail pictures of coffee. Source: https://stocksnap.io/search/coffee You will need to use the thumbnail class for this. Here are the image links:&lt;span class=&quot;nt&quot;&gt;&amp;lt;/li&amp;gt;&lt;/span&gt;
-            &lt;span class=&quot;nt&quot;&gt;&amp;lt;ul&amp;gt;&lt;/span&gt;
-              &lt;span class=&quot;nt&quot;&gt;&amp;lt;li&amp;gt;&amp;lt;a&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;href=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;https://d2lm6fxwu08ot6.cloudfront.net/img-thumbs/960w/04LDEYRW59.jpg&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;One&lt;span class=&quot;nt&quot;&gt;&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt;&lt;/span&gt;
-              &lt;span class=&quot;nt&quot;&gt;&amp;lt;li&amp;gt;&amp;lt;a&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;href=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;https://d2lm6fxwu08ot6.cloudfront.net/img-thumbs/960w/90V03Q5Y60.jpg&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;Two&lt;span class=&quot;nt&quot;&gt;&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt;&lt;/span&gt;
-              &lt;span class=&quot;nt&quot;&gt;&amp;lt;li&amp;gt;&amp;lt;a&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;href=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;https://d2lm6fxwu08ot6.cloudfront.net/img-thumbs/960w/O83SF2RB6D.jpg&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;Three&lt;span class=&quot;nt&quot;&gt;&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt;&lt;/span&gt;
-              &lt;span class=&quot;nt&quot;&gt;&amp;lt;li&amp;gt;&amp;lt;a&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;href=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;https://d2lm6fxwu08ot6.cloudfront.net/img-thumbs/960w/5JVPSVP7EI.jpg&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;Four&lt;span class=&quot;nt&quot;&gt;&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt;&lt;/span&gt;
-              &lt;span class=&quot;nt&quot;&gt;&amp;lt;li&amp;gt;&amp;lt;a&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;href=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;https://d2lm6fxwu08ot6.cloudfront.net/img-thumbs/960w/C5Y10KIIHA.jpg&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;Five&lt;span class=&quot;nt&quot;&gt;&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt;&lt;/span&gt;
-              &lt;span class=&quot;nt&quot;&gt;&amp;lt;li&amp;gt;&amp;lt;a&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;href=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;https://d2lm6fxwu08ot6.cloudfront.net/img-thumbs/960w/YSSFRY5B25.jpg&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;Six&lt;span class=&quot;nt&quot;&gt;&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt;&lt;/span&gt;
-            &lt;span class=&quot;nt&quot;&gt;&amp;lt;/ul&amp;gt;&lt;/span&gt;
-            &lt;span class=&quot;nt&quot;&gt;&amp;lt;li&amp;gt;&lt;/span&gt;Next make sure that at the largest settings you have 3 columns of pictures. On the smallest screen settings you should have 2 columns. Its up to you where you want to change.&lt;span class=&quot;nt&quot;&gt;&amp;lt;/li&amp;gt;&lt;/span&gt;
-            &lt;span class=&quot;nt&quot;&gt;&amp;lt;li&amp;gt;&lt;/span&gt;Next create another html file for the sign up page.&lt;span class=&quot;nt&quot;&gt;&amp;lt;/li&amp;gt;&lt;/span&gt;
-            &lt;span class=&quot;nt&quot;&gt;&amp;lt;li&amp;gt;&lt;/span&gt;Create a Form on this Sign Up page with Email, Password, and a Check Box&lt;span class=&quot;nt&quot;&gt;&amp;lt;/li&amp;gt;&lt;/span&gt;
-          &lt;span class=&quot;nt&quot;&gt;&amp;lt;/ol&amp;gt;&lt;/span&gt;
-          &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;That's it. Feel free to play around with this project and style it more to your liking. The main focuses of this project are the uses of NavBar, Jumbotron, Form, Container, and the Grid System.&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-
-      &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;container&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
-
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;container&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;nt&quot;&gt;&amp;lt;h2&amp;gt;&lt;/span&gt;Pictures of Coffee&lt;span class=&quot;nt&quot;&gt;&amp;lt;/h2&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;row&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;col-lg-4 col-xs-6 px-0&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;img&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;img-thumbnail img-fluid&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;https://d2lm6fxwu08ot6.cloudfront.net/img-thumbs/960w/04LDEYRW59.jpg&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;alt=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;col-lg-4 col-xs-6 px-0&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;img&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;img-thumbnail img-fluid&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;https://d2lm6fxwu08ot6.cloudfront.net/img-thumbs/960w/90V03Q5Y60.jpg&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;alt=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;col-lg-4 col-xs-6 px-0&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;img&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;img-thumbnail img-fluid&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;https://d2lm6fxwu08ot6.cloudfront.net/img-thumbs/960w/O83SF2RB6D.jpg&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;alt=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;col-lg-4 col-xs-6 px-0&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;img&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;img-thumbnail img-fluid&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;https://d2lm6fxwu08ot6.cloudfront.net/img-thumbs/960w/5JVPSVP7EI.jpg&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;alt=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;col-lg-4 col-xs-6 px-0&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;img&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;img-thumbnail img-fluid&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;https://d2lm6fxwu08ot6.cloudfront.net/img-thumbs/960w/C5Y10KIIHA.jpg&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;alt=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;col-lg-4 col-xs-6 px-0&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;img&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;img-thumbnail img-fluid&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;https://d2lm6fxwu08ot6.cloudfront.net/img-thumbs/960w/YSSFRY5B25.jpg&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;alt=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;&lt;span class=&quot;c&quot;&gt;&amp;lt;!-- /.container --&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;login-page-1&quot;&gt;login page&lt;/h3&gt;
-
-&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;!DOCTYPE html&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;html&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;lang=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;dir=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ltr&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;charset=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;utf-8&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;title&amp;gt;&amp;lt;/title&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;link&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;rel=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;stylesheet&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;href=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;integrity=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;crossorigin=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;anonymous&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;jumbotron&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;container&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;h1&amp;gt;&lt;/span&gt;Log In&lt;span class=&quot;nt&quot;&gt;&amp;lt;/h1&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;Enter your email and password below to log in to Coffee Lover&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;form&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;container&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;form-group&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-          &lt;span class=&quot;nt&quot;&gt;&amp;lt;label&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;for=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;exampleInputEmail1&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;Email address&lt;span class=&quot;nt&quot;&gt;&amp;lt;/label&amp;gt;&lt;/span&gt;
-          &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;email&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;form-control&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;exampleInputEmail1&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;aria-describedby=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;emailHelp&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;placeholder=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Enter email&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-          &lt;span class=&quot;nt&quot;&gt;&amp;lt;small&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;emailHelp&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;form-text text-muted&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;We'll never share your email with anyone else.&lt;span class=&quot;nt&quot;&gt;&amp;lt;/small&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;form-group&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-          &lt;span class=&quot;nt&quot;&gt;&amp;lt;label&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;for=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;exampleInputPassword1&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;Password&lt;span class=&quot;nt&quot;&gt;&amp;lt;/label&amp;gt;&lt;/span&gt;
-          &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;password&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;form-control&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;exampleInputPassword1&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;placeholder=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Password&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;form-group form-check&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-          &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;checkbox&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;form-check-input&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;exampleCheck1&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-          &lt;span class=&quot;nt&quot;&gt;&amp;lt;label&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;form-check-label&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;for=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;exampleCheck1&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;Check me out&lt;span class=&quot;nt&quot;&gt;&amp;lt;/label&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;button&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;submit&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;btn btn-primary&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;Submit&lt;span class=&quot;nt&quot;&gt;&amp;lt;/button&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/form&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h2 id=&quot;cgi&quot;&gt;CGI&lt;/h2&gt;
+&lt;p&gt;Common Gateway interface
+CGI 단점 : 요청이 있을 때마다 프로세스(응용프로그램)을 새로 실행
+CGI 장점: 특별한 추가 프로그램 없이도 여러 언어의 스크립트 실행 가능&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;후 쉽지 않은 TEST였다. ㅠㅠ&lt;/li&gt;
-  &lt;li&gt;영어로 수업을 하니 시간이 2배는 더 걸리는 것 같다.&lt;/li&gt;
+  &lt;li&gt;특정 위치에 있는 것을 가지고 와야 할 때 쓰면 된다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;권한주기-해당-파일마다-적용해줘야한다&quot;&gt;권한주기 (해당 파일마다 적용해줘야한다.)&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;chomod ugo+x cgi/test.py&lt;/li&gt;
+  &lt;li&gt;#!를 써서 파이썬 경로를 써줘야한다.&lt;/li&gt;
+  &lt;li&gt;which python3&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;구현&quot;&gt;구현&lt;/h2&gt;
+
+&lt;p&gt;&lt;img width=&quot;945&quot; alt=&quot;스크린샷 2019-04-30 오후 4 52 37&quot; src=&quot;https://user-images.githubusercontent.com/46436843/56947511-63675d00-6b68-11e9-8a89-984890a91cbc.png&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;해당 경로를 지정해줘야한다.&lt;/li&gt;
+  &lt;li&gt;해당 경로 파일에는 #!/usr/local/bin/python3이라는 python 경로를 지정해줘야한다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;testpy&quot;&gt;test.py&lt;/h3&gt;
+
+&lt;p&gt;&lt;img width=&quot;1123&quot; alt=&quot;스크린샷 2019-04-30 오후 4 54 46&quot; src=&quot;https://user-images.githubusercontent.com/46436843/56947615-ade8d980-6b68-11e9-850b-e86df289e10e.png&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;이렇게 한 뒤에 서버에 접속해보면 test.py의 자료를 가지고 온다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;post&quot;&gt;POST&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;GET의 폼을 톨해 받은 자료를 POST로 받아와 해석하기&lt;/li&gt;
+  &lt;li&gt;폼을 통해 키와 몸무게를 받아 BMI 지수 출력해주기&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;구현-1&quot;&gt;구현&lt;/h3&gt;
+
+&lt;p&gt;&lt;img width=&quot;859&quot; alt=&quot;스크린샷 2019-04-30 오후 4 57 03&quot; src=&quot;https://user-images.githubusercontent.com/46436843/56947733-ff916400-6b68-11e9-8199-85f583757e72.png&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;form_html에서 받은 자료를 method=’POST’로 하여 POST로 보내고 포스트에서 해당 내용을 받아서 처리해준다.&lt;/li&gt;
+  &lt;li&gt;포스트에 담겨서 오는 내용은 주소창에 있는 자료를 해석하는게 아니므로 보안이 철저하지만 그만큼 해석하는게 쉽지 않다.&lt;/li&gt;
+  &lt;li&gt;self.rfile.read 및 parse_qs를 사용한다.&lt;/li&gt;
 &lt;/ul&gt;
 </description>
-        <pubDate>Tue, 16 Apr 2019 03:06:23 +0900</pubDate>
-        <link>http://localhost:4000/html/2019/04/16/HTML-04.-clone-page+Bootstrap.html</link>
-        <guid isPermaLink="true">http://localhost:4000/html/2019/04/16/HTML-04.-clone-page+Bootstrap.html</guid>
+        <pubDate>Tue, 30 Apr 2019 23:06:23 +0900</pubDate>
+        <link>http://localhost:4000/html/2019/04/30/HTML-06.-Server%E1%84%86%E1%85%A1%E1%86%AB%E1%84%83%E1%85%B3%E1%86%AF%E1%84%80%E1%85%B5(POST).html</link>
+        <guid isPermaLink="true">http://localhost:4000/html/2019/04/30/HTML-06.-Server%E1%84%86%E1%85%A1%E1%86%AB%E1%84%83%E1%85%B3%E1%86%AF%E1%84%80%E1%85%B5(POST).html</guid>
         
         
         <category>HTML</category>
@@ -775,50 +1230,132 @@ for 문과 합치면 이 코드의 time complexity는 O(N2)이에요.&lt;/p&gt;
       </item>
     
       <item>
-        <title>2019_04_15_TIL</title>
-        <description>&lt;h3 id=&quot;20190415-til&quot;&gt;2019.04.15 TIL&lt;/h3&gt;
+        <title>HTML 05. Server만들기(get)</title>
+        <description>&lt;h3 id=&quot;20190430-html을-통한-간단한-서버-구축하기1get&quot;&gt;2019.04.30 HTML을 통한 간단한 서버 구축하기1(get)&lt;/h3&gt;
 
-&lt;h1 id=&quot;to-do&quot;&gt;To do&lt;/h1&gt;
+&lt;p&gt;# 질문에 답하기&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h1 id=&quot;http-server&quot;&gt;HTTP Server&lt;/h1&gt;
+
+&lt;p&gt;&lt;img width=&quot;683&quot; alt=&quot;스크린샷 2019-04-30 오후 4 29 55&quot; src=&quot;https://user-images.githubusercontent.com/46436843/56946510-35cce480-6b65-11e9-9ffd-676201f7b190.png&quot; /&gt;&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;[출처 : jQuery Ajax &amp;amp; JSON&lt;/td&gt;
+      &lt;td&gt;PoiemaWeb](https://poiemaweb.com/jquery-ajax-json)&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;브라우저를 통해 사용자가 HTTP Rrequest message를 보내면&lt;/li&gt;
+  &lt;li&gt;서버는 그 Message를 해석하고 Response Message로 응답한다.
+    &lt;ol&gt;
+      &lt;li&gt;어느 페이지로 접속하였느냐?&lt;/li&gt;
+      &lt;li&gt;Query string은 어떤 데이터를 가지고 있느냐?&lt;/li&gt;
+      &lt;li&gt;특정 스크립트 요청이 있느냐?&lt;/li&gt;
+      &lt;li&gt;최종 응답을 HTML, 다운로드는 파일로 할 것이냐?&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;http-response만-하는-서버&quot;&gt;HTTP Response만 하는 서버&lt;/h2&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;DEV
+  &lt;li&gt;
+    &lt;p&gt;Handler 필요 : 요청이 들어오면 어느 객체가 요청을 해석하고 처리할 것이냐?&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;주소에 붙여서 보내면 이것을 읽어서 해석하는데 이를 쿼리스트링이라고 하고 파싱을 통해 주소내 특정 값들을 분리한다.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;def run와 with handler는 같은 것이다.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;네이버 메인 페이지는 get방식 회원가입 할 때는 POST방식이다. &lt;br /&gt;
+근데 장고 같은 프레임워크는 한 페이지에서 접속 Method에 따라 기능을 분기한다.
+예) 회원가입 페이지 domain.com/singup/&lt;/li&gt;
+  &lt;li&gt;Get방식으로 접속하면 회원가입 양식 보여주기&lt;/li&gt;
+  &lt;li&gt;Post방식으로 하면 전달받은 데이터를 처리해서 회원가입 진행하기, 데이터베이스에 저장하기&lt;/li&gt;
+  &lt;li&gt;한 주소로 고정되어 있어서 회원 가입에 오류가 있으면 회원가입으로 돌아가서 다시 메시지를 띄어야 한다. 우리가 쳤던 정보 내용들이 남아 있어야 한다. 한 페이지에서 돌아가기 때문에 비밀번호와 같은 것을 잘못 입력해도 그대로 남아 있다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;do_get-예시-코드&quot;&gt;do_GET 예시 코드&lt;/h2&gt;
+
+&lt;p&gt;&lt;img width=&quot;724&quot; alt=&quot;스크린샷 2019-04-30 오후 4 35 17&quot; src=&quot;https://user-images.githubusercontent.com/46436843/56946740-f5ba3180-6b65-11e9-91ee-f5e62e72c8d9.png&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Handler 클래스를 만들고 그 아래에 GET과 POST를 두어서 2가지에 대해서 어떻게 처리할지에 대한 내용이 들어간다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;do_get을-통해-주소창에-들어간-내용-해석하기&quot;&gt;do_GET을 통해 주소창에 들어간 내용 해석하기&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;주소창에 들어간 http://127.0.0.1:8000/?height=181&amp;amp;weight=77와 같은 내용 해석하기&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;urllib.parse&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;parse_qs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;urlparse&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;PORT&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8000&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Handler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BaseHTTPRequestHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;do_GET&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+		&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;send_response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;200&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+		&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;send_header&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'Content-type'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'text/html'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+		&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;end_headers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;query_text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;urlparse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;paht&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;query&lt;/span&gt;
+		&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;query_text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;query_vars&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;parse_qs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;query_text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+		&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;query_vars&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+		
+		&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'weight'&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;query_vars&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;and&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'height'&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;query_vars&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+			&lt;span class=&quot;n&quot;&gt;height1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;float&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;query_vars&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'height'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+			&lt;span class=&quot;n&quot;&gt;weight1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;float&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;query_vars&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'weight'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+			&lt;span class=&quot;n&quot;&gt;BMI&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;weight1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;height1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;**&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+			&lt;span class=&quot;n&quot;&gt;message&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Your BMI is &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BMI&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+			
+		&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;wfile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;write&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;bytes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'utf-8'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+		&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;
+		
+	&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;do_POST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+		&lt;span class=&quot;k&quot;&gt;pass&lt;/span&gt;
+		
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;server_address&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'127.0.0.1'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PORT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;httpd&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;HTTPServer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;server_address&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Handler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;serving at PORT&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PORT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;httpd&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;serve_forever&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+	
+&lt;span class=&quot;n&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;결과값&quot;&gt;결과값&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;주소에 http://127.0.0.1:8000/?height=181&amp;amp;weight=77 임의로 넣고 실행&lt;/li&gt;
+  &lt;li&gt;print창에
     &lt;ul&gt;
-      &lt;li&gt;&lt;del&gt;Python and Django Full Stack Web Developer Bootcamp 수강하기(html, css)&lt;/del&gt;&lt;/li&gt;
-      &lt;li&gt;css 절반까지 수강 완료했다 (33/198)&lt;/li&gt;
+      &lt;li&gt;height=181&amp;amp;weight=77&lt;/li&gt;
+      &lt;li&gt;{‘height’: [‘181’], ‘weight’: [‘77’]}&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
-  &lt;li&gt;About me
+  &lt;li&gt;http 창에
     &lt;ul&gt;
-      &lt;li&gt;&lt;del&gt;영어 암기&lt;/del&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;del&gt;운동하기&lt;/del&gt;&lt;/li&gt;
-      &lt;li&gt;독서하기&lt;/li&gt;
-      &lt;li&gt;&lt;del&gt;데일리 리포트 및 피드백 진행&lt;/del&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;del&gt;TIL&lt;/del&gt;&lt;/li&gt;
+      &lt;li&gt;your BMI is 23.503556057507403 출력&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&quot;today-was&quot;&gt;Today was&lt;/h1&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;패스트캠퍼스에서 1주일간 개인 자습이라 장고를 들어가기전에 Full stack web developer 강좌를 듣고 있는데 내가 너무 나 자신을 높게 봤나 보다 ㅠㅠ. 영어로 수업이 진행되다 보니 0.75배속으로 듣고 있고, 그렇다 보니 생각보다 속도가 안난다 ㅎㅎ.. 6일만에 다 끝낼 수 있을지 심히 걱정이 되고 있다. 안되면… 수업 시작하고도 계속 해야지 뭐, 괜찮다. 스트레스 받지말자. 오늘 배운 것이 많으니깐 일단 그것들을 가지고 가자.&lt;/li&gt;
-  &lt;li&gt;샐러드를 먹은지 3개월이 다 되어간다. 서울에 와서 매일 저녁은 샐러드였다. 일주일에 6일은 먹은 것 같다. 혁찬이랑 있을때는 들어가면서 치킨 시켜 먹기도 하고, 야식도 먹기도 하고 했는데 혼자 있으니깐 먹을 수도 없구 이제 적응했는지 배도 별루 안 고프고 근데도 살이 빠지지 않았다. 근데 드디어!! 살이 빠지기 시작했다. 이정도로 오래 걸릴 거라곤 생각 안했는데… 참 몸이 바뀌는데 오래 걸리나 보다. 그래도 그렇게 안 빠지던 살이 드디어 빠졌다. 지금은 78kg이다. 앞으로 75kg까지 줄이고 운동도 더 열심히 해서 올해는 굉장히 좋은 몸을 가져보고 싶다. 그리고 그것을 습관화 하여 꾸준히 유지해보려고 한다.&lt;/li&gt;
-  &lt;li&gt;텐션을 높여줄 수 있다는 핑계로 턱걸이 바 구입. 독서실에 놔두고 한번씩 옥상에 가서 하고 와야겠다 ㅎㅎ.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&quot;tomorrow-do&quot;&gt;Tomorrow do&lt;/h1&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Python and Django Full Stack Web Developer Bootcamp 수강하기(css, capstone project, Bootstrap, javascript)&lt;/li&gt;
-  &lt;li&gt;About me 진행&lt;/li&gt;
-&lt;/ul&gt;
 </description>
-        <pubDate>Mon, 15 Apr 2019 03:06:23 +0900</pubDate>
-        <link>http://localhost:4000/til/2019/04/15/TIL.html</link>
-        <guid isPermaLink="true">http://localhost:4000/til/2019/04/15/TIL.html</guid>
+        <pubDate>Tue, 30 Apr 2019 23:06:23 +0900</pubDate>
+        <link>http://localhost:4000/html/2019/04/30/HTML-05.-Server%E1%84%86%E1%85%A1%E1%86%AB%E1%84%83%E1%85%B3%E1%86%AF%E1%84%80%E1%85%B5(get).html</link>
+        <guid isPermaLink="true">http://localhost:4000/html/2019/04/30/HTML-05.-Server%E1%84%86%E1%85%A1%E1%86%AB%E1%84%83%E1%85%B3%E1%86%AF%E1%84%80%E1%85%B5(get).html</guid>
         
         
-        <category>TIL</category>
+        <category>HTML</category>
         
       </item>
     

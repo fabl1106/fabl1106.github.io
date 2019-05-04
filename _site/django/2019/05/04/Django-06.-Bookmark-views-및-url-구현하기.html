@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" sizes = "32x32" href="/static/img/favicon.ico"/>
+    <title>Django 06. Bookmark views 및 url 구현하기 - 대구 올빼미의 새벽 개발로그</title>
+    <meta name="author" content="Byeonguk Kim" />
+    <meta name="description" content="Django 06. Bookmark views 및 url 구현하기" />
+    <meta name="keywords" content="Django 06. Bookmark views 및 url 구현하기, 대구 올빼미의 새벽 개발로그, Django" />
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml">
+    <meta content="1749788565247320" property="fb:app_id">
+    <meta content="대구 올빼미의 새벽 개발로그" property="og:site_name">
+
+    
+
+    
+      <meta content="Django 06. Bookmark views 및 url 구현하기" property="og:title">
+      <meta content="article" property="og:type">
+    
+
+    
+      <meta content="장고를 활용하여 북마크의 뷰 및 url을 구현, bookmark의 views 및 url을 구현." property="og:description">
+    
+
+    
+      <meta content="http://localhost:4000/django/2019/05/04/Django-06.-Bookmark-views-%E1%84%86%E1%85%B5%E1%86%BE-url-%E1%84%80%E1%85%AE%E1%84%92%E1%85%A7%E1%86%AB%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.html" property="og:url">
+    
+
+    
+      <meta content="2019-05-04T12:06:23+09:00" property="article:published_time">
+      <meta content="http://localhost:4000/about/" property="article:author">
+    
+
+    
+      <meta content="http://localhost:4000/static/img/avatar.jpg" property="og:image">
+    
+
+    
+      
+        <meta content="Django" property="article:section">
+      
+    
+
+    
+      
+    
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@github.io">
+    <meta name="twitter:creator" content="@github.io">
+
+    
+      <meta name="twitter:title" content="Django 06. Bookmark views 및 url 구현하기">
+    
+
+    
+      <meta name="twitter:url" content="http://localhost:4000/django/2019/05/04/Django-06.-Bookmark-views-%E1%84%86%E1%85%B5%E1%86%BE-url-%E1%84%80%E1%85%AE%E1%84%92%E1%85%A7%E1%86%AB%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.html">
+    
+
+    
+      <meta name="twitter:description" content="장고를 활용하여 북마크의 뷰 및 url을 구현, bookmark의 views 및 url을 구현.">
+    
+
+    
+
+    <!-- Font awesome icons -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+    <!-- syntax highlighting CSS -->
+    <link rel="stylesheet" href="/static/css/syntax.css">
+    <!-- Bootstrap core CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300italic,300,400italic,700&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/super-search.css">
+    <link rel="stylesheet" href="/static/css/thickbox.css">
+    <link rel="stylesheet" href="/static/css/projects.css">
+    <link rel="stylesheet" href="/static/css/main.css">
+
+    
+  </head>
+  <body>
+    <div class="container">
+      <div class="col-sm-3">
+        <div class="fixed-condition">
+          <a href="/"><img class="profile-avatar" src="/static/img/avatar.jpg" height="120px" width="120px" /></a>
+          <h1 class="author-name">Byeonguk Kim</h1>
+          
+            <div class="profile-about">
+              <h5>안녕하세요. 29살의 조금은 늦은 나이로 새롭게 개발자로 시작하는 신입 개발자입니다.</h5>
+            </div>
+          
+          <div class="social">
+            <ul>
+              
+                <li><a href="https://web.facebook.com/byungwook.kim.923" target="_blank"><i class="fa fa-facebook"></i></a></li>
+              
+                <li><a href="#" target="_blank"><i class="fa fa-twitter"></i></a></li>
+              
+                <li><a href="#" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+              
+                <li><a href="#" target="_blank"><i class="fa fa-stack-exchange"></i></a></li>
+              
+                <li><a href="https://github.com/fabl1106" target="_blank"><i class="fa fa-github"></i></a></li>
+              
+            </ul>
+          </div>
+          <div class="search" id="js-search">
+            <input type="text" placeholder="(sitemap)~$ type to search" class="search__input form-control" id="js-search__input">
+            <ul class="search__results" id="js-search__results"></ul>
+          </div>
+          <hr />
+          <ul class="sidebar-nav">
+            <strong>Navigation</strong>
+            <li><a href="/">Home</a></li>
+            
+              <li><a class="about" href="/about/">About Me</a></li>
+            
+              <li><a class="about" href="/projects/">My Projects</a></li>
+            
+              <li><a class="about" href="/feed.xml">XML Feed</a></li>
+            
+          </ul>
+        </div>
+        <!-- end /.fixed-condition -->
+      </div>
+      <div class="col-sm-8 col-offset-1 main-layout">
+        <header class="post-header">
+  <h1 class="post-title">Django 06. Bookmark views 및 url 구현하기</h1>
+</header>
+
+<span class="time">04 May 2019</span>
+
+  <span class="categories">
+    &raquo; <a href="/category/Django">Django</a>
+  </span>
+
+
+<div class="content">
+  <div class="post"><h3 id="20190504-장고를-활용하여-북마크의-view-및-url-구현하기">2019.05.04 장고를 활용하여 북마크의 view 및 url 구현하기</h3>
+
+<h1 id="개인-bookmark웹-만들기">개인 Bookmark웹 만들기</h1>
+
+<ul>
+  <li>웹사이트를 통해 개인 북마크를 설정할 수 있다.
+    <ul>
+      <li>북마크에는 url 주소와 사이트명이 들어간다.</li>
+      <li>해당 사이트에 대한 설명과 작성일자가 자동으로 생성된다.</li>
+    </ul>
+  </li>
+  <li>메인 페이지에서 해당 북마크에 대한 리스트를 보여준다.
+    <ul>
+      <li>메인페이지에서 북마크 추가하기 버튼으로 추가할 수 있다.</li>
+      <li>해당 북마크를 클릭하면 상세페이지로 이동한다.</li>
+      <li>상세페이지에서 수정 및 삭제를 할 수 있다.</li>
+      <li>base.html과 연동하여 쉽게 구현할 수 있도록 한다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="이번-시간에-할-것">이번 시간에 할 것</h2>
+<ul>
+  <li>Views.py 만들기
+    <ul>
+      <li>함수형 뷰 및 클래스형 뷰 공부하기</li>
+      <li>클래스형 뷰를 통해 구현하기</li>
+    </ul>
+  </li>
+  <li>2차 url 만들기</li>
+  <li>1차 url에 연결시켜주기</li>
+</ul>
+
+<h1 id="1-북마크-만들기">1. 북마크 만들기</h1>
+
+<h1 id="1-viewspy-만들기">1. VIews.py 만들기</h1>
+
+<h2 id="views에-대해-먼저-알고-가기">views에 대해 먼저 알고 가기</h2>
+<ul>
+  <li>클래스형 뷰와 함수형 뷰는 서로 상호 기능 제약이 거의 없다.
+    <ul>
+      <li>클래스형 뷰로 만드는 것은 모두 함수형 뷰로 가능하고 서로 바꿔서도 가능하다.
+        <ul>
+          <li>하지만 구현 방법이 조금씩 달라질 수 있다.</li>
+        </ul>
+      </li>
+      <li>가장 기본적인 것들을 많이 쓰면 클래스형 뷰가 좋고</li>
+      <li>기본적으로 처리해야되는 것조차 커스터마이징이 필요하면 함수형 뷰가 좋다.</li>
+    </ul>
+  </li>
+  <li>함수형 뷰
+    <ul>
+      <li>def 뷰이름(request[, 추가인수]) : 처리할 내용</li>
+      <li>CRUDL에 특별한 처리를 추가해야 되는 경우</li>
+      <li>함수형 뷰는 자유도가 클래스형 뷰에 비해 높다.</li>
+      <li>처리할 코드를 직접 다 개발자가 작성</li>
+    </ul>
+  </li>
+  <li>클래스형 뷰
+    <ul>
+      <li>class 뷰이름(제네릭뷰 상속): 처리할 내용</li>
+      <li>CRUDL에 관련된 기능은 자주 사용하기 때문에 장고에서 제네릭 형태로 미리 만들어 놓음</li>
+      <li>클래스형 뷰는 생산형이 함수형 뷰에 비해 높다.</li>
+      <li>제네릭 기능 외우 추가적인 기능을 개발자가 작성</li>
+      <li>쭉 적는 것이 아닌 메서드 방식 - 커스터마이징에 관련된 메서드를 찾아야 한다.
+        <ul>
+          <li>어떤 기능에 대한 커스터마이징을 하느냐에 따라서 찾아봐야한다.(쿼리셋)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>뷰의 기본 : CRUDL!
+    <ul>
+      <li>Create : 생성과 관련된 로직 구성</li>
+      <li>Read : 한 개의 파일에 대한 상세 페이지 구성 (detail로 활용)</li>
+      <li>Update : 수정하기와 관련된 로직 구성</li>
+      <li>Delete : 삭제하기와 관련된 로직 구성</li>
+      <li>List : 메인 화면과 관련된 로직 구성</li>
+    </ul>
+  </li>
+  <li>뷰를 만든 다음에는 url을 연결해줘야한다.</li>
+</ul>
+
+<h2 id="viewspy-구성하기">views.py 구성하기</h2>
+<ol>
+  <li>클래스형 뷰를 통한 구현 실행</li>
+</ol>
+
+<p><img width="859" alt="스크린샷 2019-05-04 오후 2 28 17" src="https://user-images.githubusercontent.com/46436843/57174385-e6dec200-6e78-11e9-9044-3195347c9c3f.png" /></p>
+
+<ol>
+  <li>Listview, Createview, deleteview,detailview,updateview  임포트 해오기</li>
+  <li>BookmarkList:
+    <ol>
+      <li>가장 메인에서 보여줄 로직</li>
+      <li>북마크 모델을 불러와서 데이터를 활용할 것이라고 기제</li>
+    </ol>
+  </li>
+  <li>BookmarkCreate:
+    <ol>
+      <li>북마크 모델을 활용하는데</li>
+      <li>생성할 때 채워야 할 필드 확인</li>
+      <li>이후 연결될 템플릿 이름은 bookmark_create 일 것이다.</li>
+      <li>성공하면 메인 페이지로 돌아가도록 연결(이후 url로 연결)</li>
+    </ol>
+  </li>
+  <li>BookmarkUpdate:
+    <ol>
+      <li>Create와 마찬가지로 field가 꼭 필요하다</li>
+      <li>대부분 Create와 동일</li>
+    </ol>
+  </li>
+  <li>BookmarkDelete와 BookmarkDetail
+    <ol>
+      <li>삭제와 상세페이지는 특별한 로직이 필요하지 않음</li>
+      <li>템플릿과 연결을 잘 시킬 수 있도록 신경</li>
+    </ol>
+  </li>
+</ol>
+
+<h1 id="url-연결하기">URL 연결하기</h1>
+
+<h2 id="2차-url-연결하기">2차 URL 연결하기</h2>
+<ol>
+  <li>bookmark의  urls.py 생성</li>
+  <li>URL 작성하기</li>
+</ol>
+
+<p><img width="1424" alt="F56E6C48-629C-4DD0-86D7-E90FBBFAAB79" src="https://user-images.githubusercontent.com/46436843/57173384-04585f80-6e6a-11e9-80d5-c1d7e18188e8.png" /></p>
+
+<ol>
+  <li>app_name 설정을 통해 namespace(이름공간)확보
+    <ol>
+      <li>다른 앱들과 url pattern 이름이 겹치는 것을 방지하기 위해 사용한다.</li>
+    </ol>
+  </li>
+  <li>path(url pattern, view, url pattern name)
+    <ul>
+      <li>함수형 뷰는 이름만 적으면 되고 클래스형 뷰는 이름.as_view()</li>
+      <li>name은 나중에 불러쓰기 위해 지정한다.</li>
+    </ul>
+  </li>
+  <li>url pattern
+    <ol>
+      <li>&lt;int:pk&gt;
+        <ol>
+          <li>해당 작성에 대한 번호로 이동해야지 상세페이지 및 그 글에 대한 삭제, 수정을 할 수 있다.</li>
+        </ol>
+      </li>
+    </ol>
+  </li>
+  <li>views 경로 지정
+    <ol>
+      <li>해당 url이 들어오면 views의 해당 view의 로직을 따라서 처리한다.</li>
+    </ol>
+  </li>
+  <li>name
+    <ol>
+      <li>네임 설정을 통해 이후 클릭하면 해당 url로 이동하도록 설정한다.</li>
+    </ol>
+  </li>
+</ol>
+
+<h2 id="1차-url-연결하기">1차 URL 연결하기</h2>
+<ol>
+  <li>config의 url.py에 작성</li>
+  <li>2차 URL을 설정한 이후에 가장 기본이 되는 URL과 연결시켜준다.</li>
+</ol>
+
+<p><img width="947" alt="BCE395FA-A008-4EBA-BF47-EEFF09F362F6" src="https://user-images.githubusercontent.com/46436843/57173385-07535000-6e6a-11e9-9eba-b157978ae0c4.png" /></p>
+
+<ol>
+  <li>기본적으로 admin 주소는 설정되어 있다.</li>
+  <li>include를 통해서 해당 주소로 연결시켜준다.
+    <ol>
+      <li>가장 기본 주소가 들어오면 bookmark의 url로 연결시켜줘라.</li>
+    </ol>
+  </li>
+</ol>
+
+<h2 id="이까지-하면-views-로직을-만들고-url까지-연결시켜주었다-다음-시간에는-직접-화면에-구성해줄-template를-구성한다">이까지 하면 views 로직을 만들고 URL까지 연결시켜주었다. 다음 시간에는 직접 화면에 구성해줄 Template를 구성한다.</h2>
+</div>
+  <div class="share-page">
+  <span style="float: left;">Share this on &rarr;&nbsp;&nbsp;</span>
+
+  <!-- Twitter -->
+  <a href="https://twitter.com/share" class="twitter-share-button" data-via="github.io">Tweet</a>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+  <!-- Facebook -->
+  <div class="fb-share-button" data-href="http://localhost:4000/django/2019/05/04/Django-06.-Bookmark-views-%E1%84%86%E1%85%B5%E1%86%BE-url-%E1%84%80%E1%85%AE%E1%84%92%E1%85%A7%E1%86%AB%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.html" data-layout="button_count" style="position: relative; top: -8px; left: 3px;"></div>
+</div>
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.6&appId=1749788565247320";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+</div>
+
+
+  
+    
+      
+        
+          
+            
+            <div class="panel-body">
+              <h4>Related Posts</h4>
+              <ul>
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/django/2019/05/04/Django-08.-Bookmark-%E1%84%80%E1%85%A2%E1%84%87%E1%85%A7%E1%86%AF-%E1%84%90%E1%85%A6%E1%86%B7%E1%84%91%E1%85%B3%E1%86%AF%E1%84%85%E1%85%B5%E1%86%BA-%E1%84%86%E1%85%A1%E1%86%AB%E1%84%83%E1%85%B3%E1%86%AF%E1%84%80%E1%85%B5-%E1%84%86%E1%85%B5%E1%86%BE-%E1%84%85%E1%85%B5%E1%86%BC%E1%84%8F%E1%85%B3%E1%84%8B%E1%85%A7%E1%86%AB%E1%84%80%E1%85%A7%E1%86%AF.html">Django 08. Bookmark 개별 템플릿 만들기 및 링크연결</a>
+                  
+                    (Categories: <a href="/category/Django">Django</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/django/2019/05/04/Django-07.-Bookmark-%E1%84%90%E1%85%A6%E1%86%B7%E1%84%91%E1%85%B3%E1%86%AF%E1%84%85%E1%85%B5%E1%86%BA-%E1%84%86%E1%85%A1%E1%86%AB%E1%84%83%E1%85%B3%E1%86%AF%E1%84%80%E1%85%B5-%E1%84%86%E1%85%B5%E1%86%BE-base.html%E1%84%8B%E1%85%A6-%E1%84%8B%E1%85%A7%E1%86%AB%E1%84%83%E1%85%A9%E1%86%BC%E1%84%89%E1%85%B5%E1%84%8F%E1%85%B5%E1%84%80%E1%85%B5.html">Django 07. Bookmark 템플릿 만들기 및 base.html에 연동시키기</a>
+                  
+                    (Categories: <a href="/category/Django">Django</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/django/2019/05/04/Django-05.-Bookmark%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%8C%E1%85%A6%E1%86%A8%E1%84%90%E1%85%B3-%E1%84%89%E1%85%B5%E1%84%8C%E1%85%A1%E1%86%A8%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5(models).html">Django 05. Bookmark프로젝트 시작하기(models)</a>
+                  
+                    (Categories: <a href="/category/Django">Django</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/django/2019/04/24/Django-04.-%E1%84%8C%E1%85%A1%E1%86%BC%E1%84%80%E1%85%A9-%E1%84%83%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%90%E1%85%A5%E1%84%87%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%89%E1%85%B3-%E1%84%89%E1%85%A5%E1%86%AF%E1%84%8E%E1%85%B5.html">Django 04. 장고 데이터베이스 설치</a>
+                  
+                    (Categories: <a href="/category/Django">Django</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/django/2019/04/24/Django-03.-%E1%84%8C%E1%85%A1%E1%86%BC%E1%84%80%E1%85%A9-%E1%84%8B%E1%85%A2%E1%86%B8-%E1%84%89%E1%85%A5%E1%86%AF%E1%84%8E%E1%85%B5-%E1%84%86%E1%85%B5%E1%86%BE-%E1%84%80%E1%85%A1%E1%86%AB%E1%84%83%E1%85%A1%E1%86%AB%E1%84%92%E1%85%A1%E1%86%AB-%E1%84%87%E1%85%B2-%E1%84%86%E1%85%A1%E1%86%AB%E1%84%83%E1%85%B3%E1%86%AF%E1%84%80%E1%85%B5.html">Django 03. 장고 앱 설치 및 간단한 뷰 만들기</a>
+                  
+                    (Categories: <a href="/category/Django">Django</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/django/2019/04/23/Django-02.-%E1%84%8C%E1%85%A1%E1%86%BC%E1%84%80%E1%85%A9%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%8C%E1%85%A6%E1%86%A8%E1%84%90%E1%85%B3-%E1%84%89%E1%85%B5%E1%84%8C%E1%85%A1%E1%86%A8%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.html">Django 02. 장고프로젝트 시작하기</a>
+                  
+                    (Categories: <a href="/category/Django">Django</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+  
+  </ul>
+</div>
+
+
+<div class="PageNavigation">
+  
+    <a class="prev" href="/django/2019/05/04/Django-05.-Bookmark%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%8C%E1%85%A6%E1%86%A8%E1%84%90%E1%85%B3-%E1%84%89%E1%85%B5%E1%84%8C%E1%85%A1%E1%86%A8%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5(models).html">&laquo; Django 05. Bookmark프로젝트 시작하기(models)</a>
+  
+  
+    <a class="next" href="/django/2019/05/04/Django-07.-Bookmark-%E1%84%90%E1%85%A6%E1%86%B7%E1%84%91%E1%85%B3%E1%86%AF%E1%84%85%E1%85%B5%E1%86%BA-%E1%84%86%E1%85%A1%E1%86%AB%E1%84%83%E1%85%B3%E1%86%AF%E1%84%80%E1%85%B5-%E1%84%86%E1%85%B5%E1%86%BE-base.html%E1%84%8B%E1%85%A6-%E1%84%8B%E1%85%A7%E1%86%AB%E1%84%83%E1%85%A9%E1%86%BC%E1%84%89%E1%85%B5%E1%84%8F%E1%85%B5%E1%84%80%E1%85%B5.html">Django 07. Bookmark 템플릿 만들기 및 base.html에 연동시키기 &raquo;</a>
+  
+</div>
+
+<div class="disqus-comments">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    /* <![CDATA[ */
+    var disqus_shortname = "https-fabl1106-github-io";
+    var disqus_identifier = "http://localhost:4000_Django 06. Bookmark views 및 url 구현하기";
+    var disqus_title = "Django 06. Bookmark views 및 url 구현하기";
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    /* ]]> */
+  </script>
+</div>
+
+        <footer>
+          &copy; Byeonguk Kim
+          
+            - <a href="https://github.com/fabl1106">https://github.com/fabl1106</a> - Powered by Jekyll.
+          
+          <div class="btn-github" style="float:right;">
+            <iframe src="https://ghbtns.com/github-btn.html?user=fabl1106&repo=fabl1106.github.io&type=star&count=true" frameborder="0" scrolling="0" width="85" height="20px"></iframe>
+            <iframe src="https://ghbtns.com/github-btn.html?user=fabl1106&repo=fabl1106.github.io&type=fork&count=true" frameborder="0" scrolling="0" width="85" height="20px"></iframe>
+          </div>
+        </footer>
+      </div>
+      <!-- end /.col-sm-8 -->
+    </div>
+    <!-- end /.container -->
+
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/super-search.js"></script>
+    <script src="/static/js/thickbox-compressed.js"></script>
+    <script src="/static/js/projects.js"></script>
+  </body>
+</html>
+
