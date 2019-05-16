@@ -5,10 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" sizes = "32x32" href="/static/img/favicon.ico"/>
-    <title>Django 05. Bookmark프로젝트 시작하기(models) - 대구 올빼미의 새벽 개발로그</title>
+    <title>Django 18. 인스타그램(17) - 회원가입기능 구현하기2 - 대구 올빼미의 새벽 개발로그</title>
     <meta name="author" content="Byeonguk Kim" />
-    <meta name="description" content="Django 05. Bookmark프로젝트 시작하기(models)" />
-    <meta name="keywords" content="Django 05. Bookmark프로젝트 시작하기(models), 대구 올빼미의 새벽 개발로그, Django" />
+    <meta name="description" content="Django 18. 인스타그램(17) - 회원가입기능 구현하기2" />
+    <meta name="keywords" content="Django 18. 인스타그램(17) - 회원가입기능 구현하기2, 대구 올빼미의 새벽 개발로그, Django" />
     <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml">
     <meta content="1749788565247320" property="fb:app_id">
     <meta content="대구 올빼미의 새벽 개발로그" property="og:site_name">
@@ -16,20 +16,20 @@
     
 
     
-      <meta content="Django 05. Bookmark프로젝트 시작하기(models)" property="og:title">
+      <meta content="Django 18. 인스타그램(17) - 회원가입기능 구현하기2" property="og:title">
       <meta content="article" property="og:type">
     
 
     
-      <meta content="장고를 활용하여 models를 구현하는 방법" property="og:description">
+      <meta content="장고를 활용하여 인스타그램을 클론 코딩합니다. 회원가입 기능을 추가합니다.." property="og:description">
     
 
     
-      <meta content="http://localhost:4000/django/2019/05/04/Django-05.-Bookmark%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%8C%E1%85%A6%E1%86%A8%E1%84%90%E1%85%B3-%E1%84%89%E1%85%B5%E1%84%8C%E1%85%A1%E1%86%A8%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5(models).html" property="og:url">
+      <meta content="http://localhost:4000/django/2019/05/07/Django-18.-%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%89%E1%85%B3%E1%84%90%E1%85%A1%E1%84%80%E1%85%B3%E1%84%85%E1%85%A2%E1%86%B7(17)-%E1%84%92%E1%85%AC%E1%84%8B%E1%85%AF%E1%86%AB%E1%84%80%E1%85%A1%E1%84%8B%E1%85%B5%E1%86%B8%E1%84%80%E1%85%B5%E1%84%82%E1%85%B3%E1%86%BC-%E1%84%80%E1%85%AE%E1%84%92%E1%85%A7%E1%86%AB%E1%84%92%E1%85%A1%E1%84%80%E1%85%B52.html" property="og:url">
     
 
     
-      <meta content="2019-05-04T11:06:23+09:00" property="article:published_time">
+      <meta content="2019-05-07T15:06:23+09:00" property="article:published_time">
       <meta content="http://localhost:4000/about/" property="article:author">
     
 
@@ -52,15 +52,15 @@
     <meta name="twitter:creator" content="@github.io">
 
     
-      <meta name="twitter:title" content="Django 05. Bookmark프로젝트 시작하기(models)">
+      <meta name="twitter:title" content="Django 18. 인스타그램(17) - 회원가입기능 구현하기2">
     
 
     
-      <meta name="twitter:url" content="http://localhost:4000/django/2019/05/04/Django-05.-Bookmark%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%8C%E1%85%A6%E1%86%A8%E1%84%90%E1%85%B3-%E1%84%89%E1%85%B5%E1%84%8C%E1%85%A1%E1%86%A8%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5(models).html">
+      <meta name="twitter:url" content="http://localhost:4000/django/2019/05/07/Django-18.-%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%89%E1%85%B3%E1%84%90%E1%85%A1%E1%84%80%E1%85%B3%E1%84%85%E1%85%A2%E1%86%B7(17)-%E1%84%92%E1%85%AC%E1%84%8B%E1%85%AF%E1%86%AB%E1%84%80%E1%85%A1%E1%84%8B%E1%85%B5%E1%86%B8%E1%84%80%E1%85%B5%E1%84%82%E1%85%B3%E1%86%BC-%E1%84%80%E1%85%AE%E1%84%92%E1%85%A7%E1%86%AB%E1%84%92%E1%85%A1%E1%84%80%E1%85%B52.html">
     
 
     
-      <meta name="twitter:description" content="장고를 활용하여 models를 구현하는 방법">
+      <meta name="twitter:description" content="장고를 활용하여 인스타그램을 클론 코딩합니다. 회원가입 기능을 추가합니다..">
     
 
     
@@ -128,10 +128,10 @@
       </div>
       <div class="col-sm-8 col-offset-1 main-layout">
         <header class="post-header">
-  <h1 class="post-title">Django 05. Bookmark프로젝트 시작하기(models)</h1>
+  <h1 class="post-title">Django 18. 인스타그램(17) - 회원가입기능 구현하기2</h1>
 </header>
 
-<span class="time">04 May 2019</span>
+<span class="time">07 May 2019</span>
 
   <span class="categories">
     &raquo; <a href="/category/Django">Django</a>
@@ -139,215 +139,122 @@
 
 
 <div class="content">
-  <div class="post"><h3 id="20190504-장고-bookmark-만들기-프로젝트">2019.05.04 장고 Bookmark 만들기 프로젝트</h3>
+  <div class="post"><h3 id="20190507-인스타그램-클론-코딩하기회원가입-기능-구현하기1">2019.05.07 인스타그램 클론 코딩하기(회원가입 기능 구현하기1)</h3>
 
-<h1 id="개인-bookmark웹-만들기">개인 Bookmark웹 만들기</h1>
-
-<ul>
-  <li>웹사이트를 통해 개인 북마크를 설정할 수 있다.
-    <ul>
-      <li>북마크에는 url 주소와 사이트명이 들어간다.</li>
-      <li>해당 사이트에 대한 설명과 작성일자가 자동으로 생성된다.</li>
-    </ul>
-  </li>
-  <li>메인 페이지에서 해당 북마크에 대한 리스트를 보여준다.
-    <ul>
-      <li>메인페이지에서 북마크 추가하기 버튼으로 추가할 수 있다.</li>
-      <li>해당 북마크를 클릭하면 상세페이지로 이동한다.</li>
-      <li>상세페이지에서 수정 및 삭제를 할 수 있다.</li>
-      <li>base.html과 연동하여 쉽게 구현할 수 있도록 한다.</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="이번-시간에-할-것">이번 시간에 할 것</h2>
+<h1 id="인스타그램-만들기17">인스타그램 만들기(17)</h1>
 
 <ul>
-  <li>프로젝트 시작하기</li>
-  <li>앱 만들기</li>
-  <li>models를 통해 DB 구축하기</li>
-  <li>만들어진 DB를 admin 사이트에 접속하여 확인하기</li>
-  <li>DB 등록하기</li>
+  <li><a href="https://github.com/fabl1106/dstagramproject">dstagram 소스코드 </a></li>
 </ul>
 
-<h1 id="1-북마크-만들기">1. 북마크 만들기</h1>
+<h1 id="회원가입-기능-구현하기56">회원가입 기능 구현하기(5~6)</h1>
 
-<h2 id="프로젝트-시작-준비하기">프로젝트 시작 준비하기</h2>
-
-<h3 id="가상-환경-만들기">가상 환경 만들기</h3>
-
-<ul>
-  <li>pip3 install virtualenv</li>
-  <li>virtualenv -python = python3.7 venv</li>
-  <li>venv라는 가상환경 생성</li>
-</ul>
-
-<h3 id="가상-환경-실행하기">가상 환경 실행하기</h3>
-
-<ul>
-  <li>source venv/bin/activate</li>
-  <li>해당 터미널에 venv ) 표시 확인</li>
-</ul>
-
-<h3 id="장고-설치하기">장고 설치하기</h3>
-
-<ul>
-  <li>pip install django==2.2</li>
-  <li>원하는 버전의 장고 설치</li>
-  <li>가상환경이므로 더 이상 pip3를 해줄 필요 없음</li>
-</ul>
-
-<h3 id="프로젝트-생성하기">프로젝트 생성하기</h3>
-
-<ul>
-  <li>django-admin startproject config .</li>
-  <li>config는 프로젝트명 뒤에 .은 해당 디렉토리에 생성</li>
-  <li>config내에 setting 및 url.py 등 관련 내용 생성</li>
-</ul>
-
-<h3 id="데이터베이스-migrate해주기">데이터베이스 migrate해주기</h3>
-
-<ul>
-  <li>생성된 프로젝트에 대한 데이터베이스 초기화</li>
-  <li>python manage.py migrate</li>
-</ul>
-
-<h2 id="북마크-앱-만들기">북마크 앱 만들기</h2>
-
-<h3 id="앱-설치하기">앱 설치하기</h3>
-
-<ul>
-  <li>python manage.py startapp bookmark</li>
-</ul>
-
-<p><img width="1112" alt="EF0BAE6D-9615-436F-A81A-00425884F267" src="https://user-images.githubusercontent.com/46436843/57172928-f9013600-6e61-11e9-81c4-70b60ececfd5.png" /></p>
-
-<ul>
-  <li>프로젝트 및 앱 설치 이후 상태 확인</li>
-  <li>settings.py에 installed app에 bookmark 추가</li>
-</ul>
-
-<h2 id="model-설계하기">model 설계하기</h2>
+<h2 id="모델-폼을-통해-회원가입-기능-구현하기">모델 폼을 통해 회원가입 기능 구현하기</h2>
 
 <ol>
-  <li>해당 bookmark 폴더의 models.py 이동
+  <li>views를 통해 로직 구현하기
     <ol>
-      <li>site_name/url/contents/created 구성</li>
+      <li>POST형태로 받을 때와 처음 실행할 때 화면 구현</li>
+      <li>render의 특징</li>
+      <li>POST형태의 데이터 저장하기</li>
     </ol>
   </li>
-  <li>str 구성을 통해 admin 화면에서 보이는 모습 구현
+  <li>템플릿 만들기</li>
+  <li>url 연결하기</li>
+  <li>비밀번호 암호화하기</li>
+  <li>forms.py를 구현하여 views.py를 간락햐게 만들기
     <ol>
-      <li>site_name 및 url 보이도록 구현</li>
-    </ol>
-  </li>
-  <li>class Meta : ordering을 통해 정렬 순서 구현
-    <ol>
-      <li>생성일자 역순으로 정렬 순서 구현</li>
-    </ol>
-  </li>
-</ol>
-
-<p><img width="1100" alt="052805CF-1848-4786-9582-B5D6ADE34ACD" src="https://user-images.githubusercontent.com/46436843/57172933-17673180-6e62-11e9-8a41-6418cd3a60ab.png" /></p>
-
-<ol>
-  <li>모델 설계 이후에 데이터베이스에 migration 해주기
-    <ol>
-      <li>python manage.py makemigrations bookmark : 변경 사항 추적 및 기록하기</li>
-      <li>python manage.py migrate bookmark 0001 : 변경 사항 DB에 적용하기
+      <li>forms.py 오버라이딩하기</li>
+      <li>views.py 간략히 수정하기</li>
+      <li>중복 입력 받기(commit=False)</li>
+      <li>signup_complete에 회원가입한 사람 이름 띄어주기</li>
+      <li>form을 통해 받은 자료 암호화하기
         <ol>
-          <li>migrate뒤 bookmark 0001 은 굳이 안해줘도 되나 실무에서 여러 사람이 함께 프로젝트를 진행해야되는 상황이 외면 꼭 해줘야 한다.</li>
+          <li>set_password</li>
         </ol>
       </li>
     </ol>
   </li>
+  <li>비밀번호 재입력창 만들기
+    <ol>
+      <li>비밀번호 중복 확인하기</li>
+    </ol>
+  </li>
+  <li>해로쿠를 통해 서버 배포하기</li>
 </ol>
 
-<h3 id="model에-대한-추가적인-공부">model에 대한 추가적인 공부</h3>
+<h2 id="5-formspy를-구현하여-viewspy-간략하게-만들기">5. forms.py를 구현하여 views.py 간략하게 만들기</h2>
+
+<ol>
+  <li>forms.py 구현하기</li>
+</ol>
+
+<p><img width="1033" alt="E405F6FA-56D6-42DA-AC56-1E6EA71807CF" src="https://user-images.githubusercontent.com/46436843/57295910-8a90d200-7106-11e9-9403-fcad9105aad3.png" /></p>
 
 <ul>
-  <li>모델의 형태 - class
+  <li>forms.py 생성</li>
+  <li>class Meta를 활용해 입력 받을 필드들을 나열한다.</li>
+  <li>password에 대해서는 입력시 <em>**</em>가 나오도록 하기 위해 커스터마이징 한다.</li>
+</ul>
+
+<h3 id="모델폼-일반-보기">모델폼 일반 보기</h3>
+
+<ul>
+  <li>class  Meta 활용</li>
+  <li>다 가지고 오려면 “__all__”</li>
+  <li>우리가 views.py에 만든 것은 signup.html에 추가되는 것이다.</li>
+  <li>따라서 우리가 만들어 준 것은 지워주면 된다.</li>
+  <li>fields에는 해당 모델에 대해 입력 받을 필드들을 나열한다.</li>
+  <li>
     <ul>
-      <li>class Bookmark(models.Model)
+      <li>추가필드도 포함될 수 있다.
         <ul>
-          <li>models.Model을 상속 받는 이유</li>
-          <li>상속 : 어떤 클래스가 부모 클래스를 상속 받는다.</li>
-          <li>부모클래스가 가지고 있는 메서드 및 속성 값을 사용하기 위해서</li>
-          <li>models.Model이 가지고 있는 메서드나 속성값을 사용하기 위해서 사용</li>
-          <li>models.Model : ORM 관련 기능들
-            <ul>
-              <li>DB를 추상화해서 코드로 조작할 수 있게 하는 기능</li>
-              <li>데이터를 추가, 수정, 검색, 삭제</li>
-            </ul>
-          </li>
+          <li>필드 목록과 추가 필드가 겹치면 오버라이드 한다.(password)</li>
         </ul>
       </li>
     </ul>
   </li>
-  <li>사용자에게 안 받지만 필요한 것
+  <li>fields에 써진 순서대로 출력된다.</li>
+  <li>이후에 해야 하는 것들
     <ul>
-      <li>작성자 : 로그인한 유저정보를 찾아서 추가
-        <ul>
-          <li>장고에서는 기본적으로 id값을 생성하여 저장시켜준다.</li>
-        </ul>
-      </li>
-      <li>작성일 : 서버 시간을 읽어서 timestamp값을 만들어 추가
-        <ul>
-          <li>자동 옵션 auto_now, auto_now_add를 하면 자동 서버시간을 저장해준다.</li>
-          <li>단 setting에서 TIME_ZONE = “Asia/Seoul” 로 해준다.</li>
-        </ul>
-      </li>
+      <li>필드의 기본값 설정하기(상품 장바구니 기본값 1로 셋팅)</li>
+      <li>placeholder 설정법</li>
+      <li>css class 설정법</li>
+      <li>Validator 설정법</li>
+      <li>커스텀 필드 만드는 법</li>
+      <li>헬프 텍스트 설정법 ( 이거는 나도 꼭 필요하다!! )</li>
     </ul>
   </li>
 </ul>
 
-<h2 id="admin에서-모델-확인하기">admin에서 모델 확인하기</h2>
+<ol>
+  <li>views.py 간략하게 만들기(중복 저장 피하기)</li>
+</ol>
+
+<p><img width="1167" alt="CE37BDBF-0AFA-4707-9D4A-EED2900D6C1D" src="https://user-images.githubusercontent.com/46436843/57295916-911f4980-7106-11e9-9c9a-14edaacac254.png" /></p>
 
 <ul>
-  <li>admin.py로 이동</li>
-  <li>from .models import Bookmark</li>
-  <li>admin.site.register(Bookmark)</li>
+  <li>from .forms import SignUpForm을 가지고 온다.</li>
+  <li>POST일 때 SignUpForm(request.POST)인 객체를 생성하고</li>
+  <li>그것이 유효하다면 user_instance에 signup_form을 저장한다.</li>
+  <li>하지만 아래에서 또 한번 저장이 있으므로 중복 저장을 피하기 위해 commit=False를 입력한다.</li>
+  <li>set_password 및 cleaned_data를 통해 유효한 문자만 남긴 상태를 저장한다. 또한 암호화한다.</li>
+  <li>render 뒤쪽에 {‘username’:user_instance.username’}을 넣어서 username이 나오도록 구현해준다.</li>
 </ul>
 
-<p>￼
-<img width="1053" alt="393886A4-1AE2-4F51-A535-1D2EC41E8186" src="https://user-images.githubusercontent.com/46436843/57172932-1504d780-6e62-11e9-87f8-0fce0433ee22.png" /></p>
-
-<h2 id="model-확인해보기">model 확인해보기</h2>
+<h2 id="6-비밀번호-재입력창-만들기">6. 비밀번호 재입력창 만들기</h2>
 
 <ol>
-  <li>superuser 생성 : admin 사이트 로그인을 위해
-    <ol>
-      <li>python manage.py createsuperuser</li>
-      <li>아이디 및 비밀번호 등록</li>
-    </ol>
-  </li>
+  <li>form 커스터마이징</li>
 </ol>
 
-<h3 id="파이썬-서버-실행-시켜보기">파이썬 서버 실행 시켜보기</h3>
+<p><img width="1173" alt="ADE345FE-75B8-4AF8-AE36-A6C017B28C4A" src="https://user-images.githubusercontent.com/46436843/57295940-a1372900-7106-11e9-8881-6848fcf7ccdc.png" /></p>
 
-<ol>
-  <li>서버 실행하기
-    <ol>
-      <li>python manage.py runserver [포트번호]</li>
-      <li>실행 이후 나오는 url로 접속</li>
-    </ol>
-  </li>
-</ol>
-
-<p><img width="1239" alt="F40C76E0-3161-4FFA-9DEE-00E0152EE7D1" src="https://user-images.githubusercontent.com/46436843/57172934-1930f500-6e62-11e9-8a0b-ec6141c4ca15.png" /></p>
-
-<ol>
-  <li>
-    <p>url 뒤에 admin을 붙여서 해당 admin으로 접근 및 로그인</p>
-  </li>
-  <li>
-    <p>해당 bookmark를 통해 몇가지를 직접 add 해보기</p>
-  </li>
-</ol>
-
-<p><img width="1874" alt="8817740F-675B-4301-8ADA-858DBCC72666" src="https://user-images.githubusercontent.com/46436843/57172935-1a622200-6e62-11e9-982e-c451009406b8.png" /></p>
-
-<h2 id="다음에서-직접-viewspy를-작성하여-url에-연결하여-봅니다">다음에서 직접 views.py를 작성하여 url에 연결하여 봅니다.</h2>
-
+<ul>
+  <li>Repeat_password를 fields에 추가해 준뒤에 폼에 없는 field 이므로 커스터마이징해준다.</li>
+  <li>clean_[필드명]을 통해 cleaned_data를 받아오고 이 받아온 데이터들 중 ‘password’와 ‘Repeat_password’를 확인하여서 일치 하지 않으면 에러 메시지를 전송한다.</li>
+  <li>일치하면 일반적으로 ‘Repeat_password’를 반환한다.</li>
+</ul>
 </div>
   <div class="share-page">
   <span style="float: left;">Share this on &rarr;&nbsp;&nbsp;</span>
@@ -357,7 +264,7 @@
   <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 
   <!-- Facebook -->
-  <div class="fb-share-button" data-href="http://localhost:4000/django/2019/05/04/Django-05.-Bookmark%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%8C%E1%85%A6%E1%86%A8%E1%84%90%E1%85%B3-%E1%84%89%E1%85%B5%E1%84%8C%E1%85%A1%E1%86%A8%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5(models).html" data-layout="button_count" style="position: relative; top: -8px; left: 3px;"></div>
+  <div class="fb-share-button" data-href="http://localhost:4000/django/2019/05/07/Django-18.-%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%89%E1%85%B3%E1%84%90%E1%85%A1%E1%84%80%E1%85%B3%E1%84%85%E1%85%A2%E1%86%B7(17)-%E1%84%92%E1%85%AC%E1%84%8B%E1%85%AF%E1%86%AB%E1%84%80%E1%85%A1%E1%84%8B%E1%85%B5%E1%86%B8%E1%84%80%E1%85%B5%E1%84%82%E1%85%B3%E1%86%BC-%E1%84%80%E1%85%AE%E1%84%92%E1%85%A7%E1%86%AB%E1%84%92%E1%85%A1%E1%84%80%E1%85%B52.html" data-layout="button_count" style="position: relative; top: -8px; left: 3px;"></div>
 </div>
 
 <div id="fb-root"></div>
@@ -383,7 +290,7 @@
               <ul>
             
                 <li class="relatedPost">
-                  <a href="http://localhost:4000/django/2019/05/05/Django-15.-%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%89%E1%85%B3%E1%84%90%E1%85%A1%E1%84%80%E1%85%B3%E1%84%85%E1%85%A2%E1%86%B7-%E1%84%8C%E1%85%A9%E1%87%82%E1%84%8B%E1%85%A1%E1%84%8B%E1%85%AD-%E1%84%86%E1%85%B5%E1%86%BE-%E1%84%8C%E1%85%A5%E1%84%8C%E1%85%A1%E1%86%BC%E1%84%92%E1%85%A1%E1%86%AB-%E1%84%91%E1%85%A9%E1%84%89%E1%85%B3%E1%84%90%E1%85%B5%E1%86%BC-%E1%84%87%E1%85%A9%E1%84%80%E1%85%B5.html">Django 15. 인스타그램(12~14) - 좋아요 및 저장한 포스팅 보기</a>
+                  <a href="http://localhost:4000/django/2019/05/16/Django-23.-%E1%84%8C%E1%85%A1%E1%86%BC%E1%84%80%E1%85%A9-%E1%84%83%E1%85%A2%E1%86%BA%E1%84%80%E1%85%B3%E1%86%AF-%E1%84%89%E1%85%A1%E1%86%A8%E1%84%8C%E1%85%A6-%E1%84%86%E1%85%B5%E1%86%BE-%E1%84%89%E1%85%AE%E1%84%8C%E1%85%A5%E1%86%BC-%E1%84%80%E1%85%AE%E1%84%92%E1%85%A7%E1%86%AB%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.html">Django 23. 장고 댓글 삭제 및 수정 구현하기</a>
                   
                     (Categories: <a href="/category/Django">Django</a>)
                   
@@ -400,7 +307,45 @@
           
             
                 <li class="relatedPost">
-                  <a href="http://localhost:4000/django/2019/05/05/Django-14.-%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%89%E1%85%B3%E1%84%90%E1%85%A1%E1%84%80%E1%85%B3%E1%84%85%E1%85%A2%E1%86%B7-%E1%84%8C%E1%85%A9%E1%87%82%E1%84%8B%E1%85%A1%E1%84%8B%E1%85%AD-%E1%84%87%E1%85%A5%E1%84%90%E1%85%B3%E1%86%AB-%E1%84%80%E1%85%AE%E1%84%92%E1%85%A7%E1%86%AB%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.html">Django 14. 인스타그램(11) - 좋아요 버튼 구현하기</a>
+                  <a href="http://localhost:4000/django/2019/05/16/Django-22.-%E1%84%8C%E1%85%A1%E1%86%BC%E1%84%80%E1%85%A9-%E1%84%83%E1%85%A2%E1%86%BA%E1%84%80%E1%85%B3%E1%86%AF-%E1%84%80%E1%85%B5%E1%84%82%E1%85%B3%E1%86%BC-%E1%84%80%E1%85%AE%E1%84%92%E1%85%A7%E1%86%AB%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5(%E1%84%92%E1%85%A1%E1%86%B7%E1%84%89%E1%85%AE%E1%84%92%E1%85%A7%E1%86%BC-%E1%84%87%E1%85%B2).html">Django 22. 장고 댓글 기능 구현하기(함수형 뷰)</a>
+                  
+                    (Categories: <a href="/category/Django">Django</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/django/2019/05/14/Django-21.-%E1%84%8C%E1%85%A1%E1%86%BC%E1%84%80%E1%85%A9-%E1%84%91%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%8C%E1%85%B5-%E1%84%89%E1%85%A5%E1%84%8E%E1%85%B5%E1%86%BC-%E1%84%80%E1%85%B5%E1%84%82%E1%85%B3%E1%86%BC-%E1%84%80%E1%85%AE%E1%84%92%E1%85%A7%E1%86%AB.html">Django 21. 장고 페이지 서칭 기능 구현</a>
                   
                     (Categories: <a href="/category/Django">Django</a>)
                   
@@ -417,7 +362,7 @@
           
             
                 <li class="relatedPost">
-                  <a href="http://localhost:4000/django/2019/05/05/Django-13.-%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%89%E1%85%B3%E1%84%90%E1%85%A1%E1%84%80%E1%85%B3%E1%84%85%E1%85%A2%E1%86%B7-%E1%84%80%E1%85%AF%E1%86%AB%E1%84%92%E1%85%A1%E1%86%AB-%E1%84%86%E1%85%AE%E1%86%AB%E1%84%8C%E1%85%A6-%E1%84%86%E1%85%B5%E1%86%BE-%E1%84%83%E1%85%A2%E1%86%BA%E1%84%80%E1%85%B3%E1%86%AF-%E1%84%80%E1%85%AE%E1%84%92%E1%85%A7%E1%86%AB%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.html">Django 13. 인스타그램(9~10) - 권한 문제 및 댓글 구현하기</a>
+                  <a href="http://localhost:4000/django/2019/05/14/Django-20.-%E1%84%8C%E1%85%A1%E1%86%BC%E1%84%80%E1%85%A9-%E1%84%91%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%8C%E1%85%B5%E1%86%BC-%E1%84%80%E1%85%B5%E1%84%82%E1%85%B3%E1%86%BC-%E1%84%80%E1%85%AE%E1%84%92%E1%85%A7%E1%86%AB.html">Django 20. 장고 페이징 기능 구현</a>
                   
                     (Categories: <a href="/category/Django">Django</a>)
                   
@@ -425,6 +370,34 @@
           
           
         
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
       
     
   
@@ -441,7 +414,7 @@
           
             
                 <li class="relatedPost">
-                  <a href="http://localhost:4000/django/2019/05/04/Django-12.-%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%89%E1%85%B3%E1%84%90%E1%85%A1%E1%84%80%E1%85%B3%E1%84%85%E1%85%A2%E1%86%B7-success_url-%E1%84%86%E1%85%B5%E1%86%BE-account-%E1%84%8B%E1%85%A2%E1%86%B8-%E1%84%80%E1%85%AE%E1%84%92%E1%85%A7%E1%86%AB%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.html">Django 12. 인스타그램(7~8) - success_url 및 account 앱 구현하기</a>
+                  <a href="http://localhost:4000/django/2019/05/10/Django-19.-%E1%84%8C%E1%85%A1%E1%86%BC%E1%84%80%E1%85%A9-%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8C%E1%85%A5%E1%86%A8%E1%84%91%E1%85%A1%E1%84%8B%E1%85%B5%E1%86%AF(STATIC,MEDIA).html">Django 19. 장고 정적파일(STATIC,MEDIA)</a>
                   
                     (Categories: <a href="/category/Django">Django</a>)
                   
@@ -456,9 +429,30 @@
       
         
           
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
             
                 <li class="relatedPost">
-                  <a href="http://localhost:4000/django/2019/05/04/Django-08.-Bookmark-%E1%84%80%E1%85%A2%E1%84%87%E1%85%A7%E1%86%AF-%E1%84%90%E1%85%A6%E1%86%B7%E1%84%91%E1%85%B3%E1%86%AF%E1%84%85%E1%85%B5%E1%86%BA-%E1%84%86%E1%85%A1%E1%86%AB%E1%84%83%E1%85%B3%E1%86%AF%E1%84%80%E1%85%B5-%E1%84%86%E1%85%B5%E1%86%BE-%E1%84%85%E1%85%B5%E1%86%BC%E1%84%8F%E1%85%B3%E1%84%8B%E1%85%A7%E1%86%AB%E1%84%80%E1%85%A7%E1%86%AF.html">Django 08. Bookmark 개별 템플릿 만들기 및 링크연결</a>
+                  <a href="http://localhost:4000/django/2019/05/07/Django-17.-%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%89%E1%85%B3%E1%84%90%E1%85%A1%E1%84%80%E1%85%B3%E1%84%85%E1%85%A2%E1%86%B7(16)-%E1%84%92%E1%85%AC%E1%84%8B%E1%85%AF%E1%86%AB%E1%84%80%E1%85%A1%E1%84%8B%E1%85%B5%E1%86%B8%E1%84%80%E1%85%B5%E1%84%82%E1%85%B3%E1%86%BC-%E1%84%80%E1%85%AE%E1%84%92%E1%85%A7%E1%86%AB%E1%84%92%E1%85%A1%E1%84%80%E1%85%B51.html">Django 17. 인스타그램(16) - 회원가입기능 구현하기1</a>
                   
                     (Categories: <a href="/category/Django">Django</a>)
                   
@@ -473,16 +467,62 @@
       
         
           
-            
-                <li class="relatedPost">
-                  <a href="http://localhost:4000/django/2019/05/04/Django-11.-%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%89%E1%85%B3%E1%84%90%E1%85%A1%E1%84%80%E1%85%B3%E1%84%85%E1%85%A2%E1%86%B7-template%E1%84%89%E1%85%A5%E1%86%AF%E1%84%80%E1%85%A8-%E1%84%86%E1%85%B5%E1%86%BE-%E1%84%89%E1%85%A1%E1%84%8C%E1%85%B5%E1%86%AB%E1%84%8B%E1%85%A5%E1%86%B8%E1%84%85%E1%85%A9%E1%84%83%E1%85%B3%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.html">Django 11. 인스타그램(5~6) - template설계 및 사진업로드하기</a>
-                  
-                    (Categories: <a href="/category/Django">Django</a>)
-                  
-                </li>
-          
-          
+      
+    
+  
+    
+      
         
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
       
     
   
@@ -1109,10 +1149,10 @@
 
 <div class="PageNavigation">
   
-    <a class="prev" href="/til/2019/05/02/TIL.html">&laquo; 2019_05_02_TIL</a>
+    <a class="prev" href="/django/2019/05/07/Django-17.-%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%89%E1%85%B3%E1%84%90%E1%85%A1%E1%84%80%E1%85%B3%E1%84%85%E1%85%A2%E1%86%B7(16)-%E1%84%92%E1%85%AC%E1%84%8B%E1%85%AF%E1%86%AB%E1%84%80%E1%85%A1%E1%84%8B%E1%85%B5%E1%86%B8%E1%84%80%E1%85%B5%E1%84%82%E1%85%B3%E1%86%BC-%E1%84%80%E1%85%AE%E1%84%92%E1%85%A7%E1%86%AB%E1%84%92%E1%85%A1%E1%84%80%E1%85%B51.html">&laquo; Django 17. 인스타그램(16) - 회원가입기능 구현하기1</a>
   
   
-    <a class="next" href="/django/2019/05/04/Django-09.-%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%89%E1%85%B3%E1%84%90%E1%85%A1%E1%84%80%E1%85%B3%E1%84%85%E1%85%A2%E1%86%B7-%E1%84%8B%E1%85%A2%E1%86%B8-%E1%84%86%E1%85%B5%E1%86%BE-%E1%84%86%E1%85%A9%E1%84%83%E1%85%A6%E1%86%AF-%E1%84%86%E1%85%A1%E1%86%AB%E1%84%83%E1%85%B3%E1%86%AF%E1%84%80%E1%85%B5.html">Django 09. 인스타그램(1~2) - 앱 및 모델 만들기 &raquo;</a>
+    <a class="next" href="/til/2019/05/08/TIL.html">2019_05_08_TIL &raquo;</a>
   
 </div>
 
@@ -1121,8 +1161,8 @@
   <script type="text/javascript">
     /* <![CDATA[ */
     var disqus_shortname = "https-fabl1106-github-io";
-    var disqus_identifier = "http://localhost:4000_Django 05. Bookmark프로젝트 시작하기(models)";
-    var disqus_title = "Django 05. Bookmark프로젝트 시작하기(models)";
+    var disqus_identifier = "http://localhost:4000_Django 18. 인스타그램(17) - 회원가입기능 구현하기2";
+    var disqus_title = "Django 18. 인스타그램(17) - 회원가입기능 구현하기2";
 
     /* * * DON'T EDIT BELOW THIS LINE * * */
     (function() {

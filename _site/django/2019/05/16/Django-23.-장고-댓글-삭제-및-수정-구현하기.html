@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" sizes = "32x32" href="/static/img/favicon.ico"/>
+    <title>Django 23. 장고 댓글 삭제 및 수정 구현하기 - 대구 올빼미의 새벽 개발로그</title>
+    <meta name="author" content="Byeonguk Kim" />
+    <meta name="description" content="Django 23. 장고 댓글 삭제 및 수정 구현하기" />
+    <meta name="keywords" content="Django 23. 장고 댓글 삭제 및 수정 구현하기, 대구 올빼미의 새벽 개발로그, Django" />
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml">
+    <meta content="1749788565247320" property="fb:app_id">
+    <meta content="대구 올빼미의 새벽 개발로그" property="og:site_name">
+
+    
+
+    
+      <meta content="Django 23. 장고 댓글 삭제 및 수정 구현하기" property="og:title">
+      <meta content="article" property="og:type">
+    
+
+    
+      <meta content="장고를 통해 댓글 기능을 구현해본다. 장고 댓글 삭제 및 수정하기를 직접 구현해본다. 댓글 삭제하기 댓글 수정하기" property="og:description">
+    
+
+    
+      <meta content="http://localhost:4000/django/2019/05/16/Django-23.-%E1%84%8C%E1%85%A1%E1%86%BC%E1%84%80%E1%85%A9-%E1%84%83%E1%85%A2%E1%86%BA%E1%84%80%E1%85%B3%E1%86%AF-%E1%84%89%E1%85%A1%E1%86%A8%E1%84%8C%E1%85%A6-%E1%84%86%E1%85%B5%E1%86%BE-%E1%84%89%E1%85%AE%E1%84%8C%E1%85%A5%E1%86%BC-%E1%84%80%E1%85%AE%E1%84%92%E1%85%A7%E1%86%AB%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.html" property="og:url">
+    
+
+    
+      <meta content="2019-05-16T16:06:23+09:00" property="article:published_time">
+      <meta content="http://localhost:4000/about/" property="article:author">
+    
+
+    
+      <meta content="http://localhost:4000/static/img/avatar.jpg" property="og:image">
+    
+
+    
+      
+        <meta content="Django" property="article:section">
+      
+    
+
+    
+      
+    
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@github.io">
+    <meta name="twitter:creator" content="@github.io">
+
+    
+      <meta name="twitter:title" content="Django 23. 장고 댓글 삭제 및 수정 구현하기">
+    
+
+    
+      <meta name="twitter:url" content="http://localhost:4000/django/2019/05/16/Django-23.-%E1%84%8C%E1%85%A1%E1%86%BC%E1%84%80%E1%85%A9-%E1%84%83%E1%85%A2%E1%86%BA%E1%84%80%E1%85%B3%E1%86%AF-%E1%84%89%E1%85%A1%E1%86%A8%E1%84%8C%E1%85%A6-%E1%84%86%E1%85%B5%E1%86%BE-%E1%84%89%E1%85%AE%E1%84%8C%E1%85%A5%E1%86%BC-%E1%84%80%E1%85%AE%E1%84%92%E1%85%A7%E1%86%AB%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.html">
+    
+
+    
+      <meta name="twitter:description" content="장고를 통해 댓글 기능을 구현해본다. 장고 댓글 삭제 및 수정하기를 직접 구현해본다. 댓글 삭제하기 댓글 수정하기">
+    
+
+    
+
+    <!-- Font awesome icons -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+    <!-- syntax highlighting CSS -->
+    <link rel="stylesheet" href="/static/css/syntax.css">
+    <!-- Bootstrap core CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300italic,300,400italic,700&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/super-search.css">
+    <link rel="stylesheet" href="/static/css/thickbox.css">
+    <link rel="stylesheet" href="/static/css/projects.css">
+    <link rel="stylesheet" href="/static/css/main.css">
+
+    
+  </head>
+  <body>
+    <div class="container">
+      <div class="col-sm-3">
+        <div class="fixed-condition">
+          <a href="/"><img class="profile-avatar" src="/static/img/avatar.jpg" height="120px" width="120px" /></a>
+          <h1 class="author-name">Byeonguk Kim</h1>
+          
+            <div class="profile-about">
+              <h5>안녕하세요. 29살의 조금은 늦은 나이로 새롭게 개발자로 시작하는 신입 개발자입니다.</h5>
+            </div>
+          
+          <div class="social">
+            <ul>
+              
+                <li><a href="https://web.facebook.com/byungwook.kim.923" target="_blank"><i class="fa fa-facebook"></i></a></li>
+              
+                <li><a href="#" target="_blank"><i class="fa fa-twitter"></i></a></li>
+              
+                <li><a href="#" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+              
+                <li><a href="#" target="_blank"><i class="fa fa-stack-exchange"></i></a></li>
+              
+                <li><a href="https://github.com/fabl1106" target="_blank"><i class="fa fa-github"></i></a></li>
+              
+            </ul>
+          </div>
+          <div class="search" id="js-search">
+            <input type="text" placeholder="(sitemap)~$ type to search" class="search__input form-control" id="js-search__input">
+            <ul class="search__results" id="js-search__results"></ul>
+          </div>
+          <hr />
+          <ul class="sidebar-nav">
+            <strong>Navigation</strong>
+            <li><a href="/">Home</a></li>
+            
+              <li><a class="about" href="/about/">About Me</a></li>
+            
+              <li><a class="about" href="/projects/">My Projects</a></li>
+            
+              <li><a class="about" href="/feed.xml">XML Feed</a></li>
+            
+          </ul>
+        </div>
+        <!-- end /.fixed-condition -->
+      </div>
+      <div class="col-sm-8 col-offset-1 main-layout">
+        <header class="post-header">
+  <h1 class="post-title">Django 23. 장고 댓글 삭제 및 수정 구현하기</h1>
+</header>
+
+<span class="time">16 May 2019</span>
+
+  <span class="categories">
+    &raquo; <a href="/category/Django">Django</a>
+  </span>
+
+
+<div class="content">
+  <div class="post"><h3 id="20190516-장고-댓글-삭제-및-수정-구현하기">2019.05.16 장고 댓글 삭제 및 수정 구현하기</h3>
+
+<h1 id="댓글-수정-및-삭제-구현하기">댓글 수정 및 삭제 구현하기</h1>
+
+<ol>
+  <li>views.py 만들기</li>
+  <li>템플릿 만들기</li>
+  <li>urls.py  만들기</li>
+</ol>
+
+<h1 id="update--delete-페이지에-접근했을-때-구동되는-로직들">update , delete 페이지에 접근했을 때 구동되는 로직들</h1>
+
+<h2 id="함수형-뷰-구현하기">함수형 뷰 구현하기</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="k">def</span> <span class="nf">comment_update</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">comment_id</span><span class="p">):</span>
+
+    <span class="n">comment</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Comment</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">comment_id</span><span class="p">)</span>
+    <span class="n">document</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Document</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">comment</span><span class="o">.</span><span class="n">document</span><span class="o">.</span><span class="nb">id</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span> <span class="o">!=</span> <span class="n">comment</span><span class="o">.</span><span class="n">author</span><span class="p">:</span>
+        <span class="n">messages</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s">"권한 없음"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">document</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">"POST"</span><span class="p">:</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">CommentForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="n">comment</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">document</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">CommentForm</span><span class="p">(</span><span class="n">instance</span><span class="o">=</span><span class="n">comment</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="s">'board/comment/comment_update.html'</span><span class="p">,{</span><span class="s">'form'</span><span class="p">:</span><span class="n">form</span><span class="p">})</span>
+
+
+<span class="k">def</span> <span class="nf">comment_delete</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">comment_id</span><span class="p">):</span>
+
+    <span class="n">comment</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Comment</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">comment_id</span><span class="p">)</span>
+    <span class="n">document</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Document</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">comment</span><span class="o">.</span><span class="n">document</span><span class="o">.</span><span class="nb">id</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span> <span class="o">!=</span> <span class="n">comment</span><span class="o">.</span><span class="n">author</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">is_staff</span> <span class="ow">and</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span> <span class="o">!=</span> <span class="n">document</span><span class="o">.</span><span class="n">author</span><span class="p">:</span>
+        <span class="n">messages</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s">'권한 없음'</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">document</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">"POST"</span><span class="p">:</span>
+        <span class="n">comment</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">document</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s">'board/comment/comment_delete.html'</span><span class="p">,</span> <span class="p">{</span><span class="s">'object'</span><span class="p">:</span><span class="n">comment</span><span class="p">})</span>
+
+</code></pre></div></div>
+
+<ol>
+  <li>해당 객체가 있는지 확인 : get_object_or_404, objects.get , objects.filter.exists</li>
+  <li>객체에 대한 권한 체크 - 작성자, 관리자</li>
+  <li>get : 해당 페이지에 필요한 값 입력 받기</li>
+  <li>post : 입력 받은 값에 대한 처리 -&gt; 삭제 , 업데이트</li>
+  <li>처리 후 페이지 이동</li>
+  <li>여기서 중요한 것은 instance = comment를 넣어주어서 기존에 등록되었던 값이 보이도록 해줘야 한다.</li>
+  <li>instance를 등록해주지 않으면 새로운 값으로 생각하고 새롭게 생성하게 된다.</li>
+</ol>
+
+<h2 id="클래스-뷰">클래스 뷰</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="kn">from</span> <span class="nn">django.views.generic.edit</span> <span class="kn">import</span> <span class="n">CreateView</span><span class="p">,</span> <span class="n">UpdateView</span><span class="p">,</span> <span class="n">DeleteView</span>
+
+<span class="k">class</span> <span class="nc">CommentUpdate</span><span class="p">(</span><span class="n">UpdateView</span><span class="p">):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Comment</span>
+    <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span> <span class="s">'text'</span><span class="p">]</span>
+    <span class="n">template_name_suffix</span> <span class="o">=</span> <span class="s">'_update'</span>
+    <span class="c"># success_url = '/'</span>
+
+
+    <span class="k">def</span> <span class="nf">dispatch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">object</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_object</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">object</span><span class="o">.</span><span class="n">author</span> <span class="o">!=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">:</span>
+            <span class="n">messages</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s">'수정할 권한이 없습니다.'</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="s">'/'</span><span class="p">)</span>
+            <span class="c"># 삭제 페이지에서 권한이 없다! 라고 띄우거나</span>
+            <span class="c"># detail페이지로 들어가서 삭제에 실패했습니다. 라고 띄우거나</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">PhotoUpdate</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">dispatch</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">HttpResponseRedirect</span>
+<span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">messages</span>
+
+
+<span class="k">class</span> <span class="nc">CommentDelete</span><span class="p">(</span><span class="n">DeleteView</span><span class="p">):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Comment</span>
+    <span class="n">template_name_suffix</span> <span class="o">=</span> <span class="s">'_delete'</span> 
+    <span class="n">success_url</span> <span class="o">=</span> <span class="s">'/'</span>
+
+    <span class="k">def</span> <span class="nf">dispatch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">object</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_object</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">object</span><span class="o">.</span><span class="n">author</span> <span class="o">!=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">:</span>
+            <span class="n">messages</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s">'삭제할 권한이 없습니다.'</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="s">'/'</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">PhotoDelete</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">dispatch</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ol>
+  <li>객체에 대한 권한 체크 - 작성자, 관리자 - dispatch</li>
+  <li>해당 객체가 있는지 확인 : get_object, get_queryset</li>
+  <li>get : 해당 페이지에 필요한 값 입력 받기 - def get</li>
+  <li>post : 입력 받은 값에 대한 처리 -&gt; 삭제 , 업데이트 - def post</li>
+  <li>dispatch를 통해 get과 post를 한번에 처리할 수 있고 class generic 뷰를 상속받아서 더 간단하게 구현 가능하다.</li>
+  <li>처리 후 페이지 이동</li>
+</ol>
+
+<h3 id="def-dispatch에서-post와-get나누어서-처리하기">def dispatch에서 POST와 GET나누어서 처리하기</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">dispatch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="nb">object</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_object</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">"POST"</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>   
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="템플릿-만들기">템플릿 만들기</h2>
+
+<h3 id="delethtml-boardcommentcomment_deletehtml">delet.html (board/comment/comment_delete.html)</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="p">{</span> <span class="o">%</span> <span class="n">extends</span> <span class="s">'base.html'</span> <span class="o">%</span> <span class="p">}</span>
+<span class="p">{</span> <span class="o">%</span> <span class="n">block</span> <span class="n">content</span> <span class="o">%</span> <span class="p">}</span>
+<span class="o">&lt;</span><span class="err">!</span><span class="o">--</span><span class="err">진짜</span> <span class="err">지울건지</span> <span class="err">확인을</span> <span class="err">받아야</span> <span class="err">한다</span><span class="o">.</span> <span class="n">form</span><span class="err">을</span> <span class="err">또</span> <span class="err">보여줄</span> <span class="err">필요가</span> <span class="err">없다</span><span class="o">.--&gt;</span>
+<span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s">"alert alert-primary"</span> <span class="n">role</span><span class="o">=</span><span class="s">"alert"</span><span class="o">&gt;</span>
+  <span class="err">진짜로</span> <span class="err">를</span> <span class="err">지우실</span> <span class="err">건가요?</span>
+<span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">form</span> <span class="n">action</span><span class="o">=</span><span class="s">""</span> <span class="n">method</span> <span class="o">=</span><span class="s">"post"</span><span class="o">&gt;</span>
+    <span class="p">{</span> <span class="o">%</span> <span class="n">csrf_token</span><span class="o">%</span> <span class="p">}</span>
+    <span class="o">&lt;</span><span class="nb">input</span> <span class="nb">type</span><span class="o">=</span><span class="s">"submit"</span> <span class="n">value</span><span class="o">=</span><span class="s">"Delete OK"</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">form</span><span class="o">&gt;</span>
+<span class="p">{</span> <span class="o">%</span> <span class="n">endblock</span> <span class="o">%</span> <span class="p">}</span>
+
+</code></pre></div></div>
+
+<ul>
+  <li>form에 따로 받을 양식은 없다. post 형태로 오면 그냥 지우면 된다.</li>
+</ul>
+
+<h3 id="updatehtml-boardcommentcomment_updatehtml">update.html (board/comment/comment_update.html)</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="p">{</span> <span class="o">%</span> <span class="n">extends</span> <span class="s">'base.html'</span> <span class="o">%</span> <span class="p">}</span>
+
+
+<span class="p">{</span> <span class="o">%</span> <span class="n">block</span> <span class="n">content</span> <span class="o">%</span> <span class="p">}</span>
+
+<span class="o">&lt;</span><span class="n">form</span> <span class="n">action</span><span class="o">=</span><span class="s">""</span> <span class="n">method</span> <span class="o">=</span> <span class="s">"post"</span> <span class="n">enctype</span><span class="o">=</span><span class="s">"multipart/form-data"</span><span class="o">&gt;</span>
+    <span class="p">{</span> <span class="o">%</span> <span class="n">csrf_token</span> <span class="o">%</span> <span class="p">}</span>
+    <span class="o">&lt;</span><span class="n">table</span><span class="o">&gt;</span>
+    
+        <span class="o">&lt;/</span><span class="n">table</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="nb">input</span> <span class="nb">type</span><span class="o">=</span><span class="s">"submit"</span> <span class="n">value</span><span class="o">=</span><span class="s">"Write"</span><span class="o">&gt;</span>
+
+<span class="o">&lt;/</span><span class="n">form</span><span class="o">&gt;</span>
+
+<span class="p">{</span> <span class="o">%</span> <span class="n">endblock</span> <span class="o">%</span> <span class="p">}</span>
+
+</code></pre></div></div>
+
+<ul>
+  <li>update를 할 때 중요한 것은 바로 전체 자료가 남아 있도록 해야 한다.</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">"POST"</span><span class="p">:</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">CommentForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="n">comment</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">document</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">CommentForm</span><span class="p">(</span><span class="n">instance</span><span class="o">=</span><span class="n">comment</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>여기서 알 수 있듯이 함수형 뷰로 해당 로직을 처리해줄 때는 꼭 instance= comment를 남겨서 기존에 데이터를 넘어오도록 해야 한다.</li>
+</ul>
+
+<h2 id="urlspy-연결하기-함수형-뷰에서-구현했다고-가정">urls.py 연결하기 (함수형 뷰에서 구현했다고 가정)</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="kn">from</span> <span class="nn">.views</span> <span class="kn">import</span> <span class="n">comment_delete</span><span class="p">,</span> <span class="n">comment_update</span>
+
+<span class="n">app_name</span> <span class="o">=</span> <span class="s">'board'</span>
+
+<span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">path</span><span class="p">(</span><span class="s">'comment/delete/&lt;int:comment_id&gt;/'</span><span class="p">,</span> <span class="n">comment_delete</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">"comment_delete"</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s">'comment/update/&lt;int:comment_id&gt;/'</span><span class="p">,</span> <span class="n">comment_update</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">"comment_update"</span><span class="p">),</span>
+ 
+<span class="p">]</span>
+
+</code></pre></div></div>
+
+<h3 id="잘-되는지-확인해보기">잘 되는지 확인해보기</h3>
+<ul>
+  <li>해당 내용에 대해 잘 작동하는지 확인해본다.</li>
+</ul>
+
+</div>
+  <div class="share-page">
+  <span style="float: left;">Share this on &rarr;&nbsp;&nbsp;</span>
+
+  <!-- Twitter -->
+  <a href="https://twitter.com/share" class="twitter-share-button" data-via="github.io">Tweet</a>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+  <!-- Facebook -->
+  <div class="fb-share-button" data-href="http://localhost:4000/django/2019/05/16/Django-23.-%E1%84%8C%E1%85%A1%E1%86%BC%E1%84%80%E1%85%A9-%E1%84%83%E1%85%A2%E1%86%BA%E1%84%80%E1%85%B3%E1%86%AF-%E1%84%89%E1%85%A1%E1%86%A8%E1%84%8C%E1%85%A6-%E1%84%86%E1%85%B5%E1%86%BE-%E1%84%89%E1%85%AE%E1%84%8C%E1%85%A5%E1%86%BC-%E1%84%80%E1%85%AE%E1%84%92%E1%85%A7%E1%86%AB%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.html" data-layout="button_count" style="position: relative; top: -8px; left: 3px;"></div>
+</div>
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.6&appId=1749788565247320";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+</div>
+
+
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+            
+            <div class="panel-body">
+              <h4>Related Posts</h4>
+              <ul>
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/django/2019/05/16/Django-22.-%E1%84%8C%E1%85%A1%E1%86%BC%E1%84%80%E1%85%A9-%E1%84%83%E1%85%A2%E1%86%BA%E1%84%80%E1%85%B3%E1%86%AF-%E1%84%80%E1%85%B5%E1%84%82%E1%85%B3%E1%86%BC-%E1%84%80%E1%85%AE%E1%84%92%E1%85%A7%E1%86%AB%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5(%E1%84%92%E1%85%A1%E1%86%B7%E1%84%89%E1%85%AE%E1%84%92%E1%85%A7%E1%86%BC-%E1%84%87%E1%85%B2).html">Django 22. 장고 댓글 기능 구현하기(함수형 뷰)</a>
+                  
+                    (Categories: <a href="/category/Django">Django</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/django/2019/05/14/Django-21.-%E1%84%8C%E1%85%A1%E1%86%BC%E1%84%80%E1%85%A9-%E1%84%91%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%8C%E1%85%B5-%E1%84%89%E1%85%A5%E1%84%8E%E1%85%B5%E1%86%BC-%E1%84%80%E1%85%B5%E1%84%82%E1%85%B3%E1%86%BC-%E1%84%80%E1%85%AE%E1%84%92%E1%85%A7%E1%86%AB.html">Django 21. 장고 페이지 서칭 기능 구현</a>
+                  
+                    (Categories: <a href="/category/Django">Django</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/django/2019/05/14/Django-20.-%E1%84%8C%E1%85%A1%E1%86%BC%E1%84%80%E1%85%A9-%E1%84%91%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%8C%E1%85%B5%E1%86%BC-%E1%84%80%E1%85%B5%E1%84%82%E1%85%B3%E1%86%BC-%E1%84%80%E1%85%AE%E1%84%92%E1%85%A7%E1%86%AB.html">Django 20. 장고 페이징 기능 구현</a>
+                  
+                    (Categories: <a href="/category/Django">Django</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/django/2019/05/10/Django-19.-%E1%84%8C%E1%85%A1%E1%86%BC%E1%84%80%E1%85%A9-%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8C%E1%85%A5%E1%86%A8%E1%84%91%E1%85%A1%E1%84%8B%E1%85%B5%E1%86%AF(STATIC,MEDIA).html">Django 19. 장고 정적파일(STATIC,MEDIA)</a>
+                  
+                    (Categories: <a href="/category/Django">Django</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/django/2019/05/07/Django-18.-%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%89%E1%85%B3%E1%84%90%E1%85%A1%E1%84%80%E1%85%B3%E1%84%85%E1%85%A2%E1%86%B7(17)-%E1%84%92%E1%85%AC%E1%84%8B%E1%85%AF%E1%86%AB%E1%84%80%E1%85%A1%E1%84%8B%E1%85%B5%E1%86%B8%E1%84%80%E1%85%B5%E1%84%82%E1%85%B3%E1%86%BC-%E1%84%80%E1%85%AE%E1%84%92%E1%85%A7%E1%86%AB%E1%84%92%E1%85%A1%E1%84%80%E1%85%B52.html">Django 18. 인스타그램(17) - 회원가입기능 구현하기2</a>
+                  
+                    (Categories: <a href="/category/Django">Django</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/django/2019/05/07/Django-17.-%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%89%E1%85%B3%E1%84%90%E1%85%A1%E1%84%80%E1%85%B3%E1%84%85%E1%85%A2%E1%86%B7(16)-%E1%84%92%E1%85%AC%E1%84%8B%E1%85%AF%E1%86%AB%E1%84%80%E1%85%A1%E1%84%8B%E1%85%B5%E1%86%B8%E1%84%80%E1%85%B5%E1%84%82%E1%85%B3%E1%86%BC-%E1%84%80%E1%85%AE%E1%84%92%E1%85%A7%E1%86%AB%E1%84%92%E1%85%A1%E1%84%80%E1%85%B51.html">Django 17. 인스타그램(16) - 회원가입기능 구현하기1</a>
+                  
+                    (Categories: <a href="/category/Django">Django</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+  
+  </ul>
+</div>
+
+
+<div class="PageNavigation">
+  
+    <a class="prev" href="/django/2019/05/16/Django-22.-%E1%84%8C%E1%85%A1%E1%86%BC%E1%84%80%E1%85%A9-%E1%84%83%E1%85%A2%E1%86%BA%E1%84%80%E1%85%B3%E1%86%AF-%E1%84%80%E1%85%B5%E1%84%82%E1%85%B3%E1%86%BC-%E1%84%80%E1%85%AE%E1%84%92%E1%85%A7%E1%86%AB%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5(%E1%84%92%E1%85%A1%E1%86%B7%E1%84%89%E1%85%AE%E1%84%92%E1%85%A7%E1%86%BC-%E1%84%87%E1%85%B2).html">&laquo; Django 22. 장고 댓글 기능 구현하기(함수형 뷰)</a>
+  
+  
+</div>
+
+<div class="disqus-comments">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    /* <![CDATA[ */
+    var disqus_shortname = "https-fabl1106-github-io";
+    var disqus_identifier = "http://localhost:4000_Django 23. 장고 댓글 삭제 및 수정 구현하기";
+    var disqus_title = "Django 23. 장고 댓글 삭제 및 수정 구현하기";
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    /* ]]> */
+  </script>
+</div>
+
+        <footer>
+          &copy; Byeonguk Kim
+          
+            - <a href="https://github.com/fabl1106">https://github.com/fabl1106</a> - Powered by Jekyll.
+          
+          <div class="btn-github" style="float:right;">
+            <iframe src="https://ghbtns.com/github-btn.html?user=fabl1106&repo=fabl1106.github.io&type=star&count=true" frameborder="0" scrolling="0" width="85" height="20px"></iframe>
+            <iframe src="https://ghbtns.com/github-btn.html?user=fabl1106&repo=fabl1106.github.io&type=fork&count=true" frameborder="0" scrolling="0" width="85" height="20px"></iframe>
+          </div>
+        </footer>
+      </div>
+      <!-- end /.col-sm-8 -->
+    </div>
+    <!-- end /.container -->
+
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/super-search.js"></script>
+    <script src="/static/js/thickbox-compressed.js"></script>
+    <script src="/static/js/projects.js"></script>
+  </body>
+</html>
+
