@@ -5,217 +5,155 @@
     <description>대구 올빼미의 새벽 개발로그</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 16 May 2019 17:09:45 +0900</pubDate>
-    <lastBuildDate>Thu, 16 May 2019 17:09:45 +0900</lastBuildDate>
+    <pubDate>Wed, 22 May 2019 10:11:44 +0900</pubDate>
+    <lastBuildDate>Wed, 22 May 2019 10:11:44 +0900</lastBuildDate>
     <generator>Jekyll v3.7.4</generator>
     
       <item>
-        <title>Django 23. 장고 댓글 삭제 및 수정 구현하기</title>
-        <description>&lt;h3 id=&quot;20190516-장고-댓글-삭제-및-수정-구현하기&quot;&gt;2019.05.16 장고 댓글 삭제 및 수정 구현하기&lt;/h3&gt;
+        <title>Django 25. django extentions 설치하기</title>
+        <description>&lt;h3 id=&quot;20190521-장고-django-extentions-설치하기&quot;&gt;2019.05.21 장고 django extentions 설치하기&lt;/h3&gt;
 
-&lt;h1 id=&quot;댓글-수정-및-삭제-구현하기&quot;&gt;댓글 수정 및 삭제 구현하기&lt;/h1&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;views.py 만들기&lt;/li&gt;
-  &lt;li&gt;템플릿 만들기&lt;/li&gt;
-  &lt;li&gt;urls.py  만들기&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h1 id=&quot;update--delete-페이지에-접근했을-때-구동되는-로직들&quot;&gt;update , delete 페이지에 접근했을 때 구동되는 로직들&lt;/h1&gt;
-
-&lt;h2 id=&quot;함수형-뷰-구현하기&quot;&gt;함수형 뷰 구현하기&lt;/h2&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;comment_update&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;comment_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-
-    &lt;span class=&quot;n&quot;&gt;comment&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;get_object_or_404&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Comment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pk&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;comment_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;document&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;get_object_or_404&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pk&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;comment&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;user&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;comment&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;author&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;messages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;warning&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;권한 없음&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;redirect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;method&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;POST&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;form&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CommentForm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;POST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;comment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;form&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;is_valid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;form&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;save&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;redirect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;form&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CommentForm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;comment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;render&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'board/comment/comment_update.html'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,{&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'form'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;form&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
-
-
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;comment_delete&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;comment_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-
-    &lt;span class=&quot;n&quot;&gt;comment&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;get_object_or_404&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Comment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pk&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;comment_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;document&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;get_object_or_404&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pk&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;comment&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;user&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;comment&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;author&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;and&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;is_staff&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;and&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;user&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;author&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;messages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;warning&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'권한 없음'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;redirect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;method&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;POST&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;comment&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;delete&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;redirect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;render&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'board/comment/comment_delete.html'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'object'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;comment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;해당 객체가 있는지 확인 : get_object_or_404, objects.get , objects.filter.exists&lt;/li&gt;
-  &lt;li&gt;객체에 대한 권한 체크 - 작성자, 관리자&lt;/li&gt;
-  &lt;li&gt;get : 해당 페이지에 필요한 값 입력 받기&lt;/li&gt;
-  &lt;li&gt;post : 입력 받은 값에 대한 처리 -&amp;gt; 삭제 , 업데이트&lt;/li&gt;
-  &lt;li&gt;처리 후 페이지 이동&lt;/li&gt;
-  &lt;li&gt;여기서 중요한 것은 instance = comment를 넣어주어서 기존에 등록되었던 값이 보이도록 해줘야 한다.&lt;/li&gt;
-  &lt;li&gt;instance를 등록해주지 않으면 새로운 값으로 생각하고 새롭게 생성하게 된다.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;클래스-뷰&quot;&gt;클래스 뷰&lt;/h2&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;django.views.generic.edit&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CreateView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;UpdateView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DeleteView&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;CommentUpdate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;UpdateView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Comment&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;fields&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'text'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;template_name_suffix&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'_update'&lt;/span&gt;
-    &lt;span class=&quot;c&quot;&gt;# success_url = '/'&lt;/span&gt;
-
-
-    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;dispatch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;**&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kwargs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-        &lt;span class=&quot;nb&quot;&gt;object&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get_object&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;author&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;messages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;warning&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'수정할 권한이 없습니다.'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;HttpResponseRedirect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'/'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-            &lt;span class=&quot;c&quot;&gt;# 삭제 페이지에서 권한이 없다! 라고 띄우거나&lt;/span&gt;
-            &lt;span class=&quot;c&quot;&gt;# detail페이지로 들어가서 삭제에 실패했습니다. 라고 띄우거나&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PhotoUpdate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dispatch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;**&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kwargs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;django.http&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;HttpResponseRedirect&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;django.contrib&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;messages&lt;/span&gt;
-
-
-&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;CommentDelete&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DeleteView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Comment&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;template_name_suffix&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'_delete'&lt;/span&gt; 
-    &lt;span class=&quot;n&quot;&gt;success_url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'/'&lt;/span&gt;
-
-    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;dispatch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;**&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kwargs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-        &lt;span class=&quot;nb&quot;&gt;object&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get_object&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;author&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;messages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;warning&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'삭제할 권한이 없습니다.'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;HttpResponseRedirect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'/'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PhotoDelete&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dispatch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;**&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kwargs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;객체에 대한 권한 체크 - 작성자, 관리자 - dispatch&lt;/li&gt;
-  &lt;li&gt;해당 객체가 있는지 확인 : get_object, get_queryset&lt;/li&gt;
-  &lt;li&gt;get : 해당 페이지에 필요한 값 입력 받기 - def get&lt;/li&gt;
-  &lt;li&gt;post : 입력 받은 값에 대한 처리 -&amp;gt; 삭제 , 업데이트 - def post&lt;/li&gt;
-  &lt;li&gt;dispatch를 통해 get과 post를 한번에 처리할 수 있고 class generic 뷰를 상속받아서 더 간단하게 구현 가능하다.&lt;/li&gt;
-  &lt;li&gt;처리 후 페이지 이동&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&quot;def-dispatch에서-post와-get나누어서-처리하기&quot;&gt;def dispatch에서 POST와 GET나누어서 처리하기&lt;/h3&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;dispatch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;**&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kwargs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;nb&quot;&gt;object&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get_object&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;method&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;POST&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;nb&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;post&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;**&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kwargs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;   
-        &lt;span class=&quot;nb&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;post&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;**&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kwargs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;템플릿-만들기&quot;&gt;템플릿 만들기&lt;/h2&gt;
-
-&lt;h3 id=&quot;delethtml-boardcommentcomment_deletehtml&quot;&gt;delet.html (board/comment/comment_delete.html)&lt;/h3&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'base.html'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;block&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;content&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;--&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;진짜&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;지울건지&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;확인을&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;받아야&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;한다&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;form&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;을&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;또&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;보여줄&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;필요가&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;없다&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.--&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;alert alert-primary&quot;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;role&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;alert&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;err&quot;&gt;진짜로&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;를&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;지우실&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;건가요?&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;div&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;form&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;action&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;method&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;post&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;csrf_token&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;input&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;submit&quot;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Delete OK&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;form&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;endblock&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
+&lt;h1 id=&quot;django-extentions&quot;&gt;django extentions&lt;/h1&gt;
 &lt;ul&gt;
-  &lt;li&gt;form에 따로 받을 양식은 없다. post 형태로 오면 그냥 지우면 된다.&lt;/li&gt;
+  &lt;li&gt;django extentions 모듈은 장고의 기본 명령들의 기능을 확장해 주고 여러 부가 기능을 추가해주는 모듈로 장고 프로젝트의 필수 설치 모듈로 불리고 있다. 그 중에서 단연 편리한 기능 중에 한 가지는 모델 간의 관계도를 그려주는 기능과 데이터베이스를 초기화 하는 기능이다.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&quot;updatehtml-boardcommentcomment_updatehtml&quot;&gt;update.html (board/comment/comment_update.html)&lt;/h3&gt;
+&lt;h2 id=&quot;django-extention-모듈-설치하기&quot;&gt;django extention 모듈 설치하기&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;pip install django-extensions&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;installed_apps-에-추가해주기&quot;&gt;INSTALLED_APPS 에 추가해주기&lt;/h2&gt;
 
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'base.html'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;INSTALLED_APPS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; 
 
+     &lt;span class=&quot;s&quot;&gt;'django_extensions'&lt;/span&gt;
 
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;block&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;content&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;form&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;action&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;method&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;post&quot;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;enctype&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;multipart/form-data&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;csrf_token&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;table&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+&lt;h2 id=&quot;설정값을-settingspy에-추가해주기&quot;&gt;설정값을 settings.py에 추가해주기&lt;/h2&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;GRAPH_MODELS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;'all_applications'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;'group_models'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;그래프-출력-기능을-위한-추가-모듈-설치하기&quot;&gt;그래프 출력 기능을 위한 추가 모듈 설치하기&lt;/h2&gt;
+
+&lt;h3 id=&quot;mac&quot;&gt;MAC&lt;/h3&gt;
+&lt;ol&gt;
+  &lt;li&gt;xcode-select –install&lt;/li&gt;
+  &lt;li&gt;brew install graphviz&lt;/li&gt;
+  &lt;li&gt;pip install –install-option=”–include-path=/usr/local/include/” –install-option=”–libary-path=/usr/local/lib/” pygraphviz&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;설치-이후-그래프-생성-명령-입력하기&quot;&gt;설치 이후 그래프 생성 명령 입력하기&lt;/h2&gt;
+&lt;ol&gt;
+  &lt;li&gt;전체 모델에 대한 그래프 출력
+    &lt;ol&gt;
+      &lt;li&gt;python manage.py graph_models -a -g -o model_graph.png&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+  &lt;li&gt;특정 앱에 대한 그래프 출력
+    &lt;ol&gt;
+      &lt;li&gt;python manage.py graph_models board -o models.png&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;나온-관계도-확인하기&quot;&gt;나온 관계도 확인하기&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/46436843/58081442-0e12ee80-7bf0-11e9-929c-18e2a18c3499.png&quot; alt=&quot;스크린샷 2019-05-21 오후 5 43 51&quot; /&gt;&lt;/p&gt;
+</description>
+        <pubDate>Tue, 21 May 2019 17:06:23 +0900</pubDate>
+        <link>http://localhost:4000/django/2019/05/21/Django-25.-django-extentions-%E1%84%89%E1%85%A5%E1%86%AF%E1%84%8E%E1%85%B5%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.html</link>
+        <guid isPermaLink="true">http://localhost:4000/django/2019/05/21/Django-25.-django-extentions-%E1%84%89%E1%85%A5%E1%86%AF%E1%84%8E%E1%85%B5%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.html</guid>
+        
+        
+        <category>Django</category>
+        
+      </item>
     
-        &lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;table&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;input&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;submit&quot;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Write&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+      <item>
+        <title>Django 24. debug tool bar설치하기</title>
+        <description>&lt;h3 id=&quot;20190521-장고-debug-tool-bar-설치하기&quot;&gt;2019.05.21 장고 debug tool bar 설치하기&lt;/h3&gt;
 
-&lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;form&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;endblock&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
+&lt;h1 id=&quot;debug-tool-bar&quot;&gt;debug tool bar&lt;/h1&gt;
 &lt;ul&gt;
-  &lt;li&gt;update를 할 때 중요한 것은 바로 전체 자료가 남아 있도록 해야 한다.&lt;/li&gt;
+  &lt;li&gt;장고 프로젝트에서 성능 측정과 개선을 위해서 많이 사용하는 모듈&lt;/li&gt;
+  &lt;li&gt;여러가지 성능 측정 툴을 별도로 설치하거나 화면을 별도로 볼 필요없이 디버그 모드에서는 기능을 편리하게 사용할 수 있다.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://django-debug-toolbar.readthedocs.io/en/latest/installation.html&quot;&gt;참고 : Installation — Django Debug Toolbar 1.11 documentation&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;method&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;POST&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;form&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CommentForm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;POST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;comment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;form&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;is_valid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;form&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;save&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;redirect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;form&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CommentForm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;comment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;h2 id=&quot;debug-tool-bar-설치하기&quot;&gt;debug tool bar 설치하기&lt;/h2&gt;
+&lt;p&gt;`pip install django-debug-toolbar’&lt;/p&gt;
+
+&lt;h2 id=&quot;settingspy에-installed_apps와-middleware에-관련-항목-추가하기&quot;&gt;settings.py에 installed_apps와 middleware에 관련 항목 추가하기&lt;/h2&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;INSTALLED_APPS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+
+    &lt;span class=&quot;s&quot;&gt;'debug_toolbar'&lt;/span&gt;
+
+&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;MIDDLEWARE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;'debug_toolbar.middleware.DebugToolbarMiddleware'&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;ul&gt;
-  &lt;li&gt;여기서 알 수 있듯이 함수형 뷰로 해당 로직을 처리해줄 때는 꼭 instance= comment를 남겨서 기존에 데이터를 넘어오도록 해야 한다.&lt;/li&gt;
-&lt;/ul&gt;
+&lt;h2 id=&quot;settingspy에-패널-설정값과-internal_ips값-추가하기&quot;&gt;settings.py에 패널 설정값과 internal_ips값 추가하기&lt;/h2&gt;
 
-&lt;h2 id=&quot;urlspy-연결하기-함수형-뷰에서-구현했다고-가정&quot;&gt;urls.py 연결하기 (함수형 뷰에서 구현했다고 가정)&lt;/h2&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;INTERNAL_IPS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'127.0.0.1'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
 
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;.views&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;comment_delete&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;comment_update&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;app_name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'board'&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;urlpatterns&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'comment/delete/&amp;lt;int:comment_id&amp;gt;/'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;comment_delete&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;comment_delete&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'comment/update/&amp;lt;int:comment_id&amp;gt;/'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;comment_update&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;comment_update&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
- 
+&lt;span class=&quot;n&quot;&gt;DEBUG_TOOLBAR_PANELS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+       &lt;span class=&quot;s&quot;&gt;'debug_toolbar.panels.versions.VersionsPanel'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;'debug_toolbar.panels.timer.TimerPanel'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;'debug_toolbar.panels.settings.SettingsPanel'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;'debug_toolbar.panels.headers.HeadersPanel'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;'debug_toolbar.panels.request.RequestPanel'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;'debug_toolbar.panels.sql.SQLPanel'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;'debug_toolbar.panels.staticfiles.StaticFilesPanel'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;'debug_toolbar.panels.templates.TemplatesPanel'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;'debug_toolbar.panels.cache.CachePanel'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;'debug_toolbar.panels.signals.SignalsPanel'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;'debug_toolbar.panels.logging.LoggingPanel'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;'debug_toolbar.panels.redirects.RedirectsPanel'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h3 id=&quot;잘-되는지-확인해보기&quot;&gt;잘 되는지 확인해보기&lt;/h3&gt;
+&lt;h2 id=&quot;root-urlspy-파일에-내용-추가&quot;&gt;Root urls.py 파일에 내용 추가&lt;/h2&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;settings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DEBUG&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;debug_toolbar&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;urlpatterns&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'__debug__/'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;include&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;debug_toolbar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;urls&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)),&lt;/span&gt;
+
+        &lt;span class=&quot;c&quot;&gt;# For django versions before 2.0:&lt;/span&gt;
+        &lt;span class=&quot;c&quot;&gt;# url(r'^__debug__/', include(debug_toolbar.urls)),&lt;/span&gt;
+
+    &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;urlpatterns&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;스태틱-파일-업로드-명령-실행&quot;&gt;스태틱 파일 업로드 명령 실행&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;python manage.py collectstatic&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;해당-페이지에-접속하여-잘-되는지-확인해보기&quot;&gt;해당 페이지에 접속하여 잘 되는지 확인해보기&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/46436843/58080626-84aeec80-7bee-11e9-8db1-5896aacbd6b6.png&quot; alt=&quot;B3FEB1F5-260B-41AF-9603-C952446D128E&quot; /&gt;&lt;/p&gt;
+
 &lt;ul&gt;
-  &lt;li&gt;해당 내용에 대해 잘 작동하는지 확인해본다.&lt;/li&gt;
+  &lt;li&gt;오른 편에 관련 내용이 잘 나오는 것을 확인할 수 있다.&lt;/li&gt;
 &lt;/ul&gt;
 
 </description>
-        <pubDate>Thu, 16 May 2019 16:06:23 +0900</pubDate>
-        <link>http://localhost:4000/django/2019/05/16/Django-23.-%E1%84%8C%E1%85%A1%E1%86%BC%E1%84%80%E1%85%A9-%E1%84%83%E1%85%A2%E1%86%BA%E1%84%80%E1%85%B3%E1%86%AF-%E1%84%89%E1%85%A1%E1%86%A8%E1%84%8C%E1%85%A6-%E1%84%86%E1%85%B5%E1%86%BE-%E1%84%89%E1%85%AE%E1%84%8C%E1%85%A5%E1%86%BC-%E1%84%80%E1%85%AE%E1%84%92%E1%85%A7%E1%86%AB%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.html</link>
-        <guid isPermaLink="true">http://localhost:4000/django/2019/05/16/Django-23.-%E1%84%8C%E1%85%A1%E1%86%BC%E1%84%80%E1%85%A9-%E1%84%83%E1%85%A2%E1%86%BA%E1%84%80%E1%85%B3%E1%86%AF-%E1%84%89%E1%85%A1%E1%86%A8%E1%84%8C%E1%85%A6-%E1%84%86%E1%85%B5%E1%86%BE-%E1%84%89%E1%85%AE%E1%84%8C%E1%85%A5%E1%86%BC-%E1%84%80%E1%85%AE%E1%84%92%E1%85%A7%E1%86%AB%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.html</guid>
+        <pubDate>Tue, 21 May 2019 16:06:23 +0900</pubDate>
+        <link>http://localhost:4000/django/2019/05/21/Django-24.-debug-tool-bar-%E1%84%89%E1%85%A5%E1%86%AF%E1%84%8E%E1%85%B5%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.html</link>
+        <guid isPermaLink="true">http://localhost:4000/django/2019/05/21/Django-24.-debug-tool-bar-%E1%84%89%E1%85%A5%E1%86%AF%E1%84%8E%E1%85%B5%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.html</guid>
         
         
         <category>Django</category>
@@ -223,315 +161,818 @@
       </item>
     
       <item>
-        <title>Django 22. 장고 댓글 기능 구현하기(함수형 뷰)</title>
-        <description>&lt;h3 id=&quot;20190516-장고-댓글-기능-구현하기-함수형-뷰&quot;&gt;2019.05.16 장고 댓글 기능 구현하기 함수형 뷰&lt;/h3&gt;
-
-&lt;h1 id=&quot;댓글-기능-구현하기함수형-뷰에서-구현하기&quot;&gt;댓글 기능 구현하기(함수형 뷰에서 구현하기)&lt;/h1&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;모델이 있다고 꼭 그 모델의 뷰가 필요한 것은 아니다.&lt;/li&gt;
-  &lt;li&gt;댓글 같은 경우 그 컨텐츠의 아래에 적히는 것이기 때문에 그 컨텐츠의 뷰에서 처리한다.&lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;폼이 있어야 한다. form.py를 만들거나 템플릿에서 만들어줘야 한다.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;한 뷰에서 처리하기(detail 뷰에서 처리하기)
-    &lt;ol&gt;
-      &lt;li&gt;모델 구현하기&lt;/li&gt;
-      &lt;li&gt;form.py 구현하기&lt;/li&gt;
-      &lt;li&gt;뷰 구현하기&lt;/li&gt;
-      &lt;li&gt;템플릿 구현하기&lt;/li&gt;
-    &lt;/ol&gt;
-  &lt;/li&gt;
-  &lt;li&gt;댓글 기능을 하나의 뷰로 빼서 처리하기
-    &lt;ol&gt;
-      &lt;li&gt;모델 구현하기&lt;/li&gt;
-      &lt;li&gt;form.py구현하기&lt;/li&gt;
-      &lt;li&gt;뷰 구현하기&lt;/li&gt;
-      &lt;li&gt;템플릿 구현하기
-        &lt;ol&gt;
-          &lt;li&gt;form 의 action에 view를 연결하기 위해 url을 설정해줘야한다.&lt;/li&gt;
-        &lt;/ol&gt;
-      &lt;/li&gt;
-      &lt;li&gt;url  연결해주기
-        &lt;ol&gt;
-          &lt;li&gt;url을 뷰로 연결시켜준다.&lt;/li&gt;
-        &lt;/ol&gt;
-      &lt;/li&gt;
-    &lt;/ol&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;모델-구현하기&quot;&gt;모델 구현하기&lt;/h2&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Comment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;models&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;document&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;models&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ForeignKey&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;on_delete&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;models&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CASCADE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;related_name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'comments'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;author&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;models&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ForeignKey&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get_user_model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;on_delete&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;models&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SET_NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;blank&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;related_name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'comments'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;models&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TextField&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;created&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;models&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DateTimeField&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;auto_now_add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;updated&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;models&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DateTimeField&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;auto_now&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;like&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;models&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IntegerField&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;dislike&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;models&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IntegerField&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;__str__&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;author&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;username&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;author&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;무명&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;의 댓글&quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;get_user_model : 커스텀 모델 , 커스텀 USER를 넣거나 없으면 그냥 USER를 받음&lt;/li&gt;
-  &lt;li&gt;author : models.SET_NULL : 연결된 foreignkey 즉 USER가 삭제되어도 Comment를 null로 바꾸고 남겨놓는다. 단 null=True가 필요하다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;formpy-구현하기&quot;&gt;form.py 구현하기&lt;/h2&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;.models&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Comment&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;CommentForm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;forms&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ModelForm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;c&quot;&gt;#text = forms.TextInput(label = '댓글')&lt;/span&gt;
-
-    &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Meta&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Comment&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;fields&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'text'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-
-    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;__init__&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;**&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kwargs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-        &lt;span class=&quot;nb&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;__init__&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;**&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kwargs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fields&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'text'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;label&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;댓글&quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;text필드를 댓글이라는 문구로 바꾸어 줄 수 있다.&lt;/li&gt;
-  &lt;li&gt;text = forms.TextInput(label = ‘댓글’) 혹은&lt;/li&gt;
-  &lt;li&gt;아래의 def _&lt;em&gt;init_&lt;/em&gt; 을 통해 구현하기&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;viewspy-뷰-구현하기&quot;&gt;views.py 뷰 구현하기&lt;/h2&gt;
-
-&lt;h3 id=&quot;document_detail-뷰에서-구현할-때&quot;&gt;document_detail 뷰에서 구현할 때&lt;/h3&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;document_detail&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;document_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-
-    &lt;span class=&quot;n&quot;&gt;document&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;get_object_or_404&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pk&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-    &lt;span class=&quot;c&quot;&gt;#만약 post일때만 댓글 입력에 관한 처리를 더한다.&lt;/span&gt;
-
-    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;method&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;POST&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;comment_form&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CommentForm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;POST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;comment_form&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;author_id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;id&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;comment_form&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document_id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;document_id&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;comment_form&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;is_valid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;comment&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;comment_form&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;save&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-
-
-    &lt;span class=&quot;c&quot;&gt;#models.py에서 document의 related_name을 comments로 해놓았다.&lt;/span&gt;
-
-    &lt;span class=&quot;n&quot;&gt;comment_form&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CommentForm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;comments&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;comments&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;all&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;render&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'board/document_detail.html'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'object'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;comments&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;comments&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;comment_form&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;comment_form&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;detail에서는 get_object_or_404로 하나만 뽑아내야 하고 따라서 pk키도 필요하다.
-    &lt;ul&gt;
-      &lt;li&gt;list에서는 get_list_or_404로 전체를  뽑아낸다.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;document.comments.all()  아래에 와야지 논리오류가 발생하지 않는다.&lt;/li&gt;
-  &lt;li&gt;comment_form 의 위치에 따라서 글자가 바뀐다.
-    &lt;ul&gt;
-      &lt;li&gt;comment_form.save 아래에 위치하게 되면 저장된 상태로 그대로 넘어가서 정보가 남아있게 된다.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;self.instance = 상속받은 객체 그 자체&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;댓글-기능-따로-빼서-구현하기&quot;&gt;댓글 기능 따로 빼서 구현하기&lt;/h3&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;comment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;document_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-
-    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;method&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;POST&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;comment_form&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CommentForm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;POST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;comment_form&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;author_id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;id&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;comment_form&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document_id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;document_id&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;comment_form&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;is_valid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;comment&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;comment_form&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;save&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;HttpResponseRedirect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;reverse_lazy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'board:detail'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]))&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# get_absolute_url을 설정해 놓았을 시(in models)&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;get_absolute_url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;reverse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'board:detail'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-
- &lt;span class=&quot;err&quot;&gt;제일&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;마지막&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;문장&lt;/span&gt;    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;redirect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;로&lt;/span&gt;  &lt;span class=&quot;err&quot;&gt;대체가능&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;하지만 이렇게 해주면 해당 뷰로 접근하기 위한 url이 필요하게 되고 탬플릿의 form에서 action에 url을 설정해줘야 한다.
-    &lt;ul&gt;
-      &lt;li&gt;&amp;lt;form action=”{ % url “board:comment” object.id % }” method=”POST”&amp;gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;그리기 위해서 또 urls.py에 url을 연결하여 해당 views로 접근하도록 한다.
-    &lt;ul&gt;
-      &lt;li&gt;path(‘comment/&lt;int:document_id&gt;/', comment, name=&quot;comment&quot;),&lt;/int:document_id&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;그리고 그 뷰를 실행하고 redirect를 활용하여 detail 페이지로 가도록 구현해준다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;템플릿-구현하기&quot;&gt;템플릿 구현하기&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;document_detail.html&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'base.html'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;block&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;content&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
- 
-
-
-
-
-
-
-
-
-
-&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;form&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;action&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;{ &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;% &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;url &quot;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;board&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;comment&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot; object.id &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;% &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;}&quot;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;method&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;POST&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;csrf_token&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-    
-    &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;input&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;submit&quot;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Comment&quot;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;btn btn-outline-primary&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-
-&lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;form&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-
-&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;table&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;table table-striped&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;comment&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;comments&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;td&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;td&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;td&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;td&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;td&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;td&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;td&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;href&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;{ &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;% &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;url 'board:comment_delete' comment.id &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;% &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;}&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;삭제하기&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;td&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;td&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;href&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;{ &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;% &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;url 'board:comment_update' comment.id &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;% &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;}&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;수정하기&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;td&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;endfor&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;table&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;endblock&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;만들어 놓은 comment_form을 가지고 온다.&lt;/li&gt;
-  &lt;li&gt;댓글 기능을 따로 구현하였다면 위와 같이 form의 action이 필요하고 그렇지 않다면 없어도 된다.&lt;/li&gt;
-  &lt;li&gt;comments를 돌면서 관련 댓글을 뽑아오는데 이 comments는 detail 뷰에서 받아왔다.
-    &lt;ul&gt;
-      &lt;li&gt;document = get_object_or_404(Document, pk=document_id) 를 통해 특정 document에 대한 것들만 다 가지고 온다음에&lt;/li&gt;
-      &lt;li&gt;comments = document.comments.all()를 통해 해당 document의 comment를 모두 가지고 왔다.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;옛날에 나는 일단 모든 comment를 다 가지고 온 다음에 템플릿 단에서 각 객체들의 id를 비교하여 보여줄 수 있도록 했었고&lt;/li&gt;
-  &lt;li&gt;그 다음에는 filter를 통해 구현해보려고 헀었다.&lt;/li&gt;
-  &lt;li&gt;하지만 그럴 필요 없이 미리 document를 pk값으로 특정 document를 가지고 오고 그 모든 comment를 템플릿으로 넘겨줌으로서 해결 할 수 있다.&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        <pubDate>Thu, 16 May 2019 15:06:23 +0900</pubDate>
-        <link>http://localhost:4000/django/2019/05/16/Django-22.-%E1%84%8C%E1%85%A1%E1%86%BC%E1%84%80%E1%85%A9-%E1%84%83%E1%85%A2%E1%86%BA%E1%84%80%E1%85%B3%E1%86%AF-%E1%84%80%E1%85%B5%E1%84%82%E1%85%B3%E1%86%BC-%E1%84%80%E1%85%AE%E1%84%92%E1%85%A7%E1%86%AB%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5(%E1%84%92%E1%85%A1%E1%86%B7%E1%84%89%E1%85%AE%E1%84%92%E1%85%A7%E1%86%BC-%E1%84%87%E1%85%B2).html</link>
-        <guid isPermaLink="true">http://localhost:4000/django/2019/05/16/Django-22.-%E1%84%8C%E1%85%A1%E1%86%BC%E1%84%80%E1%85%A9-%E1%84%83%E1%85%A2%E1%86%BA%E1%84%80%E1%85%B3%E1%86%AF-%E1%84%80%E1%85%B5%E1%84%82%E1%85%B3%E1%86%BC-%E1%84%80%E1%85%AE%E1%84%92%E1%85%A7%E1%86%AB%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5(%E1%84%92%E1%85%A1%E1%86%B7%E1%84%89%E1%85%AE%E1%84%92%E1%85%A7%E1%86%BC-%E1%84%87%E1%85%B2).html</guid>
-        
-        
-        <category>Django</category>
-        
-      </item>
-    
-      <item>
-        <title>2019_05_15_TIL</title>
-        <description>&lt;h3 id=&quot;20190514-til&quot;&gt;2019.05.14 TIL&lt;/h3&gt;
+        <title>2019_05_20_TIL</title>
+        <description>&lt;h3 id=&quot;20190520-til&quot;&gt;2019.05.20 TIL&lt;/h3&gt;
 
 &lt;h1 id=&quot;to-do&quot;&gt;To do&lt;/h1&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;DEV
+  &lt;li&gt;DEV (10 ~ 18:00)
     &lt;ul&gt;
-      &lt;li&gt;수업 시간에 배운 것 TIL
+      &lt;li&gt;&lt;del&gt;수업 시간에 배운 것 TIL (16:00 ~ 18:00)&lt;/del&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;del&gt;금요일 수업 한 것 TIL (7:30 ~ 9:30)&lt;/del&gt;&lt;/li&gt;
+      &lt;li&gt;알고리즘 1문제 진행&lt;/li&gt;
+      &lt;li&gt;&lt;del&gt;해커톤 그림 그리기(나만의 영화평점 사이트 제작하기)&lt;/del&gt;
         &lt;ul&gt;
-          &lt;li&gt;ㅠㅠ 복습을 하지 못했다.&lt;/li&gt;
+          &lt;li&gt;영화 정보 크롤링해서 서칭할 수 있도록 하기&lt;/li&gt;
+          &lt;li&gt;만약에 내 DB에 없으면 크롤링해서 있던 것 처럼 보여주고 내 db에 넣기&lt;/li&gt;
+          &lt;li&gt;내가 영화에 대한 글을 남길 수 있고 그 영화에 대한 추천 영화 보여주기&lt;/li&gt;
+          &lt;li&gt;내가 남긴 평점을 기준으로 관련 영화 띄어주기&lt;/li&gt;
         &lt;/ul&gt;
       &lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;프로젝트
     &lt;ul&gt;
-      &lt;li&gt;커멘트 기능 구현하기(ajax 연동해보기)&lt;/li&gt;
-      &lt;li&gt;check box 모양 바꾸기&lt;/li&gt;
-      &lt;li&gt;&lt;del&gt;오늘 연락해야하는 사람 리스트만 띄어주도록 구현&lt;/del&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;del&gt;메인 화면 넘어가는 기능 구현&lt;/del&gt;&lt;/li&gt;
+      &lt;li&gt;메모가 아닌 최근 연락메모 띄어주기&lt;/li&gt;
+      &lt;li&gt;&lt;del&gt;댓글 수정 및 삭제 기능 구현하기&lt;/del&gt;&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
-  &lt;li&gt;딥러닝
+  &lt;li&gt;딥러닝 PASS
     &lt;ul&gt;
-      &lt;li&gt;딥러닝 책 공부하기&lt;/li&gt;
-      &lt;li&gt;각 과목에 대한 목표 세우기&lt;/li&gt;
+      &lt;li&gt;딥러닝 책 공부하기(주말간 공부 했음!)&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;About me
     &lt;ul&gt;
-      &lt;li&gt;&lt;del&gt;운동 : 사이클&lt;/del&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;del&gt;운동 : 러닝 (05:40 ~ 07:00)&lt;/del&gt;&lt;/li&gt;
       &lt;li&gt;&lt;del&gt;데일리 리포트 및 피드백 진행&lt;/del&gt;&lt;/li&gt;
       &lt;li&gt;독서&lt;/li&gt;
       &lt;li&gt;영어 단어 암기&lt;/li&gt;
-      &lt;li&gt;&lt;del&gt;영어 1개 암기&lt;/del&gt;&lt;/li&gt;
+      &lt;li&gt;영어 1개 암기&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h1 id=&quot;til&quot;&gt;TIL&lt;/h1&gt;
-
 &lt;ul&gt;
-  &lt;li&gt;오늘 수업 시간에는 filter에 대해 심화내용을 배웠다. 기본적으로 filter는 and 조건으로만 연산을 도와주는데 OR 조건으로 연산을 해야 할 때에 대해 알려주었다. OR 조건으로 구현하는 것은 Q 필터를 이용하면 된다.&lt;/li&gt;
-  &lt;li&gt;추가적으로 제목에 있는 것이 텍스트에도 있는 것을 추출하는 것을 하였는데 그럴 때는 F필터를 통해 진행하면 된다.&lt;/li&gt;
-  &lt;li&gt;이 필터를 통해서 오늘 연락해야 하는 인맥들을 연결 할 수 있었다. 추가적으로 월, 주 단위로 구현하는 것을 마무리 해야 한다. 퓨&lt;/li&gt;
-  &lt;li&gt;카테고리 검색 기능을 구현하라고 하셨는데 하지 못하였다.&lt;/li&gt;
-  &lt;li&gt;select_related와 prefetch_related에 대해 배웠다.&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://jupiny.tistory.com/entry/selectrelated%EC%99%80-prefetchrelated&quot;&gt;select_related와 prefetch_related&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;INNER JOIN에 대해 추가적으로 학습하였다.&lt;/li&gt;
-  &lt;li&gt;또한 네이버 로그인을 붙이는 방법에 대해서도 알 수 있었다.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://raccoonyy.github.io/django-rest-framework-tutorial-by-devissue/&quot;&gt;괜찮은 Django Rest Framework 강좌를 찾아서 소개합니다&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Rest Framework 강좌를 듣기 (다음주)&lt;/li&gt;
+  &lt;li&gt;오늘은 전체적인 그림에 대해 다시 한번 그리기 시작하였다. 선생님이 많은 준비를 해주셔서 그것이 모두 돋보였다.&lt;/li&gt;
+  &lt;li&gt;금요일날 해커톤 프로젝트를 잘 준비해야 마무리해야 되는데 무슨 아이템으로 할지 잘 모르겠다.&lt;/li&gt;
+  &lt;li&gt;지난 주 금요일날 배웠던 것에 대해 TIL 마무리 해야 한다.&lt;/li&gt;
+  &lt;li&gt;그리고 다음주에 있을 해커톤에 대비해서 api에 대해 공부해야한다.&lt;/li&gt;
+  &lt;li&gt;ㅠㅠ 너무 할게 많은게 문제넹 @.@&lt;/li&gt;
+  &lt;li&gt;딥러닝 공부도 해야 하는데….&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h1 id=&quot;today-was&quot;&gt;Today was&lt;/h1&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;05:00 기상&lt;/li&gt;
-  &lt;li&gt;05:10 ~ 07:00 사이클&lt;/li&gt;
-  &lt;li&gt;07:30 ~ 09:30 기업 서칭&lt;/li&gt;
+  &lt;li&gt;05:30 기상&lt;/li&gt;
+  &lt;li&gt;06:00 ~ 07:20 운동 러닝 : 러닝 13km 완료!&lt;/li&gt;
+  &lt;li&gt;08:00 ~ 09:30 금요일 수업 복습 (아직 완료는 못함)
+    &lt;ul&gt;
+      &lt;li&gt;이 내용 내 프로젝트에 추가시켜보기&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
   &lt;li&gt;10:00 ~ 12:00 수업 1&lt;/li&gt;
   &lt;li&gt;13:00 ~ 15:00 수업 2&lt;/li&gt;
-  &lt;li&gt;15:00 ~ 16:00 Connect 프로젝트 기능 구현 - 서칭기능 추가&lt;/li&gt;
-  &lt;li&gt;16:30 ~ 17:00 Connect 프로젝트 기능 구현&lt;/li&gt;
-  &lt;li&gt;17:00 ~ 18:00 Connect 오늘 연락해줘야하는 사람 구현&lt;/li&gt;
-  &lt;li&gt;18:00 ~ 21:00 반 회식&lt;/li&gt;
+  &lt;li&gt;16:00 ~ 21:00 수업 복습 및 프로젝트 진행&lt;/li&gt;
   &lt;li&gt;
-    &lt;p&gt;21:00 ~ 22:30 Connect 오늘 연락해줘야하는 사람 구현&lt;/p&gt;
+    &lt;p&gt;21:00 ~ 23:00 저녁 식사 및 철인 대회 관련 안내 방송 숙지&lt;/p&gt;
   &lt;/li&gt;
-  &lt;li&gt;오늘부터 제강빌딩에서 수업을 진행하였다. 훨씬 좋은 환경에서 학습을 할 수 있게되어서 좋았다.&lt;/li&gt;
-  &lt;li&gt;Connect프로젝트를 어느정도 진행되었다.&lt;/li&gt;
-  &lt;li&gt;내일부터는 꼭 시간을 내어서 딥러닝 공부를 다시 시작해야 되겠다.&lt;/li&gt;
-  &lt;li&gt;태헌님과 일요일 오전에 뵙기로 하였다.&lt;/li&gt;
+  &lt;li&gt;내일은 사이클 운동을 해야 한다.&lt;/li&gt;
+  &lt;li&gt;굉장히 긴 시간 운동을 해야하니 완주 할 수 있을까 걱정이 되기도 한다.&lt;/li&gt;
+  &lt;li&gt;하지만 난 완주 할 것이고 너무나도 재미있게 즐길 것이다.&lt;/li&gt;
+  &lt;li&gt;할 수 있다 ㅎㅎ 걱정하지말자.&lt;/li&gt;
+  &lt;li&gt;이번주 프로젝트도 굉장히 잘 마무리 할 것이다!.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h1 id=&quot;tomorrow-do&quot;&gt;Tomorrow do&lt;/h1&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;DEV
+  &lt;li&gt;DEV (10 ~ 18:00)
+    &lt;ul&gt;
+      &lt;li&gt;수업 시간에 배운 것 TIL (15:00 ~ 18:00)&lt;/li&gt;
+      &lt;li&gt;금요일 수업 한 것 TIL (7:30 ~ 8:90)&lt;/li&gt;
+      &lt;li&gt;알고리즘 1문제 진행&lt;/li&gt;
+      &lt;li&gt;해커톤 그림 그리기(나만의 영화평점 사이트 제작하기)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;프로젝트
+    &lt;ul&gt;
+      &lt;li&gt;메모가 아닌 최근 연락메모 띄어주기&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;딥러닝 (08:00 ~ 09:30)
+    &lt;ul&gt;
+      &lt;li&gt;딥러닝 책 공부하기&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;About me
+    &lt;ul&gt;
+      &lt;li&gt;운동 : 사이클 (05:40 ~ 07:00)&lt;/li&gt;
+      &lt;li&gt;데일리 리포트 및 피드백 진행&lt;/li&gt;
+      &lt;li&gt;독서&lt;/li&gt;
+      &lt;li&gt;영어 단어 암기&lt;/li&gt;
+      &lt;li&gt;영어 1개 암기&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Mon, 20 May 2019 23:06:23 +0900</pubDate>
+        <link>http://localhost:4000/til/2019/05/20/TIL.html</link>
+        <guid isPermaLink="true">http://localhost:4000/til/2019/05/20/TIL.html</guid>
+        
+        
+        <category>TIL</category>
+        
+      </item>
+    
+      <item>
+        <title>2019_05_19_TIL</title>
+        <description>&lt;h3 id=&quot;20190519-til&quot;&gt;2019.05.19 TIL&lt;/h3&gt;
+
+&lt;h1 id=&quot;to-do&quot;&gt;To do&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;프로젝트 개발 (08:00 ~ 13:00)
+    &lt;ul&gt;
+      &lt;li&gt;2중 ajax 기능 구현&lt;/li&gt;
+      &lt;li&gt;연락 예정일도 수정되도록 구현&lt;/li&gt;
+      &lt;li&gt;댓글 기능 추가 구현&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;데이트 (13:00 ~ 19:00)&lt;/li&gt;
+  &lt;li&gt;주간 피드백 및 다음 주 일정 정리 (19:00 ~ 22:00)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;주간-피드백-513--519&quot;&gt;주간 피드백 (5.13 ~ 5.19)&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;월요일 : ORM 모델링 발표, 함수형 뷰 구현, 나에게 상을 줄 수 있도록 무언가를 설정해보도록 하자고 하였으나 따로 설정하지 않았다.&lt;/li&gt;
+  &lt;li&gt;화요일 : 디스타그램 유튜브 촬영, 페이징 및 서칭에 대해 공부, 영어 공부 및 영어 단어 공부를 못함&lt;/li&gt;
+  &lt;li&gt;수요일 : 수업 복습을 하지 못함. 딥러닝 책이 안와서 공부를 시작못함. 사이클 운동/ filter를 통해 or 기능 구현/ 알고리즘 x/ 영어 공부 x/ 반 회식 진행 / 그래도 회식 후 또 공부하러 옴 / 제강 빌딩 이동&lt;/li&gt;
+  &lt;li&gt;목요일 : 딥러닝 공부 시작, 댓글 기능 구현하기 / 영어 공부 x&lt;/li&gt;
+  &lt;li&gt;금요일 : 수업 이후에 복습 x , 포항으로 이동&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;문제점-및-개선사항&quot;&gt;문제점 및 개선사항&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;수업 시간에 코드를 옴겨 가는 부분에 대해서 잘 따라가지 못하고 있다. 노션을 통해 좀 더 쉽게 필기를 진행하도록 해보자!&lt;/li&gt;
+  &lt;li&gt;딥러닝 공부 부분 : 오전 7시 30분 ~ 9시 00분 까지 시간을 내어서 항상 공부를 진행하자&lt;/li&gt;
+  &lt;li&gt;영어 공부 부분 : 영어 공부를 따로 할 시간을 내야 한다. 진짜 아니면 할 수가 없다.. 딥러닝도 프로그래밍도..! 단어를 꼭 외울 시간을 내자. 9시 ~ 9시 30분 / 9시 30분 ~ 10시 스크립트 1개 / 길가면서 영어 명언들 듣기&lt;/li&gt;
+  &lt;li&gt;수업 복습 : 15:00 ~ 18:00 학원에서 복습을 마무리 하고 오기&lt;/li&gt;
+  &lt;li&gt;알고리즘 : 스터디를 만들어서 30분간 항상 1문제 진행하기(15:00 ~ 15:30)&lt;/li&gt;
+  &lt;li&gt;독서 : 18:00 ~ 19:00 저녁 식사 및 독서 진행/ 잠자기 전 진행&lt;/li&gt;
+  &lt;li&gt;주간 정한 독서 1권을 꼭 읽고 글도 적어보자!!&lt;/li&gt;
+  &lt;li&gt;프로젝트 진행 : 19:00 ~ 22:00&lt;/li&gt;
+  &lt;li&gt;부족한 부분 추가 공부 : 22:00 ~ 23:00&lt;/li&gt;
+  &lt;li&gt;어차피 정해진 시간에 완벽하게 복습 혹은 내가 원하는 기능을 구현할 수 없기 때문에 … 시간 단위로 나누어서 공부를 진행해 나가자.&lt;/li&gt;
+  &lt;li&gt;내가 지금 부족하다는 생각을 버리고 할 수 있는만큼 자부심을 가지고 참여하자. ㅠㅠ 다음주 해커톤이 정말 걱정되긴한다… 금주 해커톤에서는 영화 평점 사이트를 제작해보자.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;today-was&quot;&gt;Today was&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;07:00 기상&lt;/li&gt;
+  &lt;li&gt;08:00 ~ 13:00 프로젝트 진행&lt;/li&gt;
+  &lt;li&gt;13:00 ~ 19:00 데이트!&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;19:00 ~ 22:00 데일리 피드백&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;지난 주 금요일 수업 복습을 하지 못해서 걱정이 된다.&lt;/li&gt;
+  &lt;li&gt;내일 오전에는 수업 복습을 진행하도록 하자.&lt;/li&gt;
+  &lt;li&gt;내일 매일 집중해서 해야 할 일들을 끝을 내도록 하자.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;tomorrow-do&quot;&gt;Tomorrow do&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;DEV (10 ~ 18:00)
+    &lt;ul&gt;
+      &lt;li&gt;수업 시간에 배운 것 TIL (15:00 ~ 18:00)&lt;/li&gt;
+      &lt;li&gt;금요일 수업 한 것 TIL (7:30 ~ 9:30)&lt;/li&gt;
+      &lt;li&gt;알고리즘 1문제 진행&lt;/li&gt;
+      &lt;li&gt;해커톤 그림 그리기(나만의 영화평점 사이트 제작하기)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;프로젝트
+    &lt;ul&gt;
+      &lt;li&gt;메모가 아닌 최근 연락메모 띄어주기&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;딥러닝 PASS
+    &lt;ul&gt;
+      &lt;li&gt;딥러닝 책 공부하기(주말간 공부 했음!)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;About me
+    &lt;ul&gt;
+      &lt;li&gt;운동 : 사이클 (05:00 ~ 07:30)&lt;/li&gt;
+      &lt;li&gt;데일리 리포트 및 피드백 진행&lt;/li&gt;
+      &lt;li&gt;독서&lt;/li&gt;
+      &lt;li&gt;영어 단어 암기&lt;/li&gt;
+      &lt;li&gt;영어 1개 암기&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Sun, 19 May 2019 23:06:23 +0900</pubDate>
+        <link>http://localhost:4000/til/2019/05/19/TIL.html</link>
+        <guid isPermaLink="true">http://localhost:4000/til/2019/05/19/TIL.html</guid>
+        
+        
+        <category>TIL</category>
+        
+      </item>
+    
+      <item>
+        <title>javascript 05. ajax를 활용하여 댓글 기능 구현하기</title>
+        <description>&lt;h3 id=&quot;20190518-jquery--ajax를-활용하여-댓글-구현하기입니다&quot;&gt;2019.05.18 jquery &amp;amp; ajax를 활용하여 댓글 구현하기입니다.&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;패스트캠퍼스 웹 프로그래밍 스쿨 수업 정리 내용&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;목표&quot;&gt;목표&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;댓글을 달 때 ajax가 작동하여 새롭게 페이지가 리로드 되지 않게 하기&lt;/li&gt;
+  &lt;li&gt;ajax를 통해 단 댓글을 해당 DB에 저장하고&lt;/li&gt;
+  &lt;li&gt;그 댓글만을 가지고와서 댓글창의 가장 상단에 끼워넣기&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;로직&quot;&gt;로직&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;먼저 해당 댓글 입렴 폼의 태그를 확인한다.&lt;/li&gt;
+  &lt;li&gt;그리고 그 폼의 submit을 눌렀을 때 해당 변화가 없도록 막고
+    &lt;ul&gt;
+      &lt;li&gt;submit의 경우 return false를 활용한다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;url을 지정하고 serialize를 통해 현재 폼에 담겨져 있는 값들을 가지고 온다.&lt;/li&gt;
+  &lt;li&gt;ajax를 통해 url이 작동하도록 하고 해당 url을 views로 연결하여&lt;/li&gt;
+  &lt;li&gt;해당 views.py(댓글 구현 뷰)에서 처리할 수 있도록 한다.&lt;/li&gt;
+  &lt;li&gt;해당 뷰에서 처리 이후에 해당 채워넣을 부분의 html을 반환해줄 수 있도록 comment_single.html을 구현한다.&lt;/li&gt;
+  &lt;li&gt;그리고 뷰에서 그 html파일을 JsonResponse를 통해 반환해준다.&lt;/li&gt;
+  &lt;li&gt;다시 해당 템플릿에서 .done 부분에 prepend(가장 상단에 넣어주기)를 통해 해당 파일을 넣는다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;1-해당-댓글-입력폼의-태그-확인하기&quot;&gt;1. 해당 댓글 입력폼의 태그 확인하기&lt;/h2&gt;
+
+&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;form&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;action=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;{ % url &quot;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;board:comment&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;}&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;method=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;POST&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;comment_form&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+{ % csrf_token % }
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;hidden&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;is_ajax&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+    
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;submit&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Comment&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;btn btn-outline-primary&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/form&amp;gt;&lt;/span&gt;
+
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;table&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;table table-striped&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;comment_list&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;tbody&amp;gt;&lt;/span&gt;
+    { % for comment in comments % }
+   &lt;span class=&quot;nt&quot;&gt;&amp;lt;tr&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;td&amp;gt;&amp;lt;/td&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;td&amp;gt;&amp;lt;/td&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;td&amp;gt;&amp;lt;/td&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;td&amp;gt;&amp;lt;a&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;href=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;{ % url 'board:comment_delete' comment.id % }&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;삭제하기&lt;span class=&quot;nt&quot;&gt;&amp;lt;/a&amp;gt;&amp;lt;/td&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;td&amp;gt;&amp;lt;a&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;href=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;{ % url 'board:comment_update' comment.id % }&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;수정하기&lt;span class=&quot;nt&quot;&gt;&amp;lt;/a&amp;gt;&amp;lt;/td&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/tr&amp;gt;&lt;/span&gt;
+    { % endfor % }
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/tbody&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/table&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;2-그-폼의-submit을-눌렀을-때-해당-변화가-없도록-막는다&quot;&gt;2. 그 폼의 submit을 눌렀을 때 해당 변화가 없도록 막는다.&lt;/h2&gt;
+
+&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{ % block extra_script % }
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text/javascript&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'#comment_form'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;submit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
+            &lt;span class=&quot;nx&quot;&gt;alert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'댓글쓰기 완료'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;   &lt;span class=&quot;c1&quot;&gt;//이게 없으면 다시 리로드 되서 다녀온다.&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+{ % endblock % }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;3-url을-지정하고-serialize를-통해-현재-폼에-담겨져-있는-값들을-가지고-온다&quot;&gt;3. url을 지정하고 serialize를 통해 현재 폼에 담겨져 있는 값들을 가지고 온다.&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;url의 경우 기존에 연결되어 있는 url을 활용한다.&lt;/li&gt;
+  &lt;li&gt;serialize를 통해 현재 폼에 담겨져 있는 값들을 가지고 온다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;4-viewspy-완성하기&quot;&gt;4. views.py 완성하기&lt;/h2&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;comment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;document_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;is_ajax&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;POST&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'is_ajax'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;document&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;get_object_or_404&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pk&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;comment_form&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CommentForm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;POST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;comment_form&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;author_id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;id&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;comment_form&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document_id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;document_id&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;comment_form&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;is_valid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;comment&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;comment_form&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;save&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;is_ajax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;html&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;render_to_string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'board/comment/comment_single.html'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+                                &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'comment'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;comment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;JsonResponse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'html'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;html&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;redirect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;is_ajax를 POST를 통해 is_ajax를 받는다. html의 jquery가 제대로 작동했다면 1을 가지고 있다.&lt;/li&gt;
+  &lt;li&gt;해당 새롭게 생긴 댓글을 넣어주기 위한 간단한 html을 새롭게 제작한다.
+    &lt;ul&gt;
+      &lt;li&gt;만약 is_ajax가 있다면 html은 single.html을 rendering하고 위에 comment와 함께 넘겨줄 수 있도록 한다.&lt;/li&gt;
+      &lt;li&gt;JsonResponse를 통해 html을 넘겨준다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;commentcomment_singlehtml&quot;&gt;comment/comment_single.html&lt;/h2&gt;
+
+&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;tr&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;comment_row&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;td&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;comment_text&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/td&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;td&amp;gt;&amp;lt;/td&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;td&amp;gt;&amp;lt;/td&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;td&amp;gt;&amp;lt;a&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;href=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;{ % url 'board:comment_delete' comment.id % }&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;btn_comment_delete&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;삭제하기&lt;span class=&quot;nt&quot;&gt;&amp;lt;/a&amp;gt;&amp;lt;/td&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;td&amp;gt;&amp;lt;a&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;href=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;{ % url 'board:comment_update' comment.id % }&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;btn_comment_update&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;수정하기&lt;span class=&quot;nt&quot;&gt;&amp;lt;/a&amp;gt;&amp;lt;/td&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/tr&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;해당 페이지를 통해 가장 위에 끼워 넣을 댓글을 만들어낸다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;5-jquery-완성하기&quot;&gt;5. jquery 완성하기&lt;/h2&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;block&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;extra_script&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text/javascript&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'#comment_form'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;submit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
+            &lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'input[name=&quot;is_ajax&quot;]'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;val&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;//&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;alert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'댓글쓰기 완료'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'action'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;원래&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;다녀와야하는&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;params&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;serialize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;현재&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;폼에&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;담겨있는&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;값들을&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;가지고&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;올&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;수&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;있게&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;해준다&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;
+            &lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ajax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;method&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;POST&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+
+            &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;done&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
+                &lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'#id_text'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;val&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+                &lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'#comment_list tbody'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;prepend&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;html&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tbody&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;시작지점에&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;요소&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;끼워넣기&lt;/span&gt;
+                &lt;span class=&quot;o&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'comment_list tbody'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tbody&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;끝&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;지점에&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;요소&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;끼워넣기&lt;/span&gt;
+                &lt;span class=&quot;o&quot;&gt;//&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;is_ajax&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;값&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;초기화&lt;/span&gt;
+                &lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'input[name=&quot;is_ajax&quot;]'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;val&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;   &lt;span class=&quot;o&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;이게&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;없으면&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;다시&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;리로드&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;되서&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;다녀온다&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;endblock&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;해석하기
+    &lt;ul&gt;
+      &lt;li&gt;comment_form이라는 id를 가진 곳에서 submit을 누르면 막는다.(e, return false)&lt;/li&gt;
+      &lt;li&gt;is_ajax라는 이름에 1의 값을 부여해준다.&lt;/li&gt;
+      &lt;li&gt;url은 원래 이동하는 url로 설정한다.&lt;/li&gt;
+      &lt;li&gt;params는 serialize()를 통해 현재 폼에 담겨 있는 값들을 가지고 올 수 있게 한다.&lt;/li&gt;
+      &lt;li&gt;ajax를 url 요청이 위에 정의해놓은 url로 왔을 때 그리고 method는 POST방식으로 왔을 때 작동한다.&lt;/li&gt;
+      &lt;li&gt;data는 params를 받는다.&lt;/li&gt;
+      &lt;li&gt;위의 ajax를 통해 URLConf를 통해 views.py를 다녀오고 JsonResponse를 통해 해당 데이터를 반환 받는다.&lt;/li&gt;
+      &lt;li&gt;params도 views.py를 통해 data : params로 넣어서 보내준다.&lt;/li&gt;
+      &lt;li&gt;야는 왜 id_text 값을 어디에서도 설정해주지 않았는데 적었던 데이터가 사라지는 것일까?
+        &lt;ul&gt;
+          &lt;li&gt;폼 형태로 끼워넣으면 알아서 id_text가 설정된다.&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;댓글달기-전체-과정보기&quot;&gt;댓글달기 전체 과정보기&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;submit이 일어나면 is_ajax를 1로 바꾼다.&lt;/li&gt;
+  &lt;li&gt;url 은 댓글남기기 페이지 주소를 가지고 온다.&lt;/li&gt;
+  &lt;li&gt;params = serialize를 통해 폼에 있는 데이터들을 하나로 붙인다.&lt;/li&gt;
+  &lt;li&gt;리 다이렉션이 안되고 데이터를 추가로 가지고 오고 싶퍼서 is_ajax를 설정한 것이다.&lt;/li&gt;
+  &lt;li&gt;뷰에서 is_ajax이 있으면 return Jsonresponse를 하고&lt;/li&gt;
+  &lt;li&gt;아니면 redirect를 하도록 한다.&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Sat, 18 May 2019 17:06:23 +0900</pubDate>
+        <link>http://localhost:4000/javascript/2019/05/18/javascript-05.-ajax%E1%84%85%E1%85%B3%E1%86%AF-%E1%84%92%E1%85%AA%E1%86%AF%E1%84%8B%E1%85%AD%E1%86%BC%E1%84%92%E1%85%A1%E1%84%8B%E1%85%A7-%E1%84%83%E1%85%A2%E1%86%BA%E1%84%80%E1%85%B3%E1%86%AF-%E1%84%80%E1%85%B5%E1%84%82%E1%85%B3%E1%86%BC-%E1%84%80%E1%85%AE%E1%84%92%E1%85%A7%E1%86%AB%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.html</link>
+        <guid isPermaLink="true">http://localhost:4000/javascript/2019/05/18/javascript-05.-ajax%E1%84%85%E1%85%B3%E1%86%AF-%E1%84%92%E1%85%AA%E1%86%AF%E1%84%8B%E1%85%AD%E1%86%BC%E1%84%92%E1%85%A1%E1%84%8B%E1%85%A7-%E1%84%83%E1%85%A2%E1%86%BA%E1%84%80%E1%85%B3%E1%86%AF-%E1%84%80%E1%85%B5%E1%84%82%E1%85%B3%E1%86%BC-%E1%84%80%E1%85%AE%E1%84%92%E1%85%A7%E1%86%AB%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.html</guid>
+        
+        
+        <category>Javascript</category>
+        
+      </item>
+    
+      <item>
+        <title>2019_05_17_TIL</title>
+        <description>&lt;h3 id=&quot;20190517-til&quot;&gt;2019.05.17 TIL&lt;/h3&gt;
+
+&lt;h1 id=&quot;to-do&quot;&gt;To do&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;DEV (10 ~ 16:30)
     &lt;ul&gt;
       &lt;li&gt;수업 시간에 배운 것 TIL&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;프로젝트
+    &lt;ul&gt;
+      &lt;li&gt;커멘트 기능 구현하기(ajax 연동해보기)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;딥러닝 ( 07:30 ~ 09:30 )
+    &lt;ul&gt;
+      &lt;li&gt;딥러닝 책 공부하기&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;About me
+    &lt;ul&gt;
+      &lt;li&gt;운동 : 러닝 (05:30 ~ 07:00)&lt;/li&gt;
+      &lt;li&gt;데일리 리포트 및 피드백 진행&lt;/li&gt;
+      &lt;li&gt;독서&lt;/li&gt;
+      &lt;li&gt;영어 단어 암기&lt;/li&gt;
+      &lt;li&gt;영어 1개 암기&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;til&quot;&gt;TIL&lt;/h1&gt;
+&lt;ul&gt;
+  &lt;li&gt;ajax를 활용하여 새롭게 페이지가 로드되지 않도록 하였다.&lt;/li&gt;
+  &lt;li&gt;ajax를 통해 단 댓글을 해당 DB에 저장하고&lt;/li&gt;
+  &lt;li&gt;그 댓글만을 가지고 와서 댓글창의 가장 상단에 끼워넣도록 하였다.&lt;/li&gt;
+  &lt;li&gt;로직을 설명해보고자 한다.&lt;/li&gt;
+  &lt;li&gt;먼저 해당 댓글 입력 폼의 태그를 확인한다.&lt;/li&gt;
+  &lt;li&gt;그리고 그 폼의 submit을 눌렀을 때 해당 변화가 없도록 하고
+    &lt;ul&gt;
+      &lt;li&gt;submit의 경우 return false를 통해 막는다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;url을 지정하고 serialize를 통해 현대 폼에 담겨져 있는 값들을 가지고 온다.&lt;/li&gt;
+  &lt;li&gt;ajax를 통해 url이 작동되도록 하고 해당 url을 views로 연결하여 해당 views.py에서 처리할 수 있도록 한다.&lt;/li&gt;
+  &lt;li&gt;해당 뷰에서 처리 이후에 해당 채워넣을 부분의 html을 반환해줄 수 있도록 single.html을 구현한다.&lt;/li&gt;
+  &lt;li&gt;그리고 뷰에서 그 html 파일을 JsonResponse를 통해 반환해준다.&lt;/li&gt;
+  &lt;li&gt;다시 해당 탬플릿에서 .done 부분에 prepend를 통해 해당 파일을 넣는다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;today-was&quot;&gt;Today was&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;05:30 기상&lt;/li&gt;
+  &lt;li&gt;06:00 ~ 07:20 운동 러닝 : 러닝 11km 완료!&lt;/li&gt;
+  &lt;li&gt;08:00 ~ 09:30 딥러닝 공부&lt;/li&gt;
+  &lt;li&gt;10:00 ~ 12:00 수업 1&lt;/li&gt;
+  &lt;li&gt;13:00 ~ 15:00 수업 2&lt;/li&gt;
+  &lt;li&gt;15:00 ~ 17:00 수업 복습 TIL&lt;/li&gt;
+  &lt;li&gt;17:00 ~ 20:00 포항 이동&lt;/li&gt;
+  &lt;li&gt;20:00 ~ 22:00 친구보기&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;22:00 ~ 23:00 집으로 이동&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;오늘은 수업도 정말 멘붕이었지만… 포항으로 또 가야해서 많은 부분 복습을 하지 못헀다. 전체적인 흐름을 익히고 그것을 쓸 수 있도록 해야 하는데 걱정이 많이 된다. 반복하다 보면 괜찮아지겠지…?&lt;/li&gt;
+  &lt;li&gt;다음 주가 출시인데… 잘 할 수 있곘지??&lt;/li&gt;
+  &lt;li&gt;딥러닝 공부도 시간을 내서 시작하기 시작했다!! 시작이 의미가 있는 것이다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;tomorrow-do&quot;&gt;Tomorrow do&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;포항에서 농사일…&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Fri, 17 May 2019 23:06:23 +0900</pubDate>
+        <link>http://localhost:4000/til/2019/05/17/TIL.html</link>
+        <guid isPermaLink="true">http://localhost:4000/til/2019/05/17/TIL.html</guid>
+        
+        
+        <category>TIL</category>
+        
+      </item>
+    
+      <item>
+        <title>딥러닝 02. 딥러닝의 학습원리</title>
+        <description>&lt;h3 id=&quot;20190517-딥러닝-원리-알아보기&quot;&gt;2019.05.17 딥러닝 원리 알아보기&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;신경망 첫걸음 책을 활용하여 공부하고 있습니다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;딥러닝의-원리&quot;&gt;딥러닝의 원리&lt;/h1&gt;
+
+&lt;h2 id=&quot;예측&quot;&gt;예측&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;어떤 것을 명확히 파악할 수 없을 때 모델을 정교화 해나가는 좋은 방법은 오차에 기초해 매개변수 값을 조정해 나가는 것이다.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;학습률&quot;&gt;학습률&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;조정 과정을 거치면서 가장 큰 문제점은 바로 이전의 학습 데이터는 무시하고 최종 학습 데이터에만 맞춰 업데이트 된다는 것이다.&lt;/li&gt;
+  &lt;li&gt;이를 해결하기 위해 학습률을 도입함으로서 단일 학습 데이터가 학습에 지배적인 영향을 주는 것을 방지한다.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;분류자&quot;&gt;분류자&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;특정 기준으로 데이터를 분류해야 할 때 그 특정 기준이 한개로는 부족한 경우가 대부분이다. (단순한 선형 분류자)&lt;/li&gt;
+  &lt;li&gt;이런 경우 여러개의 선형 분류자를 이용해 데이터를 분류할 수 있다.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;노드&quot;&gt;노드&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;데이터를 학습 시키기 위한 각각의 인공 뉴런을 노드라고 부른다.&lt;/li&gt;
+  &lt;li&gt;각각의 노드들은 서로 연결되어 있는 형태로 구성하고(꼭 그런 것은 아니지만 이렇게 연결하는 것이 프로그램 구현에 더 편리하고 효율적이다)&lt;/li&gt;
+  &lt;li&gt;이러한 노드들은 여러 계층(layer)에 걸쳐 위치시킨다.&lt;/li&gt;
+  &lt;li&gt;각각 노드들의 연결은 가중치를 포함한다.&lt;/li&gt;
+  &lt;li&gt;각 신호들은 특정 분계점을 지나야 출력되게 된다.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;신경망의-신호-계산&quot;&gt;신경망의 신호 계산&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;행렬을 통해 이 문제를 해결할 수 있다.&lt;/li&gt;
+  &lt;li&gt;X = W * I
+    &lt;ol&gt;
+      &lt;li&gt;W는 각각의 가중치&lt;/li&gt;
+      &lt;li&gt;I는 input으로 초기 주어진 값들&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;계층&quot;&gt;계층&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;입력계층(input layer) / 은닉계층(hidden layer) / 출력계층(output layer)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;결과값-도출&quot;&gt;결과값 도출&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;결국 계층 노드의 입력값에 가중치를 곱해서 계산하고 활성화 함수(sigmoid 등)를 적용함으로서 최종 결과값을 도출할 수 있다.&lt;/li&gt;
+  &lt;li&gt;이렇게 얻어진 결과 값을 학습 데이터의 실제 값과 비교해 오차를 구하고 그 구한 오차를 이용해 우리의 신경망을 정교하게 업데이트해감으로서 보다 개선된 결과 값을 내는 것이 우리가 할 일이다.&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+        <pubDate>Fri, 17 May 2019 17:06:23 +0900</pubDate>
+        <link>http://localhost:4000/%EB%94%A5%EB%9F%AC%EB%8B%9D/2019/05/17/%E1%84%83%E1%85%B5%E1%86%B8%E1%84%85%E1%85%A5%E1%84%82%E1%85%B5%E1%86%BC-02.-%E1%84%83%E1%85%B5%E1%86%B8%E1%84%85%E1%85%A5%E1%84%82%E1%85%B5%E1%86%BC%E1%84%8B%E1%85%B4-%E1%84%92%E1%85%A1%E1%86%A8%E1%84%89%E1%85%B3%E1%86%B8-%E1%84%8B%E1%85%AF%E1%86%AB%E1%84%85%E1%85%B5.html</link>
+        <guid isPermaLink="true">http://localhost:4000/%EB%94%A5%EB%9F%AC%EB%8B%9D/2019/05/17/%E1%84%83%E1%85%B5%E1%86%B8%E1%84%85%E1%85%A5%E1%84%82%E1%85%B5%E1%86%BC-02.-%E1%84%83%E1%85%B5%E1%86%B8%E1%84%85%E1%85%A5%E1%84%82%E1%85%B5%E1%86%BC%E1%84%8B%E1%85%B4-%E1%84%92%E1%85%A1%E1%86%A8%E1%84%89%E1%85%B3%E1%86%B8-%E1%84%8B%E1%85%AF%E1%86%AB%E1%84%85%E1%85%B5.html</guid>
+        
+        
+        <category>딥러닝</category>
+        
+      </item>
+    
+      <item>
+        <title>javascript 04. jquery &amp; ajax 기본 문법</title>
+        <description>&lt;h3 id=&quot;20190517-jquery--ajax-기본-문법&quot;&gt;2019.05.17 jquery &amp;amp; ajax 기본 문법&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;패스트캠퍼스 웹 프로그래밍 스쿨 수업 정리 내용&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;jquery--ajax-기본-문법&quot;&gt;jquery &amp;amp; ajax 기본 문법&lt;/h1&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;text/javascript&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(){&lt;/span&gt;
+        &lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'특정 테그'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;특정모션&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;preventDefault&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;일어날&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;행동을&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;일단&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;막고&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'href'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;#정의 할 데이터가 있을 때 정의&lt;/span&gt;
+            &lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ajax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;#넘겨줄 데이터가 있을 때 적는다.&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;done&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;funtion&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;ajax&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;실행&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;뒤에&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;일어날&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;행동&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;정의&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;html&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;단에서&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}};&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;특정한 테그 혹은 class혹은 id에 어떤 모션이 일어났을 때(click, submit 등)&lt;/li&gt;
+  &lt;li&gt;원래 일어나는 행동을 막고&lt;/li&gt;
+  &lt;li&gt;이후에 필요로 쓰게될 특정 데이터 혹은 url에 대해 정의 해준 다음에&lt;/li&gt;
+  &lt;li&gt;ajax를 실행시켜 ajax가 설정된 url을 통해 view를 실행시켜 해당 뷰가 db를 정리 한뒤에 필요한 것은 JsonResponse로 반환해주고 그 반환 값을 ajax에서는 받아와&lt;/li&gt;
+  &lt;li&gt;.done뒤에 일어날 행동들을 설정해서 html 단에서 일어나는 행동들을 정의시켜준다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;ajax-기본-연습하기-간단한-데이터-삽입해보기&quot;&gt;ajax 기본 연습하기 (간단한 데이터 삽입해보기)&lt;/h1&gt;
+
+&lt;h2 id=&quot;python-viewspy-만들기&quot;&gt;python views.py 만들기&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;바꿔 끼울 데이터를 딕셔너리 형태로 입력해준다.&lt;/li&gt;
+  &lt;li&gt;일반적인 경우 데이터를 전송하기 위해 json형태로 데이터를 보낸다.&lt;/li&gt;
+  &lt;li&gt;따라서 jsonResponse를 활용한다.&lt;/li&gt;
+  &lt;li&gt;json은 딕셔너리 형태로 데이터를 전송한다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;django.http&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;JsonResponse&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;get_data_ajax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;s&quot;&gt;&quot;name&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'jake'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;s&quot;&gt;&quot;age&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;s&quot;&gt;&quot;blood&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;O&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;JsonResponse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;해당-url을-연결시켜준다&quot;&gt;해당 url을 연결시켜준다.&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;path('ajax/get_data/', get_data_ajax, name='get_data_ajax')&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;템플릿에-데이터-들어갈-곳-및-버튼-추가하기&quot;&gt;템플릿에 데이터 들어갈 곳 및 버튼 추가하기&lt;/h2&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;= &quot;&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;data_area&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&amp;gt;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;    데이터 입력될 곳&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;lt;a href=&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'board:get_data_ajax'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot; class=&quot;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;btn_get_data&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;btn&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;btn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;primary&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&amp;gt;데이터 가져오기&amp;lt;/a&amp;gt;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;템플릿에-jquery-추가하기&quot;&gt;템플릿에 jquery 추가하기&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;먼저 url을 연결해준다.&lt;/li&gt;
+  &lt;li&gt;다음으로 버튼을 눌렀을 때 이동하지 않도록 한다.&lt;/li&gt;
+  &lt;li&gt;다음으로 데이터를 가지고 와야 한다.&lt;/li&gt;
+  &lt;li&gt;base.html에 script아래 extra_script를 추가해준다.
+    &lt;ol&gt;
+      &lt;li&gt;jquery 다운로드 사이트에 접속하여 jquery를 가지고 온다.&lt;/li&gt;
+      &lt;li&gt;
+        &lt;script src=&quot;https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js&quot;&gt;&lt;/script&gt;
+      &lt;/li&gt;
+      &lt;li&gt;base.html에 있는 slim jquery를 바꾸어 줘야 한다.&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+  &lt;li&gt;script type을 추가해준다.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;block&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;extra_script&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text/javascript&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(){&lt;/span&gt;
+        &lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'.btn_get_data'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;click&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;preventDefault&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;버튼이&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;클릭하면&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;이동못하게&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;기본&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;기능&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;취소&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;alert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'clicked'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;확인을&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;위해&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;알림창&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;띄우기&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'href'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;   &lt;span class=&quot;o&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;는&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;이벤트&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;대상&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;btn_get_data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ajax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
+                &lt;span class=&quot;o&quot;&gt;//&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ajax&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;호출시&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;사용할&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;매개변수&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;done&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
+                &lt;span class=&quot;o&quot;&gt;//&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;호출이&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;끝나면&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;받은&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;데이터를&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;처리하는&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;부분&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;alert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+                &lt;span class=&quot;o&quot;&gt;//&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;새로운&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;데이터를&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;추가해주고&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;싶을&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;때&lt;/span&gt;
+
+                &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;age&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;bloodtype&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bloodtype&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;html&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&amp;lt;ul&amp;gt;&amp;lt;li&amp;gt;&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&amp;lt;/li&amp;gt;&amp;lt;li&amp;gt;&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&amp;lt;/li&amp;gt;&amp;lt;li&amp;gt;&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bloodtype&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&amp;lt;/li&amp;gt;&amp;lt;/ul&amp;gt;&quot;&lt;/span&gt;
+                &lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'.data_area'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;html&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;html&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;endblock&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;해당 동작이 일어날 페이지 아래에 위의 내용을 끼워넣는다. block extra_script의 경우 base.html에서 미리 지정해놓는다.&lt;/li&gt;
+  &lt;li&gt;해석하기
+    &lt;ul&gt;
+      &lt;li&gt;.btn_get_data 클래스가 지정된 것을 찾아 만약에 클릭이 되면&lt;/li&gt;
+      &lt;li&gt;일단 일어날 일을 막고&lt;/li&gt;
+      &lt;li&gt;clicked가 된 알람창을 띄어줘라&lt;/li&gt;
+      &lt;li&gt;그리고 이후에 사용하게 될 것들을 지정해주는데&lt;/li&gt;
+      &lt;li&gt;url은 그 이벤트가 일어난 것에 연결된 링크를 연결해서 사용한다.
+        &lt;ul&gt;
+          &lt;li&gt;아마 보통 어떤 형태가 일어나기 위해서는 링크가 연결되어야 하기 때문에 대부분 링크가 있을 것이다.&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;ajax를 실행하고&lt;/li&gt;
+      &lt;li&gt;ajax가 실행될 때 url은 위에서 설정된 url을 바탕으로 URLSConf를 바탕으로 해당 views.py로 찾아가고&lt;/li&gt;
+      &lt;li&gt;views.py에서 넣어놓은 data를 JsonResponse로 넘겨서 받아온다.&lt;/li&gt;
+      &lt;li&gt;그 받아온 데이터를 done(function(data)를 통해 가지고 오고&lt;/li&gt;
+      &lt;li&gt;name와 age/ bloodtype에 넣어서 그 값들을 html 태그 속에 넣는다.&lt;/li&gt;
+      &lt;li&gt;그리고 지정된 class=”data_area” 위치를 찾아가서 해당 html을 채워넣고 화면에 보여준다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Fri, 17 May 2019 17:06:23 +0900</pubDate>
+        <link>http://localhost:4000/javascript/2019/05/17/javascript-04.-jquery-&-ajax-%E1%84%80%E1%85%B5%E1%84%87%E1%85%A9%E1%86%AB-%E1%84%86%E1%85%AE%E1%86%AB%E1%84%87%E1%85%A5%E1%86%B8.html</link>
+        <guid isPermaLink="true">http://localhost:4000/javascript/2019/05/17/javascript-04.-jquery-&-ajax-%E1%84%80%E1%85%B5%E1%84%87%E1%85%A9%E1%86%AB-%E1%84%86%E1%85%AE%E1%86%AB%E1%84%87%E1%85%A5%E1%86%B8.html</guid>
+        
+        
+        <category>Javascript</category>
+        
+      </item>
+    
+      <item>
+        <title>딥러닝 01. 딥러닝의 원리 알아보기</title>
+        <description>&lt;h3 id=&quot;20190517-딥러닝-원리-알아보기&quot;&gt;2019.05.17 딥러닝 원리 알아보기&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;신경망 첫걸음 책을 활용하여 공부하고 있습니다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;딥러닝의-원리&quot;&gt;딥러닝의 원리&lt;/h1&gt;
+
+&lt;h2 id=&quot;예측&quot;&gt;예측&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;어떤 것을 명확히 파악할 수 없을 때 모델을 정교화 해나가는 좋은 방법은 오차에 기초해 매개변수 값을 조정해 나가는 것이다.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;학습률&quot;&gt;학습률&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;조정 과정을 거치면서 가장 큰 문제점은 바로 이전의 학습 데이터는 무시하고 최종 학습 데이터에만 맞춰 업데이트 된다는 것이다.&lt;/li&gt;
+  &lt;li&gt;이를 해결하기 위해 학습률을 도입함으로서 단일 학습 데이터가 학습에 지배적인 영향을 주는 것을 방지한다.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;분류자&quot;&gt;분류자&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;특정 기준으로 데이터를 분류해야 할 때 그 특정 기준이 한개로는 부족한 경우가 대부분이다. (단순한 선형 분류자)&lt;/li&gt;
+  &lt;li&gt;이런 경우 여러개의 선형 분류자를 이용해 데이터를 분류할 수 있다.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;노드&quot;&gt;노드&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;데이터를 학습 시키기 위한 각각의 인공 뉴런을 노드라고 부른다.&lt;/li&gt;
+  &lt;li&gt;각각의 노드들은 서로 연결되어 있는 형태로 구성하고(꼭 그런 것은 아니지만 이렇게 연결하는 것이 프로그램 구현에 더 편리하고 효율적이다)&lt;/li&gt;
+  &lt;li&gt;이러한 노드들은 여러 계층(layer)에 걸쳐 위치시킨다.&lt;/li&gt;
+  &lt;li&gt;각각 노드들의 연결은 가중치를 포함한다.&lt;/li&gt;
+  &lt;li&gt;각 신호들은 특정 분계점을 지나야 출력되게 된다.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;신경망의-신호-계산&quot;&gt;신경망의 신호 계산&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;행렬을 통해 이 문제를 해결할 수 있다.&lt;/li&gt;
+  &lt;li&gt;X = W * I
+    &lt;ol&gt;
+      &lt;li&gt;W는 각각의 가중치&lt;/li&gt;
+      &lt;li&gt;I는 input으로 초기 주어진 값들&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;계층&quot;&gt;계층&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;입력계층(input layer) / 은닉계층(hidden layer) / 출력계층(output layer)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;결과값-도출&quot;&gt;결과값 도출&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;결국 계층 노드의 입력값에 가중치를 곱해서 계산하고 활성화 함수(sigmoid 등)를 적용함으로서 최종 결과값을 도출할 수 있다.&lt;/li&gt;
+  &lt;li&gt;이렇게 얻어진 결과 값을 학습 데이터의 실제 값과 비교해 오차를 구하고 그 구한 오차를 이용해 우리의 신경망을 정교하게 업데이트해감으로서 보다 개선된 결과 값을 내는 것이 우리가 할 일이다.&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+        <pubDate>Fri, 17 May 2019 16:06:23 +0900</pubDate>
+        <link>http://localhost:4000/%EB%94%A5%EB%9F%AC%EB%8B%9D/2019/05/17/%E1%84%83%E1%85%B5%E1%86%B8%E1%84%85%E1%85%A5%E1%84%82%E1%85%B5%E1%86%BC-01.-%E1%84%83%E1%85%B5%E1%86%B8%E1%84%85%E1%85%A5%E1%84%82%E1%85%B5%E1%86%BC%E1%84%8B%E1%85%B4-%E1%84%8B%E1%85%AF%E1%86%AB%E1%84%85%E1%85%B5-%E1%84%8B%E1%85%A1%E1%86%AF%E1%84%8B%E1%85%A1%E1%84%87%E1%85%A9%E1%84%80%E1%85%B5.html</link>
+        <guid isPermaLink="true">http://localhost:4000/%EB%94%A5%EB%9F%AC%EB%8B%9D/2019/05/17/%E1%84%83%E1%85%B5%E1%86%B8%E1%84%85%E1%85%A5%E1%84%82%E1%85%B5%E1%86%BC-01.-%E1%84%83%E1%85%B5%E1%86%B8%E1%84%85%E1%85%A5%E1%84%82%E1%85%B5%E1%86%BC%E1%84%8B%E1%85%B4-%E1%84%8B%E1%85%AF%E1%86%AB%E1%84%85%E1%85%B5-%E1%84%8B%E1%85%A1%E1%86%AF%E1%84%8B%E1%85%A1%E1%84%87%E1%85%A9%E1%84%80%E1%85%B5.html</guid>
+        
+        
+        <category>딥러닝</category>
+        
+      </item>
+    
+      <item>
+        <title>2019_05_16_TIL</title>
+        <description>&lt;h3 id=&quot;20190516-til&quot;&gt;2019.05.16 TIL&lt;/h3&gt;
+
+&lt;h1 id=&quot;to-do&quot;&gt;To do&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;DEV (10:00 ~ 18:00 )
+    &lt;ul&gt;
+      &lt;li&gt;&lt;del&gt;수업 시간에 배운 것 TIL&lt;/del&gt;&lt;/li&gt;
+      &lt;li&gt;알고리즘 1문제&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;프로젝트 (19:00 ~ 22:30 )
     &lt;ul&gt;
       &lt;li&gt;커멘트 기능 구현하기(ajax 연동해보기)&lt;/li&gt;
       &lt;li&gt;check box 모양 바꾸기&lt;/li&gt;
@@ -542,202 +983,64 @@
       &lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
-  &lt;li&gt;딥러닝
+  &lt;li&gt;딥러닝 (7:30 ~ 9:30)
     &lt;ul&gt;
-      &lt;li&gt;딥러닝 책 공부하기&lt;/li&gt;
-      &lt;li&gt;각 과목에 대한 목표 세우기&lt;/li&gt;
+      &lt;li&gt;&lt;del&gt;딥러닝 책 공부하기&lt;/del&gt;&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;About me
     &lt;ul&gt;
-      &lt;li&gt;운동 : 러닝&lt;/li&gt;
-      &lt;li&gt;데일리 리포트 및 피드백 진행&lt;/li&gt;
-      &lt;li&gt;독서&lt;/li&gt;
-      &lt;li&gt;영어 단어 암기&lt;/li&gt;
-      &lt;li&gt;영어 1개 암기&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        <pubDate>Wed, 15 May 2019 23:06:23 +0900</pubDate>
-        <link>http://localhost:4000/til/2019/05/15/TIL.html</link>
-        <guid isPermaLink="true">http://localhost:4000/til/2019/05/15/TIL.html</guid>
-        
-        
-        <category>TIL</category>
-        
-      </item>
-    
-      <item>
-        <title>알고리즘 06. 가운데 글자 가져오기</title>
-        <description>&lt;h3 id=&quot;20190515&quot;&gt;2019.05.15&lt;/h3&gt;
-
-&lt;h2 id=&quot;프로그래머스-알고리즘-문제-lv1&quot;&gt;프로그래머스 알고리즘 문제 (lv1)&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;가운데 글자 가져오기&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;문제-설명&quot;&gt;문제 설명&lt;/h3&gt;
-
-&lt;p&gt;단어 s의 가운데 글자를 반환하는 함수, solution을 만들어 보세요. 단어의 길이가 짝수라면 가운데 두글자를 반환하면 됩니다.&lt;/p&gt;
-
-&lt;h3 id=&quot;제한사항&quot;&gt;제한사항&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;s는 길이가 1 이상, 100이하인 스트링입니다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;예시&quot;&gt;예시&lt;/h3&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;	   		&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;abcde&lt;/span&gt;	 	  &lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;qwer&lt;/span&gt;	 	  &lt;span class=&quot;n&quot;&gt;we&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;나의-풀이-방법&quot;&gt;나의 풀이 방법&lt;/h3&gt;
-
-&lt;p&gt;&lt;strong&gt;의식의 흐름&lt;/strong&gt;&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;일단 s가 짝수인지 홀수 인지 확인한다.&lt;/li&gt;
-  &lt;li&gt;홀수면 중간에 한개만 뽑는다&lt;/li&gt;
-  &lt;li&gt;짝수면 가운데 2개를 뽑아낸다.&lt;/li&gt;
-  &lt;li&gt;찾아낸 것을 return에 넣는다.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;strong&gt;컴퓨터에게는?&lt;/strong&gt;&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;len(s)를 활용하여 짝수인지 홀수인지 판별&lt;/li&gt;
-  &lt;li&gt;홀수이면 len(s)//2 를 활용하여 몫값의 인덱스 값을 찾는다.&lt;/li&gt;
-  &lt;li&gt;짝수이면 len(s)//2 - 1부터 len(s)//2 +1 까지의 인덱스 값을 찾는다.&lt;/li&gt;
-  &lt;li&gt;뽑아 낸 값을 return에 담는다.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;코드&quot;&gt;코드&lt;/h2&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;solution&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;answer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;''&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;s_len&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s_len&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;answer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s_len&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s_len&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)]&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;answer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s_len&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;answer&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;solution&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;power&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;조금만 생각해보면 되는 간단한 문제였다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;다른-사람-풀이&quot;&gt;다른 사람 풀이&lt;/h3&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;string_middle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;c&quot;&gt;# 함수를 완성하세요&lt;/span&gt;
-
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# 아래는 테스트로 출력해 보기 위한 코드입니다.&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;string_middle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;power&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;나는 나누어 주고 빼주었는데 여기서는 빼주고 나누어주어서 해당 인덱스를 바로 찾아갈 수 있게 설계하였다.&lt;/li&gt;
-  &lt;li&gt;항상 무언가를 나누어주고 빼주려고 했는데 빼주고 나누어주면 어떻게 되는지 생각을 한번 해보면 좋을 것 같다.&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        <pubDate>Tue, 14 May 2019 23:06:23 +0900</pubDate>
-        <link>http://localhost:4000/algorithm/2019/05/14/%E1%84%8B%E1%85%A1%E1%86%AF%E1%84%80%E1%85%A9%E1%84%85%E1%85%B5%E1%84%8C%E1%85%B3%E1%86%B7-06.-%E1%84%80%E1%85%A1%E1%84%8B%E1%85%AE%E1%86%AB%E1%84%83%E1%85%A6-%E1%84%80%E1%85%B3%E1%86%AF%E1%84%8C%E1%85%A1-%E1%84%80%E1%85%A1%E1%84%8C%E1%85%A7%E1%84%8B%E1%85%A9%E1%84%80%E1%85%B5.html</link>
-        <guid isPermaLink="true">http://localhost:4000/algorithm/2019/05/14/%E1%84%8B%E1%85%A1%E1%86%AF%E1%84%80%E1%85%A9%E1%84%85%E1%85%B5%E1%84%8C%E1%85%B3%E1%86%B7-06.-%E1%84%80%E1%85%A1%E1%84%8B%E1%85%AE%E1%86%AB%E1%84%83%E1%85%A6-%E1%84%80%E1%85%B3%E1%86%AF%E1%84%8C%E1%85%A1-%E1%84%80%E1%85%A1%E1%84%8C%E1%85%A7%E1%84%8B%E1%85%A9%E1%84%80%E1%85%B5.html</guid>
-        
-        
-        <category>Algorithm</category>
-        
-      </item>
-    
-      <item>
-        <title>2019_05_14_TIL</title>
-        <description>&lt;h3 id=&quot;20190514-til&quot;&gt;2019.05.14 TIL&lt;/h3&gt;
-
-&lt;h1 id=&quot;to-do&quot;&gt;To do&lt;/h1&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;DEV
-    &lt;ul&gt;
-      &lt;li&gt;&lt;del&gt;유튜브 영상 촬영 및 업로드&lt;/del&gt;
-        &lt;ul&gt;
-          &lt;li&gt;~~2회분 ~ 3회분 촬영 ( dstagram) ~~&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-      &lt;li&gt;&lt;del&gt;수업 시간에 배운 것 TIL&lt;/del&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;프로젝트
-    &lt;ul&gt;
-      &lt;li&gt;&lt;del&gt;커멘트 다는 기능 구현하기&lt;/del&gt;&lt;/li&gt;
-      &lt;li&gt;check box 모양 바꾸기&lt;/li&gt;
-      &lt;li&gt;&lt;del&gt;연락 예정일도 띄어주도록 구현&lt;/del&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;del&gt;전체 리스트 구현하기&lt;/del&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;About me
-    &lt;ul&gt;
-      &lt;li&gt;&lt;del&gt;운동 : 헬스&lt;/del&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;del&gt;데일리 리포트 및 피드백 진행&lt;/del&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;del&gt;독서&lt;/del&gt;&lt;/li&gt;
-      &lt;li&gt;영어 단어 암기&lt;/li&gt;
-      &lt;li&gt;&lt;del&gt;영어 1개 암기&lt;/del&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;del&gt;운동 : 러닝 (6 ~ 7:30)&lt;/del&gt;&lt;/li&gt;
+      &lt;li&gt;데일리 리포트 및 피드백 진행 ( 22시 이후 )&lt;/li&gt;
+      &lt;li&gt;&lt;del&gt;독서 ( 18:00 ~ 19:00 )&lt;/del&gt;: 독서겸 딥러닝 공부&lt;/li&gt;
+      &lt;li&gt;영어 단어 암기 (9:30 ~ 10:00)&lt;/li&gt;
+      &lt;li&gt;영어 1개 암기 (오가는 길에 계속 듣기)&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h1 id=&quot;til&quot;&gt;TIL&lt;/h1&gt;
-
 &lt;ul&gt;
-  &lt;li&gt;오늘은 수업시간에 검색 기능을 구현하였다.&lt;/li&gt;
-  &lt;li&gt;전체적인 흐름을 그려보면 다음과 같다.&lt;/li&gt;
-  &lt;li&gt;페이징을 구현할 때는 주소 뒤에 ?page=1과 같이 주소가 붙는 것이 중요하다. 따라서 이 주소를 해석할 수 있도록 views.py에서 request.GET.get(‘page’)를 통해 page뒤에 넘버를 가지고 온다. 그리고 그 받아온 값을 해석하고 해당되는 것을 반환해주는 방법이 방법이 2가지가 있는데 한개는 DB에서 바로 가지고 오는 방법이 있고 또 한개는 먼저 다 가지고 온 다음에 for문을 돌려서 찾는 방법이 있는데 우리가 선택한 방법은 DB에서 바로 가지고 오는 방법 이었다. 우리가 기본적으로 구현 한것은 DB에서 가져온 데이터를 바탕으로 한 페이지에 구현되는 만큼 인덱싱을 활용하여 보내주어서 템플릿에 출력해주었다.&lt;/li&gt;
-  &lt;li&gt;또한 서칭기능을 통해 해당 필드에 우리가 검색한 것이 있는 것을 확인하여 출력하는 것을 배웠다.그렇게 서칭을 하여 DB에서 바로 가지고 오기 위해서 한 일은 바로 filter를 활용한 방법이었다. filter를 통해 특정 제약 조건등을 넣어주고 그 제약 조건에 맞게 해당 데이터들을 뽑아오도록 하고 그것을 render를 통해 다시 보내주어서 화면에 표시되도록 하였다. 또한 추가적으로 한개가 아닌 2개 이상을 찾을 때 활용한 Q가 있었다. Q를 활용하면 filter기능이 and로만 되어있는데 이것을 or로 추가적으로 활용할 수 있었다.&lt;/li&gt;
-  &lt;li&gt;내가 구현한 프로젝트의 로직에 대해 내가 정확히 꾀고 있지 못하다는 생각이 들었다. 선생님께도 이것때문에 혼났다. 이것을 어떻게 해야할까? 겉으로 돌아가는 로직이 아닌 내부로직을 그려오라고 하셨다. 한번 내부 로직을 그려봐야겠다.&lt;/li&gt;
+  &lt;li&gt;오늘은 댓글 기능을 구현하였다.&lt;/li&gt;
+  &lt;li&gt;함수형 뷰에서 댓글 기능을 구현하였고 또 그 댓글을 수정 및 삭제하는 것을 구현하였다.&lt;/li&gt;
+  &lt;li&gt;함수형 뷰에서 댓글 기능을 구현하기 위해서 폼을 만들었다.&lt;/li&gt;
+  &lt;li&gt;함수형 뷰를 구현하기 위해서 크게 2가지 방법을 활용하였는데 첫 째는 그냥 해당 댓글이 달리는 뷰에서 처리를 하는 것이었고 또 한가지 방법은 댓글 뷰를 따로 뺴서 만드는 것이었다.&lt;/li&gt;
+  &lt;li&gt;댓글 뷰를 따로 뺴서 만들어 줄 때는 그 뷰가 실행되기 위한 url이 필요하고 그 url을 실현시켜주기 위해 form 안에 url 주소를 연결시켜주어 그 url로 연결되도록 구현해주어야 한다.&lt;/li&gt;
+  &lt;li&gt;또한 수정 기능에서 중요한 것은 바로 그 전 데이터가 들어가 있어야 한다는 것이다. 인스턴스 값을 넣어 줘야 해야 한다.&lt;/li&gt;
+  &lt;li&gt;그리고 수정 및 삭제 기능에서 중요한 것은 그것을 실행하는 사람이 글쓴이 인지 확인해야 한다.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h1 id=&quot;today-was&quot;&gt;Today was&lt;/h1&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;05:30 기상&lt;/li&gt;
-  &lt;li&gt;06:00 ~ 07:00 헬스&lt;/li&gt;
-  &lt;li&gt;07:00 ~ 08:00 유튜브 영상 촬영&lt;/li&gt;
-  &lt;li&gt;08:00 ~ 09:30 딥러닝 공부 준비 / 의식적인 노력&lt;/li&gt;
+  &lt;li&gt;05:30 기상 : 기상 이후에 계속 휴대폰을 만지면서 닝기적 거렸다. 뭔가 휴대폰으로 손이 간다는 것 자체가 문제가 되는 것 같다. 책을 읽으면 차라리 나을 것 같다는 생각이 든다.&lt;/li&gt;
+  &lt;li&gt;06:00 ~ 07:20 운동 헬스 : 가슴운동(최대 80kg) + 턱걸이(최대 10개)&lt;/li&gt;
+  &lt;li&gt;07:30 ~ 09:30 딥러닝 공부&lt;/li&gt;
   &lt;li&gt;10:00 ~ 12:00 수업 1&lt;/li&gt;
   &lt;li&gt;13:00 ~ 15:00 수업 2&lt;/li&gt;
-  &lt;li&gt;15:00 ~ 16:00 Connect 프로젝트 기능 구현 - 서칭기능 추가&lt;/li&gt;
-  &lt;li&gt;16:30 ~ 17:00 알고리즘 1&lt;/li&gt;
-  &lt;li&gt;17:00 ~ 18:30 Connect 내부로직 구현&lt;/li&gt;
-  &lt;li&gt;19:00 ~ 21:00 페이징 및 서칭 기능 구현 TIL&lt;/li&gt;
+  &lt;li&gt;15:00 ~ 17:00 수업 복습 TIL&lt;/li&gt;
+  &lt;li&gt;17:00 ~ 18:00 클래스형 뷰에서 댓글 기능 구현하기&lt;/li&gt;
+  &lt;li&gt;17:00 ~ 18:00 Connect 오늘 연락해줘야하는 사람 구현&lt;/li&gt;
+  &lt;li&gt;18:00 ~ 19:00 저녁 및 독서&lt;/li&gt;
+  &lt;li&gt;19:00 ~ 19:30 놀았당&lt;/li&gt;
+  &lt;li&gt;19:30 ~ 21:00 ajax 공부&lt;/li&gt;
   &lt;li&gt;
-    &lt;p&gt;21:00 ~ 22:30 귀가 및 휴식&lt;/p&gt;
+    &lt;p&gt;21:00 ~ 22:00 생활 코딩 강의&lt;/p&gt;
   &lt;/li&gt;
-  &lt;li&gt;오늘은 굉장히 머리가 많이 아픈 날이었다. 머리가 빙빙 돌 정도로 빈혈기가 심하게 일어났는데 왜 그런지는 잘 모르겠다. ㅠㅠ&lt;/li&gt;
-  &lt;li&gt;내가 하고자는 목표와 비전을 가지고 시간을 내어서 투자해야 한다.&lt;/li&gt;
-  &lt;li&gt;내가 개발 공부를 왜 하고 있는지 인지하고, 그리고 내가 지금 딥러닝 공부를 해야한다고 생각하면 시간을 내어서 딥러닝 공부를 진행하자.&lt;/li&gt;
-  &lt;li&gt;딥러닝 관련해서 내일부터 일찍 시간을 내어서 공부하자.&lt;/li&gt;
-  &lt;li&gt;이제 제강빌딩으로 옴기게 되어서 굉장히 시간 단축이 많이 되고 더 집중할 수 있는 환경이 만들어졌다.&lt;/li&gt;
-  &lt;li&gt;에버노트를 통해 매시간 기록하는 습관을 가지자.&lt;/li&gt;
-  &lt;li&gt;영어 단어도 암기할 수 있는 시간을 조정하자.&lt;/li&gt;
+  &lt;li&gt;음… 저녁시간 이후에 갑자기 너무 피곤해져서… 당황스러웠다.&lt;/li&gt;
+  &lt;li&gt;이런 경우 어떻게 하는 것이 좋을까? 그냥 한숨 잠자고 하는 것이 좋은 것일까?&lt;/li&gt;
+  &lt;li&gt;저녁시간 이후에 굉장히 피곤해 질 때 어떻게 해야 할지 생각을 해봐야 되겠다.&lt;/li&gt;
+  &lt;li&gt;오늘 일상 생활을 보면 나쁘지 않았다. 각각의 시간을 주고 시행하는 것은 굉장히 효율적이라는 생각이 든다.&lt;/li&gt;
+  &lt;li&gt;왜냐하면 어차피 무언가를 끝내는데 시간을 명확히 측정하기도 어렵고, 차라리 시간을 주어서 특정 것을 할 수 있도록 확보해주는 것이 좋다는 생각이 든다.&lt;/li&gt;
+  &lt;li&gt;딥러닝 공부도 시작하였고, 나쁘지 않은 하루였다.&lt;/li&gt;
+  &lt;li&gt;잠이 너무 온다 ㅎㅎ&lt;/li&gt;
+  &lt;li&gt;잠이 올 때는 음악을 들으면서 알바를 하자. ㅎㅎ&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h1 id=&quot;tomorrow-do&quot;&gt;Tomorrow do&lt;/h1&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;DEV
+  &lt;li&gt;DEV (10 ~ 16:30)
     &lt;ul&gt;
       &lt;li&gt;수업 시간에 배운 것 TIL&lt;/li&gt;
     &lt;/ul&gt;
@@ -745,19 +1048,16 @@
   &lt;li&gt;프로젝트
     &lt;ul&gt;
       &lt;li&gt;커멘트 기능 구현하기(ajax 연동해보기)&lt;/li&gt;
-      &lt;li&gt;check box 모양 바꾸기&lt;/li&gt;
-      &lt;li&gt;오늘 연락해야하는 사람 리스트만 띄어주도록 구현&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
-  &lt;li&gt;딥러닝
+  &lt;li&gt;딥러닝 ( 07:30 ~ 09:30 )
     &lt;ul&gt;
       &lt;li&gt;딥러닝 책 공부하기&lt;/li&gt;
-      &lt;li&gt;각 과목에 대한 목표 세우기&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;About me
     &lt;ul&gt;
-      &lt;li&gt;운동 : 사이클&lt;/li&gt;
+      &lt;li&gt;운동 : 러닝 (05:30 ~ 07:00)&lt;/li&gt;
       &lt;li&gt;데일리 리포트 및 피드백 진행&lt;/li&gt;
       &lt;li&gt;독서&lt;/li&gt;
       &lt;li&gt;영어 단어 암기&lt;/li&gt;
@@ -766,800 +1066,9 @@
   &lt;/li&gt;
 &lt;/ul&gt;
 </description>
-        <pubDate>Tue, 14 May 2019 23:06:23 +0900</pubDate>
-        <link>http://localhost:4000/til/2019/05/14/TIL.html</link>
-        <guid isPermaLink="true">http://localhost:4000/til/2019/05/14/TIL.html</guid>
-        
-        
-        <category>TIL</category>
-        
-      </item>
-    
-      <item>
-        <title>Django 21. 장고 페이지 서칭 기능 구현</title>
-        <description>&lt;h3 id=&quot;20190513-장고-페이지-서칭-기능-구현하기&quot;&gt;2019.05.13 장고 페이지 서칭 기능 구현하기&lt;/h3&gt;
-
-&lt;h2 id=&quot;서칭-기능-구현하기&quot;&gt;서칭 기능 구현하기&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;데이터베이스에 질의문 (query 문)/ 애초에 해당애들만 뽑아오기
-    &lt;ol&gt;
-      &lt;li&gt;documents = Document.objects.filter(title__contains = “1”)&lt;/li&gt;
-      &lt;li&gt;documents = get_list_or_404(Document, title__contains = “1”)&lt;/li&gt;
-    &lt;/ol&gt;
-  &lt;/li&gt;
-  &lt;li&gt;코드레벨 검색 (DB에서 다 가지고 온 다음에 뽑아내기 )
-    &lt;ol&gt;
-      &lt;li&gt;파이썬 코드레벨에서 검색&lt;/li&gt;
-      &lt;li&gt;다 가지고 온 다음에 for문 같은 것을 돌려야 한다.&lt;/li&gt;
-    &lt;/ol&gt;
-  &lt;/li&gt;
-  &lt;li&gt;DB에서 가지고 오는게 제일 빠른데 항상 병목 현상은 db에서 발생한다.
-    &lt;ol&gt;
-      &lt;li&gt;서비스가 느려지고 그럴 수 있다.&lt;/li&gt;
-      &lt;li&gt;데이터베이스의 쿼리질의문을 줄인다.?
-        &lt;ol&gt;
-          &lt;li&gt;하나씩 물어보는 방법과 한번에 물어보는 방법이 있다.&lt;/li&gt;
-          &lt;li&gt;하지만 그렇게 하면 질의문이 길어져서 해석하는데 시간이 오래 걸릴 수 있다.&lt;/li&gt;
-        &lt;/ol&gt;
-      &lt;/li&gt;
-    &lt;/ol&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;로직-생각&quot;&gt;로직 생각&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;검색어가 들어온다.&lt;/li&gt;
-  &lt;li&gt;검색어를 받아서 제대로 받았는지 확인한다.&lt;/li&gt;
-  &lt;li&gt;filter 메소드를 사용한다.
-    &lt;ol&gt;
-      &lt;li&gt;어떤 항목을 검색할 것이냐?
-        &lt;ol&gt;
-          &lt;li&gt;내용/ 작성자 등&lt;/li&gt;
-        &lt;/ol&gt;
-      &lt;/li&gt;
-      &lt;li&gt;어떤 옵션으로 검색할 것이냐?
-        &lt;ol&gt;
-          &lt;li&gt;특정단어가 들어가있는지/ 처음에 시작하는지/ 대문자 / 소문자 등등&lt;/li&gt;
-        &lt;/ol&gt;
-      &lt;/li&gt;
-    &lt;/ol&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;쉘에서-filter-연습하기&quot;&gt;쉘에서 filter 연습하기&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;objects는 manage이다. 모델명.objects. 인 경우&lt;/li&gt;
-  &lt;li&gt;filter( a, b) : a이고 b 인것&lt;/li&gt;
-  &lt;li&gt;filter(filed이름) = 매칭&lt;/li&gt;
-  &lt;li&gt;filter(필드이름__옵션)&lt;/li&gt;
-  &lt;li&gt;filter(title__startswitch = “”) : 제목이 특정 문구로 시작하는 것
-    &lt;ol&gt;
-      &lt;li&gt;(title__istartswitch) : 제목이 대소문자 구분 없이 특정 문구로 시작&lt;/li&gt;
-      &lt;li&gt;”” % : 뒤에 특정 애들이 붙을 수 있다.&lt;/li&gt;
-    &lt;/ol&gt;
-  &lt;/li&gt;
-  &lt;li&gt;filter(title__endswitch = “”) : 특정 문구로 끝나는지&lt;/li&gt;
-  &lt;li&gt;filter(title__iexact==”” ) : 대소문자 구분없이 특정 제목이 있나?&lt;/li&gt;
-  &lt;li&gt;filter(title__icontains = “”) : 대소문자 구분없이 중간에 포함하고 있나?&lt;/li&gt;
-  &lt;li&gt;우리가 이렇게 매칭한 것은 로컬필드가 검색이 가능하다.
-    &lt;ol&gt;
-      &lt;li&gt;기본 필드들이 로컬 필드 이다.&lt;/li&gt;
-      &lt;li&gt;그럼 연결된 foreign key혹은 primary key는 어떻게 해야하나?&lt;/li&gt;
-    &lt;/ol&gt;
-  &lt;/li&gt;
-  &lt;li&gt;filter(category__name=”c1”) : 카테고리 필드의 이름이 c1인 것&lt;/li&gt;
-  &lt;li&gt;filter(category__ name__endswith =” “) : 카테고리의 이름이 “” 으로 끝나는 애들
-    &lt;ol&gt;
-      &lt;li&gt;%endswith : 앞에 특정 애들이 붙을 수 있다.&lt;/li&gt;
-    &lt;/ol&gt;
-  &lt;/li&gt;
-  &lt;li&gt;여러개 모델에서 찾는 것도 추가적으로 구현할 수 있다.
-    &lt;ol&gt;
-      &lt;li&gt;by 일래스틱서치 - 우리의 스팩이 한줄 더 늘 수 있다.&lt;/li&gt;
-      &lt;li&gt;한글 검색이 특히&lt;/li&gt;
-    &lt;/ol&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;정리위의-예시를-바탕으로-정리한-것입니다&quot;&gt;정리(위의 예시를 바탕으로 정리한 것입니다)&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;필드명 = “값” 매칭&lt;/li&gt;
-  &lt;li&gt;필드명__exact = “값” 매칭&lt;/li&gt;
-  &lt;li&gt;필드명__iexact = “값” 대소문자 구분 없이 매칭&lt;/li&gt;
-  &lt;li&gt;필드명__ startswich,필드명 __istartswich : “값”으로 시작&lt;/li&gt;
-  &lt;li&gt;필드명__ endswitch, 필드명__iendswitch : “값”으로 끝&lt;/li&gt;
-  &lt;li&gt;필드명__ contains , 필드명__icontains : “값”을 포함하느냐?&lt;/li&gt;
-  &lt;li&gt;Foreignkey 매칭
-    &lt;ol&gt;
-      &lt;li&gt;필드명__해당모델의 필드명 : 매칭&lt;/li&gt;
-      &lt;li&gt;필드명__ 해당모델의 필드명__ 옵션 : 해당 모델의 필드명이 해당 옵션으로 매칭&lt;/li&gt;
-    &lt;/ol&gt;
-  &lt;/li&gt;
-  &lt;li&gt;필드명__ gt=값,  필드명__gte= 값 크다, 크거나 같다.
-    &lt;ol&gt;
-      &lt;li&gt;ex) created__gt = 오늘 : 작성일이 오늘보다 크다. (오늘 00시 이후)&lt;/li&gt;
-    &lt;/ol&gt;
-  &lt;/li&gt;
-  &lt;li&gt;필드명__ lt =값 , 필드명__lte = 값 작다, 작거나 같다.
-    &lt;ol&gt;
-      &lt;li&gt;ex) created__lt = 오늘 : 작성일이 오늘보다 이전이다. (datetime.now())&lt;/li&gt;
-      &lt;li&gt;ex) 판매시작일 __lt = 오늘 : 판매시작일 설정값이 오늘보다 작거나 같으면 판매시작&lt;/li&gt;
-    &lt;/ol&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;서칭-버튼-구현-템플릿&quot;&gt;서칭 버튼 구현 (템플릿)&lt;/h2&gt;
-
-&lt;p&gt;&lt;img width=&quot;1165&quot; alt=&quot;스크린샷 2019-05-14 오후 12 02 22&quot; src=&quot;https://user-images.githubusercontent.com/46436843/57695925-7e6abe80-768a-11e9-92e3-3d18aa074833.png&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;서칭-viewspy--구현&quot;&gt;서칭 views.py  구현&lt;/h2&gt;
-
-&lt;p&gt;&lt;img width=&quot;927&quot; alt=&quot;26EFCA46-24B9-400F-BA1F-FA2653B79856&quot; src=&quot;https://user-images.githubusercontent.com/46436843/57696076-e28d8280-768a-11e9-97d1-7ea18dfae53f.png&quot; /&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;서칭은 기본적으로 list를 띄어주는 상황에서 가능하다.&lt;/li&gt;
-  &lt;li&gt;search_key가 없으면 그냥 get_list를 통해 모든 list를 가지고 온다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&quot;서칭-심화-구현---or-구현하기&quot;&gt;서칭 심화 구현 - OR 구현하기&lt;/h1&gt;
-&lt;ul&gt;
-  &lt;li&gt;특정 필드가 아닌 제목, 본문, 사용자이름과 관련해서 동시에 서칭하고 싶을 때!&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;q-객체-사용하기&quot;&gt;Q 객체 사용하기&lt;/h2&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;django.db.models&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Q&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Q&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;title__icontains&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'1'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Q&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AND&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'title__icontains'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'1'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;default_q&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Q&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;title__icontains&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'1'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;second_q&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Q&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text__icontains&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'1'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;default_q&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;second__q&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Q&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OR&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'title__icontains'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'1'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'text__icontains'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'1'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Document&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;objects&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;filter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;default_q&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;second_q&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;q객체는-우리가-기존에-쓰던-필터를-그대로-쓰게-해주는데-일반-필더안에서는-and만-가능해서-q객체를-활용해서-or을-사용가능하게-된다&quot;&gt;Q객체는 우리가 기존에 쓰던 필터를 그대로 쓰게 해주는데, 일반 필더안에서는 and만 가능해서 Q객체를 활용해서 or을 사용가능하게 된다.&lt;/h4&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;objects.filter() : filter 매서드에 들어가는 매개변수들은 항상 and 연산을 한다.&lt;/li&gt;
-  &lt;li&gt;or 연산을 하고 싶퍼서 Q객체를 사용한다.&lt;/li&gt;
-  &lt;li&gt;사용법은 filter에 들어가는 매개변수의 작성법과 똑같다.
-    &lt;ol&gt;
-      &lt;li&gt;
-        &lt;table&gt;
-          &lt;tbody&gt;
-            &lt;tr&gt;
-              &lt;td&gt;Q()&lt;/td&gt;
-              &lt;td&gt;Q() : OR&lt;/td&gt;
-            &lt;/tr&gt;
-          &lt;/tbody&gt;
-        &lt;/table&gt;
-      &lt;/li&gt;
-      &lt;li&gt;Q() &amp;amp; Q() : AND&lt;/li&gt;
-      &lt;li&gt;~Q() :NOT&lt;/li&gt;
-      &lt;li&gt;구글 검색 연산자
-        &lt;ol&gt;
-          &lt;li&gt;작성자, 제목, 본문에 대해서 다 검색할 수 있도록&lt;/li&gt;
-          &lt;li&gt;체크박스 보이기&lt;/li&gt;
-          &lt;li&gt;체크박스 값확인&lt;/li&gt;
-          &lt;li&gt;Q객체를 어떻게 만들 것인가?&lt;/li&gt;
-        &lt;/ol&gt;
-      &lt;/li&gt;
-    &lt;/ol&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;제목-본문에서-해당-내용-같이-검색하도록-하기-by-q객체---viewspy&quot;&gt;제목, 본문에서 해당 내용 같이 검색하도록 하기 (by Q객체 - views.py)&lt;/h2&gt;
-
-&lt;p&gt;&lt;img width=&quot;802&quot; alt=&quot;13E315E3-4C12-4F4F-85F3-D58C61BB2C93&quot; src=&quot;https://user-images.githubusercontent.com/46436843/57696088-e9b49080-768a-11e9-95c1-72c5c36d585f.png&quot; /&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;title_q와 text_q를 변수로 받고 Q 객체를 활용하여 OR 필터가 가능하도록 한다.&lt;/li&gt;
-  &lt;li&gt;그 이외는 모두 한개의 필터를 사용할 때와 같다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;체크박스로-작성자-제목-내용-등을-구분할-때&quot;&gt;체크박스로 작성자/ 제목/ 내용 등을 구분할 때&lt;/h2&gt;
-
-&lt;h2 id=&quot;viewspy-구현하기&quot;&gt;views.py 구현하기&lt;/h2&gt;
-
-&lt;p&gt;&lt;img width=&quot;788&quot; alt=&quot;4C77E9AE-3BE4-4663-BBCD-309372DBBD94&quot; src=&quot;https://user-images.githubusercontent.com/46436843/57696108-f638e900-768a-11e9-9583-fde9344ea02d.png&quot; /&gt;&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;request.METHOD.get : 마지막 들어오는 1개만 표시&lt;/li&gt;
-  &lt;li&gt;request.METHOD.getlist : 리스트 형태로 모두 가지고 온다.
-    &lt;ol&gt;
-      &lt;li&gt;search_type = request.GET.getlist(‘search_type’,None)&lt;/li&gt;
-    &lt;/ol&gt;
-  &lt;/li&gt;
-  &lt;li&gt;기본적으로 search_type이 없으면 text에서 검색하도록 한다.&lt;/li&gt;
-  &lt;li&gt;각각 title/ text/ username이 들어왔을 때에 따라서 분기하여 구현한다.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;templates-구현하기&quot;&gt;templates 구현하기&lt;/h2&gt;
-
-&lt;p&gt;&lt;img width=&quot;1419&quot; alt=&quot;스크린샷 2019-05-14 오후 8 45 29&quot; src=&quot;https://user-images.githubusercontent.com/46436843/57696132-06e95f00-768b-11e9-8401-6198d11d9246.png&quot; /&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;form을 get 방식으로 받아오고 3가지를 모두 search_type이라는 이름으로 받아온다.&lt;/li&gt;
-  &lt;li&gt;따라서 views.py에서 getlist를 통해 모두 가지고 와야 한다.&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        <pubDate>Tue, 14 May 2019 16:06:23 +0900</pubDate>
-        <link>http://localhost:4000/django/2019/05/14/Django-21.-%E1%84%8C%E1%85%A1%E1%86%BC%E1%84%80%E1%85%A9-%E1%84%91%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%8C%E1%85%B5-%E1%84%89%E1%85%A5%E1%84%8E%E1%85%B5%E1%86%BC-%E1%84%80%E1%85%B5%E1%84%82%E1%85%B3%E1%86%BC-%E1%84%80%E1%85%AE%E1%84%92%E1%85%A7%E1%86%AB.html</link>
-        <guid isPermaLink="true">http://localhost:4000/django/2019/05/14/Django-21.-%E1%84%8C%E1%85%A1%E1%86%BC%E1%84%80%E1%85%A9-%E1%84%91%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%8C%E1%85%B5-%E1%84%89%E1%85%A5%E1%84%8E%E1%85%B5%E1%86%BC-%E1%84%80%E1%85%B5%E1%84%82%E1%85%B3%E1%86%BC-%E1%84%80%E1%85%AE%E1%84%92%E1%85%A7%E1%86%AB.html</guid>
-        
-        
-        <category>Django</category>
-        
-      </item>
-    
-      <item>
-        <title>Django 20. 장고 페이징 기능 구현</title>
-        <description>&lt;h3 id=&quot;20190513-장고-페이징-기능-구현하기&quot;&gt;2019.05.13 장고 페이징 기능 구현하기&lt;/h3&gt;
-
-&lt;h1 id=&quot;페이징&quot;&gt;페이징&lt;/h1&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;컨텐츠를 5개 혹은 10개 등 정해진 갯수에 따라 페이지를 나누어 구현하는 방법&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;페이징을-배우기-전에-알면-좋은-상식&quot;&gt;페이징을 배우기 전에 알면 좋은 상식&lt;/h2&gt;
-
-&lt;h3 id=&quot;list에서-불러올-때-컨텐츠가-없을-때&quot;&gt;list에서 불러올 때 컨텐츠가 없을 때&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Document.objects.all() == get_list&lt;/li&gt;
-  &lt;li&gt;따라서 get_list_or_404를 하면 2가지의 이점을 얻을 수 있다.
-    &lt;ul&gt;
-      &lt;li&gt;해당 Document를 모두 불러올 수 있고, 404 페이지 역시 띄어줄 수 있음&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;list&quot;&gt;list&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;폼을 통해서 들어오는 애를 request.POST.get(‘‘)을 통해 정보를 가져오고&lt;/li&gt;
-  &lt;li&gt;그냥 들어오는 애들은 get방식 request.GET.get(‘‘)을 통해 정보를 가져온다.
-    &lt;ul&gt;
-      &lt;li&gt;이게 주소 뒤에 따라오는 애들을 얻는 방식이다.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;페이징-기능-구현-페이지를-쪼개는-것&quot;&gt;페이징 기능 구현 (페이지를 쪼개는 것)&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;페이지당 몇개를 보여줄것이냐? 그리고 현재 페이지가 중요하다.&lt;/li&gt;
-  &lt;li&gt;page = request.GET.get(‘page’,1)
-    &lt;ul&gt;
-      &lt;li&gt;현재 페이지 번호를 가지고 오고 없으면 1을 반환한다.&lt;/li&gt;
-      &lt;li&gt;int로 받아와 이것을 start_index와 end_index에도 활용&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;paginated_by = 3  : 한 번에 최대 3개를 보여준다.&lt;/li&gt;
-  &lt;li&gt;QuerySet 객체를 슬라이싱 할 때 [시작번호:끝번호]
-    &lt;ul&gt;
-      &lt;li&gt;첫 번째 페이지 0 : 2 == &amp;gt;[ paginated_by x (page-1)  : paginated_by x (page) ]&lt;/li&gt;
-      &lt;li&gt;두 번째 페이지 2 : 5 == &amp;gt;[ paginated_by x (page-1)  : paginated_by x (page) ]&lt;/li&gt;
-      &lt;li&gt;세 번째 페이지 5 : 8 == &amp;gt;[ paginated_by x (page-1)  : paginated_by x (page) ]&lt;/li&gt;
-      &lt;li&gt;만약에 한 페이지에 2개씩 띄어준다고 하면&lt;/li&gt;
-      &lt;li&gt;첫 번째 페이지는 0번에서 1번까지 가지고 오고 [0:2]&lt;/li&gt;
-      &lt;li&gt;두 번째 페이지는 2번에서 3번까지 가지고 오고 [2:4]&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;페이징-viewspy-설계하기&quot;&gt;페이징 views.py 설계하기&lt;/h2&gt;
-
-&lt;p&gt;&lt;img width=&quot;1012&quot; alt=&quot;EDAE0AF3-DA6A-4202-9D6F-18AF73EC05C9&quot; src=&quot;https://user-images.githubusercontent.com/46436843/57695659-cdfcba80-7689-11e9-84be-48b874546bf2.png&quot; /&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;이후 입력 url : http://127.0.0.1:8000/?page=1&lt;/li&gt;
-  &lt;li&gt;list로 처음에 접속하게 되므로 request.GET.get을 통해 페이지 넘버를 가지고 오고&lt;/li&gt;
-  &lt;li&gt;그 페이지넘버를 통해 documents의 인덱싱으로 노출될 부분을 결정하고 그것을 render를 통해서 반환을 해준다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;페이징-viewspy-심화-설계하기아래-페이지-넘버-구현하기&quot;&gt;페이징 views.py 심화 설계하기(아래 페이지 넘버 구현하기)&lt;/h2&gt;
-
-&lt;p&gt;&lt;img width=&quot;1287&quot; alt=&quot;9285CCA0-F190-4902-86F6-955B9C5F2E03&quot; src=&quot;https://user-images.githubusercontent.com/46436843/57695673-d5bc5f00-7689-11e9-9b06-3c35f5df09cb.png&quot; /&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;total_count와 total_page, page_range를 document_list에 보내줌으로서 document_list에서 훨씬 많은 것을 구현 할 수 있다.&lt;/li&gt;
-  &lt;li&gt;page_range를 통해 이후 템플릿에서 페이지 넘버를 출력하도록 구현한다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;페이징-템플릿-구현하기&quot;&gt;페이징 템플릿 구현하기&lt;/h2&gt;
-
-&lt;p&gt;&lt;img width=&quot;1293&quot; alt=&quot;C4EA49CD-90ED-4A62-AA99-1457B2489F97&quot; src=&quot;https://user-images.githubusercontent.com/46436843/57695724-f5ec1e00-7689-11e9-9e69-27dd59448bb1.png&quot; /&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;기본적으로 한번 document 인덱싱을 통해 넘어온 자료이므로 그대로 출력을 해주면 된다.&lt;/li&gt;
-  &lt;li&gt;추가적으로 아래에 pagination을 (bootstrap) 달아서 해당 버튼을 클릭할 때 board:index url로 이동하도록 하고 그 주소 뒤에 page=### 2019.05.13 장고 페이징 기능 구현하기&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&quot;페이징-1&quot;&gt;페이징&lt;/h1&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;컨텐츠를 5개 혹은 10개 등 정해진 갯수에 따라 페이지를 나누어 구현하는 방법&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;페이징을-배우기-전에-알면-좋은-상식-1&quot;&gt;페이징을 배우기 전에 알면 좋은 상식&lt;/h2&gt;
-
-&lt;h3 id=&quot;list에서-불러올-때-컨텐츠가-없을-때-1&quot;&gt;list에서 불러올 때 컨텐츠가 없을 때&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Document.objects.all() == get_list&lt;/li&gt;
-  &lt;li&gt;따라서 get_list_or_404를 하면 2가지의 이점을 얻을 수 있다.
-    &lt;ul&gt;
-      &lt;li&gt;해당 Document를 모두 불러올 수 있고, 404 페이지 역시 띄어줄 수 있음&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;list-1&quot;&gt;list&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;폼을 통해서 들어오는 애를 request.POST.get(‘‘)을 통해 정보를 가져오고&lt;/li&gt;
-  &lt;li&gt;그냥 들어오는 애들은 get방식 request.GET.get(‘‘)을 통해 정보를 가져온다.
-    &lt;ul&gt;
-      &lt;li&gt;이게 주소 뒤에 따라오는 애들을 얻는 방식이다.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;페이징-기능-구현-페이지를-쪼개는-것-1&quot;&gt;페이징 기능 구현 (페이지를 쪼개는 것)&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;페이지당 몇개를 보여줄것이냐? 그리고 현재 페이지가 중요하다.&lt;/li&gt;
-  &lt;li&gt;page = request.GET.get(‘page’,1)
-    &lt;ul&gt;
-      &lt;li&gt;현재 페이지 번호를 가지고 오고 없으면 1을 반환한다.&lt;/li&gt;
-      &lt;li&gt;int로 받아와 이것을 start_index와 end_index에도 활용&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;paginated_by = 3  : 한 번에 최대 3개를 보여준다.&lt;/li&gt;
-  &lt;li&gt;QuerySet 객체를 슬라이싱 할 때 [시작번호:끝번호]
-    &lt;ul&gt;
-      &lt;li&gt;첫 번째 페이지 0 : 2 == &amp;gt;[ paginated_by x (page-1)  : paginated_by x (page) ]&lt;/li&gt;
-      &lt;li&gt;두 번째 페이지 2 : 5 == &amp;gt;[ paginated_by x (page-1)  : paginated_by x (page) ]&lt;/li&gt;
-      &lt;li&gt;세 번째 페이지 5 : 8 == &amp;gt;[ paginated_by x (page-1)  : paginated_by x (page) ]&lt;/li&gt;
-      &lt;li&gt;만약에 한 페이지에 2개씩 띄어준다고 하면&lt;/li&gt;
-      &lt;li&gt;첫 번째 페이지는 0번에서 1번까지 가지고 오고 [0:2]&lt;/li&gt;
-      &lt;li&gt;두 번째 페이지는 2번에서 3번까지 가지고 오고 [2:4]&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;페이징-viewspy-설계하기-1&quot;&gt;페이징 views.py 설계하기&lt;/h2&gt;
-
-&lt;p&gt;&lt;img width=&quot;1012&quot; alt=&quot;EDAE0AF3-DA6A-4202-9D6F-18AF73EC05C9&quot; src=&quot;https://user-images.githubusercontent.com/46436843/57695659-cdfcba80-7689-11e9-84be-48b874546bf2.png&quot; /&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;이후 입력 url : http://127.0.0.1:8000/?page=1&lt;/li&gt;
-  &lt;li&gt;list로 처음에 접속하게 되므로 request.GET.get을 통해 페이지 넘버를 가지고 오고&lt;/li&gt;
-  &lt;li&gt;그 페이지넘버를 통해 documents의 인덱싱으로 노출될 부분을 결정하고 그것을 render를 통해서 반환을 해준다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;페이징-viewspy-심화-설계하기아래-페이지-넘버-구현하기-1&quot;&gt;페이징 views.py 심화 설계하기(아래 페이지 넘버 구현하기)&lt;/h2&gt;
-
-&lt;p&gt;&lt;img width=&quot;1287&quot; alt=&quot;9285CCA0-F190-4902-86F6-955B9C5F2E03&quot; src=&quot;https://user-images.githubusercontent.com/46436843/57695673-d5bc5f00-7689-11e9-9b06-3c35f5df09cb.png&quot; /&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;total_count와 total_page, page_range를 document_list에 보내줌으로서 document_list에서 훨씬 많은 것을 구현 할 수 있다.&lt;/li&gt;
-  &lt;li&gt;page_range를 통해 이후 템플릿에서 페이지 넘버를 출력하도록 구현한다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;페이징-템플릿-구현하기-1&quot;&gt;페이징 템플릿 구현하기&lt;/h2&gt;
-
-&lt;p&gt;&lt;img width=&quot;1293&quot; alt=&quot;C4EA49CD-90ED-4A62-AA99-1457B2489F97&quot; src=&quot;https://user-images.githubusercontent.com/46436843/57695724-f5ec1e00-7689-11e9-9e69-27dd59448bb1.png&quot; /&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;기본적으로 한번 document 인덱싱을 통해 넘어온 자료이므로 그대로 출력을 해주면 된다.&lt;/li&gt;
-  &lt;li&gt;추가적으로 아래에 pagination을 (bootstrap) 달아서 해당 버튼을 클릭할 때 board:index url로 이동하도록 하고 그 주소 뒤에 page={{page}}를 통해 해당 페이지의 url을 연결한다.&lt;/li&gt;
-  &lt;li&gt;또한 {{page}}를 통해 번호도 띄어준다.&lt;/li&gt;
-  &lt;li&gt;이렇게 구현하면 알아서 컨텐츠가 많아져서 페이지가 넘어가면 추가 된다.
-를 통해 해당 페이지의 url을 연결한다.&lt;/li&gt;
-  &lt;li&gt;또한 ### 2019.05.13 장고 페이징 기능 구현하기&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&quot;페이징-2&quot;&gt;페이징&lt;/h1&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;컨텐츠를 5개 혹은 10개 등 정해진 갯수에 따라 페이지를 나누어 구현하는 방법&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;페이징을-배우기-전에-알면-좋은-상식-2&quot;&gt;페이징을 배우기 전에 알면 좋은 상식&lt;/h2&gt;
-
-&lt;h3 id=&quot;list에서-불러올-때-컨텐츠가-없을-때-2&quot;&gt;list에서 불러올 때 컨텐츠가 없을 때&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Document.objects.all() == get_list&lt;/li&gt;
-  &lt;li&gt;따라서 get_list_or_404를 하면 2가지의 이점을 얻을 수 있다.
-    &lt;ul&gt;
-      &lt;li&gt;해당 Document를 모두 불러올 수 있고, 404 페이지 역시 띄어줄 수 있음&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;list-2&quot;&gt;list&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;폼을 통해서 들어오는 애를 request.POST.get(‘‘)을 통해 정보를 가져오고&lt;/li&gt;
-  &lt;li&gt;그냥 들어오는 애들은 get방식 request.GET.get(‘‘)을 통해 정보를 가져온다.
-    &lt;ul&gt;
-      &lt;li&gt;이게 주소 뒤에 따라오는 애들을 얻는 방식이다.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;페이징-기능-구현-페이지를-쪼개는-것-2&quot;&gt;페이징 기능 구현 (페이지를 쪼개는 것)&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;페이지당 몇개를 보여줄것이냐? 그리고 현재 페이지가 중요하다.&lt;/li&gt;
-  &lt;li&gt;page = request.GET.get(‘page’,1)
-    &lt;ul&gt;
-      &lt;li&gt;현재 페이지 번호를 가지고 오고 없으면 1을 반환한다.&lt;/li&gt;
-      &lt;li&gt;int로 받아와 이것을 start_index와 end_index에도 활용&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;paginated_by = 3  : 한 번에 최대 3개를 보여준다.&lt;/li&gt;
-  &lt;li&gt;QuerySet 객체를 슬라이싱 할 때 [시작번호:끝번호]
-    &lt;ul&gt;
-      &lt;li&gt;첫 번째 페이지 0 : 2 == &amp;gt;[ paginated_by x (page-1)  : paginated_by x (page) ]&lt;/li&gt;
-      &lt;li&gt;두 번째 페이지 2 : 5 == &amp;gt;[ paginated_by x (page-1)  : paginated_by x (page) ]&lt;/li&gt;
-      &lt;li&gt;세 번째 페이지 5 : 8 == &amp;gt;[ paginated_by x (page-1)  : paginated_by x (page) ]&lt;/li&gt;
-      &lt;li&gt;만약에 한 페이지에 2개씩 띄어준다고 하면&lt;/li&gt;
-      &lt;li&gt;첫 번째 페이지는 0번에서 1번까지 가지고 오고 [0:2]&lt;/li&gt;
-      &lt;li&gt;두 번째 페이지는 2번에서 3번까지 가지고 오고 [2:4]&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;페이징-viewspy-설계하기-2&quot;&gt;페이징 views.py 설계하기&lt;/h2&gt;
-
-&lt;p&gt;&lt;img width=&quot;1012&quot; alt=&quot;EDAE0AF3-DA6A-4202-9D6F-18AF73EC05C9&quot; src=&quot;https://user-images.githubusercontent.com/46436843/57695659-cdfcba80-7689-11e9-84be-48b874546bf2.png&quot; /&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;이후 입력 url : http://127.0.0.1:8000/?page=1&lt;/li&gt;
-  &lt;li&gt;list로 처음에 접속하게 되므로 request.GET.get을 통해 페이지 넘버를 가지고 오고&lt;/li&gt;
-  &lt;li&gt;그 페이지넘버를 통해 documents의 인덱싱으로 노출될 부분을 결정하고 그것을 render를 통해서 반환을 해준다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;페이징-viewspy-심화-설계하기아래-페이지-넘버-구현하기-2&quot;&gt;페이징 views.py 심화 설계하기(아래 페이지 넘버 구현하기)&lt;/h2&gt;
-
-&lt;p&gt;&lt;img width=&quot;1287&quot; alt=&quot;9285CCA0-F190-4902-86F6-955B9C5F2E03&quot; src=&quot;https://user-images.githubusercontent.com/46436843/57695673-d5bc5f00-7689-11e9-9b06-3c35f5df09cb.png&quot; /&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;total_count와 total_page, page_range를 document_list에 보내줌으로서 document_list에서 훨씬 많은 것을 구현 할 수 있다.&lt;/li&gt;
-  &lt;li&gt;page_range를 통해 이후 템플릿에서 페이지 넘버를 출력하도록 구현한다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;페이징-템플릿-구현하기-2&quot;&gt;페이징 템플릿 구현하기&lt;/h2&gt;
-
-&lt;p&gt;&lt;img width=&quot;1293&quot; alt=&quot;C4EA49CD-90ED-4A62-AA99-1457B2489F97&quot; src=&quot;https://user-images.githubusercontent.com/46436843/57695724-f5ec1e00-7689-11e9-9e69-27dd59448bb1.png&quot; /&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;기본적으로 한번 document 인덱싱을 통해 넘어온 자료이므로 그대로 출력을 해주면 된다.&lt;/li&gt;
-  &lt;li&gt;추가적으로 아래에 pagination을 (bootstrap) 달아서 해당 버튼을 클릭할 때 board:index url로 이동하도록 하고 그 주소 뒤에 page={{page}}를 통해 해당 페이지의 url을 연결한다.&lt;/li&gt;
-  &lt;li&gt;또한 {{page}}를 통해 번호도 띄어준다.&lt;/li&gt;
-  &lt;li&gt;이렇게 구현하면 알아서 컨텐츠가 많아져서 페이지가 넘어가면 추가 된다.
-를 통해 번호도 띄어준다.&lt;/li&gt;
-  &lt;li&gt;이렇게 구현하면 알아서 컨텐츠가 많아져서 페이지가 넘어가면 추가 된다.&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        <pubDate>Tue, 14 May 2019 15:06:23 +0900</pubDate>
-        <link>http://localhost:4000/django/2019/05/14/Django-20.-%E1%84%8C%E1%85%A1%E1%86%BC%E1%84%80%E1%85%A9-%E1%84%91%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%8C%E1%85%B5%E1%86%BC-%E1%84%80%E1%85%B5%E1%84%82%E1%85%B3%E1%86%BC-%E1%84%80%E1%85%AE%E1%84%92%E1%85%A7%E1%86%AB.html</link>
-        <guid isPermaLink="true">http://localhost:4000/django/2019/05/14/Django-20.-%E1%84%8C%E1%85%A1%E1%86%BC%E1%84%80%E1%85%A9-%E1%84%91%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%8C%E1%85%B5%E1%86%BC-%E1%84%80%E1%85%B5%E1%84%82%E1%85%B3%E1%86%BC-%E1%84%80%E1%85%AE%E1%84%92%E1%85%A7%E1%86%AB.html</guid>
-        
-        
-        <category>Django</category>
-        
-      </item>
-    
-      <item>
-        <title>2019_05_13_TIL</title>
-        <description>&lt;h3 id=&quot;20190513-til&quot;&gt;2019.05.13 TIL&lt;/h3&gt;
-
-&lt;h1 id=&quot;to-do&quot;&gt;To do&lt;/h1&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;DEV
-    &lt;ul&gt;
-      &lt;li&gt;&lt;del&gt;bookmark s3와 postgresql 연동하기/발표 준비하기&lt;/del&gt;&lt;/li&gt;
-      &lt;li&gt;유튜브 영상 촬영 및 업로드&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;프로젝트
-    &lt;ul&gt;
-      &lt;li&gt;커멘트 다는 기능 구현하기
-        &lt;ul&gt;
-          &lt;li&gt;이제 진짜 거이 다 왔다.&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-      &lt;li&gt;check box 모양 바꾸기 (내일로 미루기)&lt;/li&gt;
-      &lt;li&gt;&lt;del&gt;남은 단계들 보드에 추가하기&lt;/del&gt;&lt;/li&gt;
-      &lt;li&gt;오늘 연락해야 하는 친구 띄어주기(기간 설정)&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;About me
-    &lt;ul&gt;
-      &lt;li&gt;&lt;del&gt;운동은 휴식&lt;/del&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;del&gt;데일리 리포트 및 피드백 진행&lt;/del&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;del&gt;독서&lt;/del&gt;&lt;/li&gt;
-      &lt;li&gt;영어 단어 암기&lt;/li&gt;
-      &lt;li&gt;&lt;del&gt;영어 1개 암기&lt;/del&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&quot;til&quot;&gt;TIL&lt;/h1&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;오늘 수업에서는 함수형 뷰를 구현하는 방법에 대해 공부하였다. 특히 views를 처리하는 과정에서 함수형뷰에서 해당 폼을 만들어서 넘겨주는게 인상 깊었다.&lt;/li&gt;
-  &lt;li&gt;추가적으로 ORM 모델링에 대해 발표하였는데, 나도 아직 정리가 덜 된 것 같은 느낌을 지울 수 없었다.&lt;/li&gt;
-  &lt;li&gt;또한 업데이트 뷰를 구현할 때 단순히 generic.view를 상속받았을 때와 다르게 아예 새로운 데이터로 저장하려고 하는 것을 알게 되었고 이것을 위해 instance를 설정하여 초기값에 넣어주면 알아서 해결 되는 것을 볼 수 있었다.&lt;/li&gt;
-  &lt;li&gt;헤로쿠에 넣고 db를 연동 하면 헤로쿠 포트에 접근할 수 없는 문제가 발생하였다. 그럼 헤로쿠에 연동을 하고 aws db는 사용할 수 없는 것인가…&lt;/li&gt;
-  &lt;li&gt;내일은 댓글 달기 기능을 꼭 구현해봐야겠다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&quot;today-was&quot;&gt;Today was&lt;/h1&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;05:30 기상&lt;/li&gt;
-  &lt;li&gt;06:00 ~ 06:30 헬스장에서 인바디 및 씻고 도서관 ㄱㄱ!&lt;/li&gt;
-  &lt;li&gt;06:30 ~ 08:30 S3 &amp;amp; DB에 bookmark 올려보기&lt;/li&gt;
-  &lt;li&gt;08:30 ~ 09:30 발표 추가 준비&lt;/li&gt;
-  &lt;li&gt;10:00 ~ 12:00 수업 1&lt;/li&gt;
-  &lt;li&gt;13:00 ~ 15:00 수업 2&lt;/li&gt;
-  &lt;li&gt;15:00 ~ 16:30 수업 3&lt;/li&gt;
-  &lt;li&gt;16:30 ~ 17:30 아르바이트!&lt;/li&gt;
-  &lt;li&gt;17:30 ~ 18:30 Comment 기능 구현&lt;/li&gt;
-  &lt;li&gt;18:30 ~ 20:30 저녁 식사 with 현근형님&lt;/li&gt;
-  &lt;li&gt;20:30 ~ 22:30 TIL 및 Comment 기능구현&lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;22:30 ~ 23:30 귀가 및 휴식&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;오늘도 역시나 데일리 리포트를 잘 적지 못했다.&lt;/li&gt;
-  &lt;li&gt;내일은 정말 잘 적어봐야되겠다. 위쪽 에버노트를 통해 작성해보자.&lt;/li&gt;
-  &lt;li&gt;무언가 나에게 상을 설정해서 잘 하면 줄 수 있도록 하자.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&quot;tomorrow-do&quot;&gt;Tomorrow do&lt;/h1&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;DEV
-    &lt;ul&gt;
-      &lt;li&gt;유튜브 영상 촬영 및 업로드
-        &lt;ul&gt;
-          &lt;li&gt;2회분 ~ 3회분 촬영 ( dstagram)&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-      &lt;li&gt;수업 시간에 배운 것 TIL&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;프로젝트
-    &lt;ul&gt;
-      &lt;li&gt;커멘트 다는 기능 구현하기&lt;/li&gt;
-      &lt;li&gt;check box 모양 바꾸기&lt;/li&gt;
-      &lt;li&gt;연락 예정일도 띄어주도록 구현&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;About me
-    &lt;ul&gt;
-      &lt;li&gt;운동 : 사이클&lt;/li&gt;
-      &lt;li&gt;데일리 리포트 및 피드백 진행&lt;/li&gt;
-      &lt;li&gt;독서&lt;/li&gt;
-      &lt;li&gt;영어 단어 암기&lt;/li&gt;
-      &lt;li&gt;영어 1개 암기&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        <pubDate>Mon, 13 May 2019 23:06:23 +0900</pubDate>
-        <link>http://localhost:4000/til/2019/05/13/TIL.html</link>
-        <guid isPermaLink="true">http://localhost:4000/til/2019/05/13/TIL.html</guid>
-        
-        
-        <category>TIL</category>
-        
-      </item>
-    
-      <item>
-        <title>배포 03. 장고프로젝트 S3로 연동하기</title>
-        <description>&lt;h3 id=&quot;20190513-장고-프로젝트-s3로-연동하기&quot;&gt;2019.05.13 장고 프로젝트 S3로 연동하기&lt;/h3&gt;
-
-&lt;h1 id=&quot;s3-셋팅---url-있는-형태로-url-연결--api-키-연결&quot;&gt;s3 셋팅 - url 있는 형태로 (url 연결 &amp;amp; api 키 연결)&lt;/h1&gt;
-
-&lt;h2 id=&quot;버킷-만들기&quot;&gt;버킷 만들기&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;버킷 만들기(사이트 주소 넣어서 만들기)&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;img width=&quot;1082&quot; alt=&quot;스크린샷 2019-05-13 오후 9 46 03&quot; src=&quot;https://user-images.githubusercontent.com/46436843/57623377-98dd6300-75ca-11e9-823d-3a05b6e2600d.png&quot; /&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;버킷이름은 꼭 이름.사이트주소.com과 같이 특정 사이트 이름을 넣어서 만들어준다.
-버킷의 퍼브릭 액세스 설정 : 다 해제를 해준다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;img width=&quot;1082&quot; alt=&quot;스크린샷 2019-05-13 오후 9 48 17&quot; src=&quot;https://user-images.githubusercontent.com/46436843/57623412-ac88c980-75ca-11e9-967b-c184b070e232.png&quot; /&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;s3에서 사용자에게 바로 줄 수 있도록 만든다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;img width=&quot;967&quot; alt=&quot;스크린샷 2019-05-13 오후 9 49 26&quot; src=&quot;https://user-images.githubusercontent.com/46436843/57623470-ca562e80-75ca-11e9-8530-b999f376dbbb.png&quot; /&gt;&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;버킷 정적 웹사이트 호스팅 설정 : route53에서 확인할 수 있도록 해준다.&lt;/li&gt;
-  &lt;li&gt;인덱스 문서 및 오류 문서를 그대로 따라 쳐준다.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;route53-주소-연결&quot;&gt;Route53 주소 연결&lt;/h2&gt;
-
-&lt;p&gt;&lt;img width=&quot;1111&quot; alt=&quot;스크린샷 2019-05-13 오후 9 53 47&quot; src=&quot;https://user-images.githubusercontent.com/46436843/57623533-e35edf80-75ca-11e9-8cb1-74eb94a420d9.png&quot; /&gt;&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;레코드 세트 생성&lt;/li&gt;
-  &lt;li&gt;본인이 등록했던 s3 버킷에 연결해주기&lt;/li&gt;
-  &lt;li&gt;s3에 파일 올리고 확인해보기&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;settingpy에-s3-관련-설정해주기&quot;&gt;setting.py에 s3 관련 설정해주기&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;assert_storage.py 생성&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;img width=&quot;634&quot; alt=&quot;스크린샷 2019-05-13 오후 9 56 52&quot; src=&quot;https://user-images.githubusercontent.com/46436843/57623561-f07bce80-75ca-11e9-8d9a-aa4daa16d95d.png&quot; /&gt;&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;bucket_name과 custom_domain을 활용하여 static과 media를 따로 저장할 수 있다.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;storages 설치 : pip install django-storages&lt;/li&gt;
-  &lt;li&gt;boto3 설치 : pip install boto3&lt;/li&gt;
-  &lt;li&gt;aws셋팅&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;img width=&quot;893&quot; alt=&quot;스크린샷 2019-05-13 오후 9 57 49&quot; src=&quot;https://user-images.githubusercontent.com/46436843/57623604-07babc00-75cb-11e9-8ec3-c4e78b1fcde7.png&quot; /&gt;&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;python manage.py collectstatic (static 파일 다 업로드 하기)&lt;/li&gt;
-  &lt;li&gt;초기화 :  python manage.py migrate
-    &lt;ol&gt;
-      &lt;li&gt;만약에 안될 시 보안그룹의 IP 포트를 확인한다.&lt;/li&gt;
-    &lt;/ol&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-</description>
-        <pubDate>Mon, 13 May 2019 15:06:23 +0900</pubDate>
-        <link>http://localhost:4000/%EB%B0%B0%ED%8F%AC/2019/05/13/%E1%84%87%E1%85%A2%E1%84%91%E1%85%A9-03.-%E1%84%8C%E1%85%A1%E1%86%BC%E1%84%80%E1%85%A9%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%8C%E1%85%A6%E1%86%A8%E1%84%90%E1%85%B3-S3%E1%84%85%E1%85%A9-%E1%84%8B%E1%85%A7%E1%86%AB%E1%84%83%E1%85%A9%E1%86%BC%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.html</link>
-        <guid isPermaLink="true">http://localhost:4000/%EB%B0%B0%ED%8F%AC/2019/05/13/%E1%84%87%E1%85%A2%E1%84%91%E1%85%A9-03.-%E1%84%8C%E1%85%A1%E1%86%BC%E1%84%80%E1%85%A9%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%8C%E1%85%A6%E1%86%A8%E1%84%90%E1%85%B3-S3%E1%84%85%E1%85%A9-%E1%84%8B%E1%85%A7%E1%86%AB%E1%84%83%E1%85%A9%E1%86%BC%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.html</guid>
-        
-        
-        <category>배포</category>
-        
-      </item>
-    
-      <item>
-        <title>2019_05_12_TIL</title>
-        <description>&lt;h3 id=&quot;20190511--12-til&quot;&gt;2019.05.11 ~ 12 TIL&lt;/h3&gt;
-
-&lt;h1 id=&quot;to-do주말간-할-것&quot;&gt;To do(주말간 할 것)&lt;/h1&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;DEV
-    &lt;ul&gt;
-      &lt;li&gt;인스타그램 팔로워 기능 구현하기&lt;/li&gt;
-      &lt;li&gt;bookmark s3와 postgresql 연동하기/발표 준비하기
-        &lt;ul&gt;
-          &lt;li&gt;진행 중&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-      &lt;li&gt;유튜브 영상 업로드(인스타그램 마무리)&lt;/li&gt;
-      &lt;li&gt;&lt;del&gt;개발자와의 소통&lt;/del&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;프로젝트
-    &lt;ul&gt;
-      &lt;li&gt;&lt;del&gt;ajax로 구현&lt;/del&gt;
-        &lt;ul&gt;
-          &lt;li&gt;checkbox 만들기&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-      &lt;li&gt;&lt;del&gt;아래에 상세페이지 띄어주기 구현&lt;/del&gt;&lt;/li&gt;
-      &lt;li&gt;커멘트 다는 기능 구현하기&lt;/li&gt;
-      &lt;li&gt;&lt;del&gt;브랜치 작업 방법 명확히 알아오기&lt;/del&gt;&lt;/li&gt;
-      &lt;li&gt;친구 추가시 달력 띄어주는 기능 추가하기&lt;/li&gt;
-      &lt;li&gt;오늘 연락해야 하는 친구 띄어주기(기간 설정)&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;About me
-    &lt;ul&gt;
-      &lt;li&gt;&lt;del&gt;운동하기(사이클 60km) - 행주 산성 다녀오기(4:30 ~ 7:00 2시간 30분)&lt;/del&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;del&gt;달리기 런 연습( 20km ) - 일요일 오전에 런하기&lt;/del&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;del&gt;데일리 리포트 및 피드백 진행&lt;/del&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;del&gt;독서&lt;/del&gt;&lt;/li&gt;
-      &lt;li&gt;영어 단어 암기&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&quot;til&quot;&gt;TIL&lt;/h1&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;정태헌님과 굉장히 많은 대화를 나눌 수 있었다. 무려 9시 30분에 만나서 오후 4시까지 이야기를 했다 ㅎㅎ. 많은 도움을 받았고 또 굉장히 좋은 사람이라는 것을 직감적으로 알 수 있었다. 함께 프로젝트를 협업으로 진행해보기로 결정하였다. 내가 현재 진행하고 있는 프로젝트를 태헌님은 앱으로 출시해주시기로 하셨다. 너무 큰 것을 기대하지 않고 정말 사람들이 라이브하게 쓸 수 있는 서비스를 해보고 싶다는 생각에 함께 동감했고 진행하기로 했다. gogo!!&lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;한개를 구현하는데 있어서 그림을 그리지 못하니 무엇을 찾아야 할지 알지 못했다. 답답한 마음이 들지만 앞으로는 이 기능을 구현하기 위해 무슨 과정을 거쳐야하는지 생각해보도록 노력하자.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;핑계라면 핑계지만… 프로젝트의 출시가 다음주라… 다른 것에 거의 신경을 못 쓰고 있다. ㅠㅠ 답답한 마음이 가득하다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&quot;today-was&quot;&gt;Today was&lt;/h1&gt;
-&lt;h2 id=&quot;토요일&quot;&gt;토요일&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;04:30 기상&lt;/li&gt;
-  &lt;li&gt;05:00 ~ 07:30 사이틀 40km&lt;/li&gt;
-  &lt;li&gt;08:00 ~ 09:30 장소 이동 및 코딩&lt;/li&gt;
-  &lt;li&gt;09:30 ~ 16:00 태헌 개발자님과의 이야기&lt;/li&gt;
-  &lt;li&gt;16:00 ~ 21:30 Comment 기능 구현 도전 및 실패 ㅠㅠ 다음주 출시인데 큰일이다…&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;일요일&quot;&gt;일요일&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;05:00 기상&lt;/li&gt;
-  &lt;li&gt;05:30 ~ 07:30 러닝 10km&lt;/li&gt;
-  &lt;li&gt;08:30 ~ 11:30 코딩 공부&lt;/li&gt;
-  &lt;li&gt;11:30 ~ 20:30 독서 데이트&lt;/li&gt;
-  &lt;li&gt;20:30 ~ 21:00 공부한 것 복습&lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;21:30 ~ 22:30 귀가 및 휴식&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;내일 아침에 발표 준비를 좀 더 마무리하자&lt;/li&gt;
-  &lt;li&gt;내가 해결하지 못한 사항들에 대해서 잘 준비해서 여쭈어보자.&lt;/li&gt;
-  &lt;li&gt;한시간마다 피드백 잘 할수 있도록 하기&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&quot;tomorrow-do&quot;&gt;Tomorrow do&lt;/h1&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;DEV
-    &lt;ul&gt;
-      &lt;li&gt;bookmark s3와 postgresql 연동하기/발표 준비하기&lt;/li&gt;
-      &lt;li&gt;유튜브 영상 촬영 및 업로드&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;프로젝트
-    &lt;ul&gt;
-      &lt;li&gt;커멘트 다는 기능 구현하기&lt;/li&gt;
-      &lt;li&gt;check box 모양 바꾸기&lt;/li&gt;
-      &lt;li&gt;남은 단계들 보드에 추가하기&lt;/li&gt;
-      &lt;li&gt;오늘 연락해야 하는 친구 띄어주기(기간 설정)&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;About me
-    &lt;ul&gt;
-      &lt;li&gt;운동은 휴식&lt;/li&gt;
-      &lt;li&gt;데일리 리포트 및 피드백 진행&lt;/li&gt;
-      &lt;li&gt;독서&lt;/li&gt;
-      &lt;li&gt;영어 단어 암기&lt;/li&gt;
-      &lt;li&gt;영어 1개 암기&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        <pubDate>Sun, 12 May 2019 23:06:23 +0900</pubDate>
-        <link>http://localhost:4000/til/2019/05/12/TIL.html</link>
-        <guid isPermaLink="true">http://localhost:4000/til/2019/05/12/TIL.html</guid>
+        <pubDate>Thu, 16 May 2019 23:06:23 +0900</pubDate>
+        <link>http://localhost:4000/til/2019/05/16/TIL.html</link>
+        <guid isPermaLink="true">http://localhost:4000/til/2019/05/16/TIL.html</guid>
         
         
         <category>TIL</category>

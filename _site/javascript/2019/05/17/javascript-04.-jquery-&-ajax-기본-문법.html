@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" sizes = "32x32" href="/static/img/favicon.ico"/>
+    <title>javascript 04. jquery & ajax 기본 문법 - 대구 올빼미의 새벽 개발로그</title>
+    <meta name="author" content="Byeonguk Kim" />
+    <meta name="description" content="javascript 04. jquery & ajax 기본 문법" />
+    <meta name="keywords" content="javascript 04. jquery & ajax 기본 문법, 대구 올빼미의 새벽 개발로그, Javascript" />
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml">
+    <meta content="1749788565247320" property="fb:app_id">
+    <meta content="대구 올빼미의 새벽 개발로그" property="og:site_name">
+
+    
+
+    
+      <meta content="javascript 04. jquery & ajax 기본 문법" property="og:title">
+      <meta content="article" property="og:type">
+    
+
+    
+      <meta content="jquery와 ajax를 활용한 기본 문법에 관한 내용입니다." property="og:description">
+    
+
+    
+      <meta content="http://localhost:4000/javascript/2019/05/17/javascript-04.-jquery-&-ajax-%E1%84%80%E1%85%B5%E1%84%87%E1%85%A9%E1%86%AB-%E1%84%86%E1%85%AE%E1%86%AB%E1%84%87%E1%85%A5%E1%86%B8.html" property="og:url">
+    
+
+    
+      <meta content="2019-05-17T17:06:23+09:00" property="article:published_time">
+      <meta content="http://localhost:4000/about/" property="article:author">
+    
+
+    
+      <meta content="http://localhost:4000/static/img/avatar.jpg" property="og:image">
+    
+
+    
+      
+        <meta content="Javascript" property="article:section">
+      
+    
+
+    
+      
+    
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@github.io">
+    <meta name="twitter:creator" content="@github.io">
+
+    
+      <meta name="twitter:title" content="javascript 04. jquery & ajax 기본 문법">
+    
+
+    
+      <meta name="twitter:url" content="http://localhost:4000/javascript/2019/05/17/javascript-04.-jquery-&-ajax-%E1%84%80%E1%85%B5%E1%84%87%E1%85%A9%E1%86%AB-%E1%84%86%E1%85%AE%E1%86%AB%E1%84%87%E1%85%A5%E1%86%B8.html">
+    
+
+    
+      <meta name="twitter:description" content="jquery와 ajax를 활용한 기본 문법에 관한 내용입니다.">
+    
+
+    
+
+    <!-- Font awesome icons -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+    <!-- syntax highlighting CSS -->
+    <link rel="stylesheet" href="/static/css/syntax.css">
+    <!-- Bootstrap core CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300italic,300,400italic,700&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/super-search.css">
+    <link rel="stylesheet" href="/static/css/thickbox.css">
+    <link rel="stylesheet" href="/static/css/projects.css">
+    <link rel="stylesheet" href="/static/css/main.css">
+
+    
+  </head>
+  <body>
+    <div class="container">
+      <div class="col-sm-3">
+        <div class="fixed-condition">
+          <a href="/"><img class="profile-avatar" src="/static/img/avatar.jpg" height="120px" width="120px" /></a>
+          <h1 class="author-name">Byeonguk Kim</h1>
+          
+            <div class="profile-about">
+              <h5>안녕하세요. 29살의 조금은 늦은 나이로 새롭게 개발자로 시작하는 신입 개발자입니다.</h5>
+            </div>
+          
+          <div class="social">
+            <ul>
+              
+                <li><a href="https://web.facebook.com/byungwook.kim.923" target="_blank"><i class="fa fa-facebook"></i></a></li>
+              
+                <li><a href="#" target="_blank"><i class="fa fa-twitter"></i></a></li>
+              
+                <li><a href="#" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+              
+                <li><a href="#" target="_blank"><i class="fa fa-stack-exchange"></i></a></li>
+              
+                <li><a href="https://github.com/fabl1106" target="_blank"><i class="fa fa-github"></i></a></li>
+              
+            </ul>
+          </div>
+          <div class="search" id="js-search">
+            <input type="text" placeholder="(sitemap)~$ type to search" class="search__input form-control" id="js-search__input">
+            <ul class="search__results" id="js-search__results"></ul>
+          </div>
+          <hr />
+          <ul class="sidebar-nav">
+            <strong>Navigation</strong>
+            <li><a href="/">Home</a></li>
+            
+              <li><a class="about" href="/about/">About Me</a></li>
+            
+              <li><a class="about" href="/projects/">My Projects</a></li>
+            
+              <li><a class="about" href="/feed.xml">XML Feed</a></li>
+            
+          </ul>
+        </div>
+        <!-- end /.fixed-condition -->
+      </div>
+      <div class="col-sm-8 col-offset-1 main-layout">
+        <header class="post-header">
+  <h1 class="post-title">javascript 04. jquery & ajax 기본 문법</h1>
+</header>
+
+<span class="time">17 May 2019</span>
+
+  <span class="categories">
+    &raquo; <a href="/category/Javascript">Javascript</a>
+  </span>
+
+
+<div class="content">
+  <div class="post"><h3 id="20190517-jquery--ajax-기본-문법">2019.05.17 jquery &amp; ajax 기본 문법</h3>
+
+<ul>
+  <li>패스트캠퍼스 웹 프로그래밍 스쿨 수업 정리 내용</li>
+</ul>
+
+<h1 id="jquery--ajax-기본-문법">jquery &amp; ajax 기본 문법</h1>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="n">script</span> <span class="nb">type</span> <span class="o">=</span> <span class="s">"text/javascript"</span><span class="o">&gt;</span>
+    <span class="err">$</span><span class="p">(</span><span class="n">function</span><span class="p">(){</span>
+        <span class="err">$</span><span class="p">(</span><span class="s">'특정 테그'</span><span class="p">)</span><span class="o">.</span><span class="err">특정모션</span><span class="p">(</span><span class="n">function</span><span class="p">(</span><span class="n">e</span><span class="p">){</span>
+            <span class="n">e</span><span class="o">.</span><span class="n">preventDefault</span><span class="p">();</span> <span class="o">//</span><span class="err">일어날</span> <span class="err">행동을</span> <span class="err">일단</span> <span class="err">막고</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="err">$</span><span class="p">(</span><span class="n">this</span><span class="p">)</span><span class="o">.</span><span class="n">attr</span><span class="p">(</span><span class="s">'href'</span><span class="p">)</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="c">#정의 할 데이터가 있을 때 정의</span>
+            <span class="err">$</span><span class="o">.</span><span class="n">ajax</span><span class="p">({</span>
+                <span class="n">url</span> <span class="p">:</span> <span class="n">url</span>
+                <span class="n">data</span> <span class="p">:</span> <span class="n">data</span> <span class="c">#넘겨줄 데이터가 있을 때 적는다.</span>
+            <span class="p">})</span><span class="o">.</span><span class="n">done</span><span class="p">(</span><span class="n">funtion</span><span class="p">(</span><span class="n">data</span><span class="p">){</span>
+                <span class="n">ajax</span><span class="err">실행</span> <span class="err">뒤에</span> <span class="err">일어날</span> <span class="err">행동</span> <span class="err">정의</span><span class="p">(</span><span class="n">html</span> <span class="err">단에서</span><span class="p">)</span>
+    <span class="p">});</span>
+<span class="p">}};</span>
+<span class="o">&lt;/</span><span class="n">script</span><span class="o">&gt;</span>
+</code></pre></div></div>
+
+<ul>
+  <li>특정한 테그 혹은 class혹은 id에 어떤 모션이 일어났을 때(click, submit 등)</li>
+  <li>원래 일어나는 행동을 막고</li>
+  <li>이후에 필요로 쓰게될 특정 데이터 혹은 url에 대해 정의 해준 다음에</li>
+  <li>ajax를 실행시켜 ajax가 설정된 url을 통해 view를 실행시켜 해당 뷰가 db를 정리 한뒤에 필요한 것은 JsonResponse로 반환해주고 그 반환 값을 ajax에서는 받아와</li>
+  <li>.done뒤에 일어날 행동들을 설정해서 html 단에서 일어나는 행동들을 정의시켜준다.</li>
+</ul>
+
+<h1 id="ajax-기본-연습하기-간단한-데이터-삽입해보기">ajax 기본 연습하기 (간단한 데이터 삽입해보기)</h1>
+
+<h2 id="python-viewspy-만들기">python views.py 만들기</h2>
+
+<ul>
+  <li>바꿔 끼울 데이터를 딕셔너리 형태로 입력해준다.</li>
+  <li>일반적인 경우 데이터를 전송하기 위해 json형태로 데이터를 보낸다.</li>
+  <li>따라서 jsonResponse를 활용한다.</li>
+  <li>json은 딕셔너리 형태로 데이터를 전송한다.</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">JsonResponse</span>
+
+<span class="k">def</span> <span class="nf">get_data_ajax</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">"name"</span><span class="p">:</span><span class="s">'jake'</span><span class="p">,</span>
+        <span class="s">"age"</span><span class="p">:</span><span class="mi">100</span><span class="p">,</span>
+        <span class="s">"blood"</span><span class="p">:</span><span class="s">"O"</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">JsonResponse</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="해당-url을-연결시켜준다">해당 url을 연결시켜준다.</h2>
+
+<p><code class="highlighter-rouge">path('ajax/get_data/', get_data_ajax, name='get_data_ajax')</code></p>
+
+<h2 id="템플릿에-데이터-들어갈-곳-및-버튼-추가하기">템플릿에 데이터 들어갈 곳 및 버튼 추가하기</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="n">div</span> <span class="k">class</span> <span class="err">= "</span><span class="nc">data_area</span><span class="s">"&gt;</span><span class="err">
+</span><span class="s">    데이터 입력될 곳</span><span class="err">
+</span><span class="s">&lt;/div&gt;</span><span class="err">
+
+</span><span class="s">&lt;a href="</span><span class="p">{</span> <span class="o">%</span> <span class="n">url</span> <span class="s">'board:get_data_ajax'</span> <span class="o">%</span> <span class="p">}</span><span class="s">" class="</span><span class="n">btn_get_data</span> <span class="n">btn</span> <span class="n">btn</span><span class="o">-</span><span class="n">primary</span><span class="s">"&gt;데이터 가져오기&lt;/a&gt;</span><span class="err">
+
+</span></code></pre></div></div>
+
+<h2 id="템플릿에-jquery-추가하기">템플릿에 jquery 추가하기</h2>
+
+<ol>
+  <li>먼저 url을 연결해준다.</li>
+  <li>다음으로 버튼을 눌렀을 때 이동하지 않도록 한다.</li>
+  <li>다음으로 데이터를 가지고 와야 한다.</li>
+  <li>base.html에 script아래 extra_script를 추가해준다.
+    <ol>
+      <li>jquery 다운로드 사이트에 접속하여 jquery를 가지고 온다.</li>
+      <li>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+      </li>
+      <li>base.html에 있는 slim jquery를 바꾸어 줘야 한다.</li>
+    </ol>
+  </li>
+  <li>script type을 추가해준다.</li>
+</ol>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="p">{</span> <span class="o">%</span> <span class="n">block</span> <span class="n">extra_script</span> <span class="o">%</span> <span class="p">}</span>
+<span class="o">&lt;</span><span class="n">script</span> <span class="nb">type</span><span class="o">=</span><span class="s">"text/javascript"</span><span class="o">&gt;</span>
+    <span class="err">$</span><span class="p">(</span><span class="n">function</span><span class="p">(){</span>
+        <span class="err">$</span><span class="p">(</span><span class="s">'.btn_get_data'</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">(</span><span class="n">function</span> <span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">e</span><span class="o">.</span><span class="n">preventDefault</span><span class="p">();</span> <span class="o">//</span><span class="err">버튼이</span> <span class="err">클릭하면</span> <span class="err">이동못하게</span> <span class="err">기본</span> <span class="err">기능</span> <span class="err">취소</span>
+            <span class="n">alert</span><span class="p">(</span><span class="s">'clicked'</span><span class="p">);</span> <span class="o">//</span><span class="err">확인을</span> <span class="err">위해</span> <span class="err">알림창</span> <span class="err">띄우기</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="err">$</span><span class="p">(</span><span class="n">this</span><span class="p">)</span><span class="o">.</span><span class="n">attr</span><span class="p">(</span><span class="s">'href'</span><span class="p">);</span>   <span class="o">//</span><span class="n">this</span><span class="err">는</span> <span class="err">이벤트</span> <span class="err">대상</span><span class="p">(</span><span class="n">btn_get_data</span><span class="p">)</span>
+            <span class="err">$</span><span class="o">.</span><span class="n">ajax</span><span class="p">({</span>
+                <span class="o">//</span> <span class="n">ajax</span> <span class="err">호출시</span> <span class="err">사용할</span> <span class="err">매개변수</span>
+                <span class="n">url</span><span class="p">:</span><span class="n">url</span>
+            <span class="p">})</span><span class="o">.</span><span class="n">done</span><span class="p">(</span><span class="n">function</span><span class="p">(</span><span class="n">data</span><span class="p">){</span>
+                <span class="o">//</span> <span class="err">호출이</span> <span class="err">끝나면</span> <span class="err">받은</span> <span class="err">데이터를</span> <span class="err">처리하는</span> <span class="err">부분</span>
+                <span class="n">alert</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">name</span><span class="p">);</span>
+                <span class="o">//</span> <span class="err">새로운</span> <span class="err">데이터를</span> <span class="err">추가해주고</span> <span class="err">싶을</span> <span class="err">때</span>
+
+                <span class="n">name</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">name</span><span class="p">;</span>
+                <span class="n">age</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">age</span><span class="p">;</span>
+                <span class="n">bloodtype</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">bloodtype</span><span class="p">;</span>
+                <span class="n">html</span> <span class="o">=</span> <span class="s">"&lt;ul&gt;&lt;li&gt;"</span><span class="o">+</span><span class="n">name</span><span class="o">+</span><span class="s">"&lt;/li&gt;&lt;li&gt;"</span><span class="o">+</span><span class="n">age</span><span class="o">+</span><span class="s">"&lt;/li&gt;&lt;li&gt;"</span><span class="o">+</span><span class="n">bloodtype</span><span class="o">+</span><span class="s">"&lt;/li&gt;&lt;/ul&gt;"</span>
+                <span class="err">$</span><span class="p">(</span><span class="s">'.data_area'</span><span class="p">)</span><span class="o">.</span><span class="n">html</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
+            <span class="p">});</span>
+        <span class="p">});</span>
+    <span class="p">});</span>
+
+<span class="o">&lt;/</span><span class="n">script</span><span class="o">&gt;</span>
+<span class="p">{</span> <span class="o">%</span> <span class="n">endblock</span> <span class="o">%</span> <span class="p">}</span>
+
+</code></pre></div></div>
+
+<ul>
+  <li>해당 동작이 일어날 페이지 아래에 위의 내용을 끼워넣는다. block extra_script의 경우 base.html에서 미리 지정해놓는다.</li>
+  <li>해석하기
+    <ul>
+      <li>.btn_get_data 클래스가 지정된 것을 찾아 만약에 클릭이 되면</li>
+      <li>일단 일어날 일을 막고</li>
+      <li>clicked가 된 알람창을 띄어줘라</li>
+      <li>그리고 이후에 사용하게 될 것들을 지정해주는데</li>
+      <li>url은 그 이벤트가 일어난 것에 연결된 링크를 연결해서 사용한다.
+        <ul>
+          <li>아마 보통 어떤 형태가 일어나기 위해서는 링크가 연결되어야 하기 때문에 대부분 링크가 있을 것이다.</li>
+        </ul>
+      </li>
+      <li>ajax를 실행하고</li>
+      <li>ajax가 실행될 때 url은 위에서 설정된 url을 바탕으로 URLSConf를 바탕으로 해당 views.py로 찾아가고</li>
+      <li>views.py에서 넣어놓은 data를 JsonResponse로 넘겨서 받아온다.</li>
+      <li>그 받아온 데이터를 done(function(data)를 통해 가지고 오고</li>
+      <li>name와 age/ bloodtype에 넣어서 그 값들을 html 태그 속에 넣는다.</li>
+      <li>그리고 지정된 class=”data_area” 위치를 찾아가서 해당 html을 채워넣고 화면에 보여준다.</li>
+    </ul>
+  </li>
+</ul>
+</div>
+  <div class="share-page">
+  <span style="float: left;">Share this on &rarr;&nbsp;&nbsp;</span>
+
+  <!-- Twitter -->
+  <a href="https://twitter.com/share" class="twitter-share-button" data-via="github.io">Tweet</a>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+  <!-- Facebook -->
+  <div class="fb-share-button" data-href="http://localhost:4000/javascript/2019/05/17/javascript-04.-jquery-&-ajax-%E1%84%80%E1%85%B5%E1%84%87%E1%85%A9%E1%86%AB-%E1%84%86%E1%85%AE%E1%86%AB%E1%84%87%E1%85%A5%E1%86%B8.html" data-layout="button_count" style="position: relative; top: -8px; left: 3px;"></div>
+</div>
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.6&appId=1749788565247320";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+</div>
+
+
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+            
+            <div class="panel-body">
+              <h4>Related Posts</h4>
+              <ul>
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/javascript/2019/05/18/javascript-05.-ajax%E1%84%85%E1%85%B3%E1%86%AF-%E1%84%92%E1%85%AA%E1%86%AF%E1%84%8B%E1%85%AD%E1%86%BC%E1%84%92%E1%85%A1%E1%84%8B%E1%85%A7-%E1%84%83%E1%85%A2%E1%86%BA%E1%84%80%E1%85%B3%E1%86%AF-%E1%84%80%E1%85%B5%E1%84%82%E1%85%B3%E1%86%BC-%E1%84%80%E1%85%AE%E1%84%92%E1%85%A7%E1%86%AB%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.html">javascript 05. ajax를 활용하여 댓글 기능 구현하기</a>
+                  
+                    (Categories: <a href="/category/Javascript">Javascript</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/javascript/2019/02/03/javascript-03.-SCOPE.html">javascript 03. SCOPE</a>
+                  
+                    (Categories: <a href="/category/Javascript">Javascript</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/javascript/2019/01/29/javascript-02.-%E1%84%8F%E1%85%A9%E1%86%AF%E1%84%87%E1%85%A2%E1%86%A8%E1%84%92%E1%85%A1%E1%86%B7%E1%84%89%E1%85%AE,-%E1%84%80%E1%85%A2%E1%86%A8%E1%84%8E%E1%85%A6%E1%84%8C%E1%85%B5%E1%84%92%E1%85%A3%E1%86%BC.html">javascript 02. 콜백함수, 객체지향</a>
+                  
+                    (Categories: <a href="/category/Javascript">Javascript</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/javascript/2019/01/16/javascript-01.-%E1%84%87%E1%85%A7%E1%86%AB%E1%84%89%E1%85%AE,-%E1%84%8C%E1%85%A9%E1%84%80%E1%85%A5%E1%86%AB%E1%84%86%E1%85%AE%E1%86%AB,-%E1%84%87%E1%85%A1%E1%86%AB%E1%84%87%E1%85%A9%E1%86%A8%E1%84%86%E1%85%AE%E1%86%AB,-%E1%84%92%E1%85%A1%E1%86%B7%E1%84%89%E1%85%AE,-%E1%84%80%E1%85%A2%E1%86%A8%E1%84%8E%E1%85%A6,-%E1%84%87%E1%85%A2%E1%84%8B%E1%85%A7%E1%86%AF.html">javascript 01. 변수, 조건문, 반복문, 함수, 객체, 배열</a>
+                  
+                    (Categories: <a href="/category/Javascript">Javascript</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+  
+  </ul>
+</div>
+
+
+<div class="PageNavigation">
+  
+    <a class="prev" href="/%EB%94%A5%EB%9F%AC%EB%8B%9D/2019/05/17/%E1%84%83%E1%85%B5%E1%86%B8%E1%84%85%E1%85%A5%E1%84%82%E1%85%B5%E1%86%BC-01.-%E1%84%83%E1%85%B5%E1%86%B8%E1%84%85%E1%85%A5%E1%84%82%E1%85%B5%E1%86%BC%E1%84%8B%E1%85%B4-%E1%84%8B%E1%85%AF%E1%86%AB%E1%84%85%E1%85%B5-%E1%84%8B%E1%85%A1%E1%86%AF%E1%84%8B%E1%85%A1%E1%84%87%E1%85%A9%E1%84%80%E1%85%B5.html">&laquo; 딥러닝 01. 딥러닝의 원리 알아보기</a>
+  
+  
+    <a class="next" href="/%EB%94%A5%EB%9F%AC%EB%8B%9D/2019/05/17/%E1%84%83%E1%85%B5%E1%86%B8%E1%84%85%E1%85%A5%E1%84%82%E1%85%B5%E1%86%BC-02.-%E1%84%83%E1%85%B5%E1%86%B8%E1%84%85%E1%85%A5%E1%84%82%E1%85%B5%E1%86%BC%E1%84%8B%E1%85%B4-%E1%84%92%E1%85%A1%E1%86%A8%E1%84%89%E1%85%B3%E1%86%B8-%E1%84%8B%E1%85%AF%E1%86%AB%E1%84%85%E1%85%B5.html">딥러닝 02. 딥러닝의 학습원리 &raquo;</a>
+  
+</div>
+
+<div class="disqus-comments">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    /* <![CDATA[ */
+    var disqus_shortname = "https-fabl1106-github-io";
+    var disqus_identifier = "http://localhost:4000_javascript 04. jquery & ajax 기본 문법";
+    var disqus_title = "javascript 04. jquery & ajax 기본 문법";
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    /* ]]> */
+  </script>
+</div>
+
+        <footer>
+          &copy; Byeonguk Kim
+          
+            - <a href="https://github.com/fabl1106">https://github.com/fabl1106</a> - Powered by Jekyll.
+          
+          <div class="btn-github" style="float:right;">
+            <iframe src="https://ghbtns.com/github-btn.html?user=fabl1106&repo=fabl1106.github.io&type=star&count=true" frameborder="0" scrolling="0" width="85" height="20px"></iframe>
+            <iframe src="https://ghbtns.com/github-btn.html?user=fabl1106&repo=fabl1106.github.io&type=fork&count=true" frameborder="0" scrolling="0" width="85" height="20px"></iframe>
+          </div>
+        </footer>
+      </div>
+      <!-- end /.col-sm-8 -->
+    </div>
+    <!-- end /.container -->
+
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/super-search.js"></script>
+    <script src="/static/js/thickbox-compressed.js"></script>
+    <script src="/static/js/projects.js"></script>
+  </body>
+</html>
+

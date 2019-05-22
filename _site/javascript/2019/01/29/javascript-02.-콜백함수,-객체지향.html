@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" sizes = "32x32" href="/static/img/favicon.ico"/>
+    <title>javascript 02. 콜백함수, 객체지향 - 대구 올빼미의 새벽 개발로그</title>
+    <meta name="author" content="Byeonguk Kim" />
+    <meta name="description" content="javascript 02. 콜백함수, 객체지향" />
+    <meta name="keywords" content="javascript 02. 콜백함수, 객체지향, 대구 올빼미의 새벽 개발로그, Javascript" />
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml">
+    <meta content="1749788565247320" property="fb:app_id">
+    <meta content="대구 올빼미의 새벽 개발로그" property="og:site_name">
+
+    
+
+    
+      <meta content="javascript 02. 콜백함수, 객체지향" property="og:title">
+      <meta content="article" property="og:type">
+    
+
+    
+      <meta content="javascript 콜백함수 및 객체지향에 대한 내용입니다. 콜백함수의 정의, 객체지향의 정의." property="og:description">
+    
+
+    
+      <meta content="http://localhost:4000/javascript/2019/01/29/javascript-02.-%E1%84%8F%E1%85%A9%E1%86%AF%E1%84%87%E1%85%A2%E1%86%A8%E1%84%92%E1%85%A1%E1%86%B7%E1%84%89%E1%85%AE,-%E1%84%80%E1%85%A2%E1%86%A8%E1%84%8E%E1%85%A6%E1%84%8C%E1%85%B5%E1%84%92%E1%85%A3%E1%86%BC.html" property="og:url">
+    
+
+    
+      <meta content="2019-01-29T17:06:23+09:00" property="article:published_time">
+      <meta content="http://localhost:4000/about/" property="article:author">
+    
+
+    
+      <meta content="http://localhost:4000/static/img/avatar.jpg" property="og:image">
+    
+
+    
+      
+        <meta content="Javascript" property="article:section">
+      
+    
+
+    
+      
+    
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@github.io">
+    <meta name="twitter:creator" content="@github.io">
+
+    
+      <meta name="twitter:title" content="javascript 02. 콜백함수, 객체지향">
+    
+
+    
+      <meta name="twitter:url" content="http://localhost:4000/javascript/2019/01/29/javascript-02.-%E1%84%8F%E1%85%A9%E1%86%AF%E1%84%87%E1%85%A2%E1%86%A8%E1%84%92%E1%85%A1%E1%86%B7%E1%84%89%E1%85%AE,-%E1%84%80%E1%85%A2%E1%86%A8%E1%84%8E%E1%85%A6%E1%84%8C%E1%85%B5%E1%84%92%E1%85%A3%E1%86%BC.html">
+    
+
+    
+      <meta name="twitter:description" content="javascript 콜백함수 및 객체지향에 대한 내용입니다. 콜백함수의 정의, 객체지향의 정의.">
+    
+
+    
+
+    <!-- Font awesome icons -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+    <!-- syntax highlighting CSS -->
+    <link rel="stylesheet" href="/static/css/syntax.css">
+    <!-- Bootstrap core CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300italic,300,400italic,700&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/super-search.css">
+    <link rel="stylesheet" href="/static/css/thickbox.css">
+    <link rel="stylesheet" href="/static/css/projects.css">
+    <link rel="stylesheet" href="/static/css/main.css">
+
+    
+  </head>
+  <body>
+    <div class="container">
+      <div class="col-sm-3">
+        <div class="fixed-condition">
+          <a href="/"><img class="profile-avatar" src="/static/img/avatar.jpg" height="120px" width="120px" /></a>
+          <h1 class="author-name">Byeonguk Kim</h1>
+          
+            <div class="profile-about">
+              <h5>안녕하세요. 29살의 조금은 늦은 나이로 새롭게 개발자로 시작하는 신입 개발자입니다.</h5>
+            </div>
+          
+          <div class="social">
+            <ul>
+              
+                <li><a href="https://web.facebook.com/byungwook.kim.923" target="_blank"><i class="fa fa-facebook"></i></a></li>
+              
+                <li><a href="#" target="_blank"><i class="fa fa-twitter"></i></a></li>
+              
+                <li><a href="#" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+              
+                <li><a href="#" target="_blank"><i class="fa fa-stack-exchange"></i></a></li>
+              
+                <li><a href="https://github.com/fabl1106" target="_blank"><i class="fa fa-github"></i></a></li>
+              
+            </ul>
+          </div>
+          <div class="search" id="js-search">
+            <input type="text" placeholder="(sitemap)~$ type to search" class="search__input form-control" id="js-search__input">
+            <ul class="search__results" id="js-search__results"></ul>
+          </div>
+          <hr />
+          <ul class="sidebar-nav">
+            <strong>Navigation</strong>
+            <li><a href="/">Home</a></li>
+            
+              <li><a class="about" href="/about/">About Me</a></li>
+            
+              <li><a class="about" href="/projects/">My Projects</a></li>
+            
+              <li><a class="about" href="/feed.xml">XML Feed</a></li>
+            
+          </ul>
+        </div>
+        <!-- end /.fixed-condition -->
+      </div>
+      <div class="col-sm-8 col-offset-1 main-layout">
+        <header class="post-header">
+  <h1 class="post-title">javascript 02. 콜백함수, 객체지향</h1>
+</header>
+
+<span class="time">29 Jan 2019</span>
+
+  <span class="categories">
+    &raquo; <a href="/category/Javascript">Javascript</a>
+  </span>
+
+
+<div class="content">
+  <div class="post"><h3 id="20190129-javascript-콜백함수-객체-지향">2019.01.29 javascript 콜백함수, 객체 지향</h3>
+
+<ul>
+  <li>생활 코딩을 바탕으로 공부하였습니다.</li>
+</ul>
+
+<h2 id="객체">객체</h2>
+
+<p>javascript에서는 함수도 객체다. = 값이다. <br />
+함수 자체가 값이 될 수 있다.</p>
+
+<p>Function a(){} === var a = function(){}</p>
+
+<p>값으로서의 함수는 변수안에만 담길 수 있는 것이 아니라  <br />
+A = { b : function(){} } 처럼 값이기 때문에 객체 안에도 담길 수 있다.</p>
+
+<p>객체에서 b는 key로서 그릇이며 변수와 같은 역할을 한다.  <br />
+객체 안에서 변수의 역할을 한다는 것을 속성 , property라고 한다.  <br />
+속성 값으로 담긴 함수를 메소드(method)라고 부른다.</p>
+
+<p>()는 함수를 호출한다는 의미이다.
+함수는 값이기 때문에 다른 함수의 인자로도 전달 될 수 있고    <br />
+리턴값(반환값)으로도 저장될 수 있다.  <br />
+배열 값으로도 가능하다.  <br />
+함수는 값이기 때문에 값을 저장하는 컨테이너인 배열에도 저장 될 수 있다.</p>
+
+<p>함수는 값이기 때문에 <br />
+변수, 매개변수, 리턴 값, 배열 값 등에 쓰일 수 있다.   <br />
+====&gt; first - class citizen(object, value)</p>
+
+<h2 id="콜백-함수">콜백 함수</h2>
+
+<p>값으로서의 함수와 밀접하게 연관된다. <br />
+어떠한 함수가 수신하는 인자가 함수인 경우 배열도 객체이다.</p>
+
+<p>자바스크립트가 가지고 있으면서 쓰게 되는 메소드는 내장 객체, 메소드   <br />
+우리가 만든 함수는 우리가 만든 것이기 때문에 사용자 정의 객체라고 한다.</p>
+
+<p>우리가 만든 함수를 통해서 (값으로서 함수를 쓸 수 있기 때문에) 오리지널 함수의 사용방법을 완전히 바꿀 수 있다 ====&gt; 콜백 이것이 가능한 것은 자바스크립트의 함수가 값이기 때문이다.</p>
+
+<p>콜백 함수를 잘 이해해야지 나중에 좀 더 쉬운 코드들을 지속적으로 작성 할 수 있게 된다.</p>
+
+<p>잘 몰라도 누군가가 물어본게 잘 몰라도 된다. 그냥 모르면 모르는대로 이해할려고 노력하면 된다.</p>
+
+<p>비동기 처리 — 이해가 안되었다. ㅠㅠ (나중에 꼭 다시 봐야겠다)  <br />
+동기적 처리 : 순서대로 쭉 처리 했다  <br />
+비동기적 처리 : 오래걸리는 작업이 있을 때 이 작업이 완료된 후에 처리해야 할 일들로 지정 후 처리</p>
+
+<h2 id="클로저">클로저</h2>
+
+<p>내부함수가 외부함수의 맥랙에 접근할 수 있는 것.  <br />
+함수 안에 함수를 선언하면 그 함수안에서만 작용하는 함수이므로 안정적이다. <br />
+내부함수에서 외부함수의 지역변수에 접근 할 수 있다.—&gt; 이건 항상 쓰던건데??  <br />
+외부함수의 실행이 끝나서 외부함수가 소멸된 이후에도 외부함수의 변수에 접근 할 수 있다.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ex)
+
+function outter(){
+
+    var title = 'coding everybody';  
+
+    return function(){        
+
+        alert(title);
+
+    }
+
+} ——&gt; return 이 나옴으로서 function이 생을 마감했는데 
+
+inner = outter();
+
+inner(); ———&gt; 변수에 접근 가능하게 됨
+</code></pre></div></div>
+
+<h3 id="private-variable-가-왜-필요한가">Private variable 가 왜 필요한가?</h3>
+
+<p>소프트웨어가 커지게 되면 많은 사람들이 코드를 작성하게 된다. 미래의 자기자신 과 과거의 자기 자신도 포함.</p>
+
+<p>title을 설정해놓고 set_title을 이용해서 title을 바꾸고 get_title로 title을 가지고 오고 / 따라서 title을 막 수정 못하게 만듬</p>
+
+<h3 id="arguments">arguments</h3>
+
+<p>배열과 비슷하나 배열은 아니다.</p>
+
+<p>함수에 매개변수를 정의하지 않다고 하더라도, 인자의 수를 마음대로 지정하더라도 문제가 나지 않는다.</p>
+
+<p>arguments안에는 사용자가 전달한 인자가 들어가 있다.</p>
+
+<p>a+=1; =&gt; a=a+1</p>
+
+<p>Arguments.length —&gt; 어떤 함수에 들어온 인자가 몇개인지 파악</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ex)
+
+function one(arg1){
+
+    console.log(
+
+        'one.length', one.length,    //1
+
+        'arguments', arguments.length  //2
+
+    );
+
+}
+
+
+
+one('val1', 'val2');  // one.length 1 arguments 2 
+
+</code></pre></div></div>
+
+<h3 id="함수의-호출">함수의 호출</h3>
+
+<p>객체는 속성을 가지고 있고 속성의 값이 저장되어 있다면 property라고 한다.</p>
+
+<p>가장 기본적인 방법 function func();</p>
+
+<h2 id="객체-지향">객체 지향</h2>
+
+<p>객체지향 프로그래밍은 크고 견고한 프로그램을 만들기 위한 노력의 산물이다. 객체지향이라는 큰 흐름은 현대적 프로그래밍 언어들을 지배하고 있는 가장 중요한 맥락이라고 할 수 있다. 하지만 자바스크립트의 객체지향은 다른 언어들의 객체지향과 사뭇 다르다. 특히 Java나 C++과 같은 주류 객체지향 언어에 익숙한 독자라면 극심한 혼란을 경험할 수도 있다. 바로 이러한 특성 때문에 웃으면서 들어갔다가 울면서 나오게 된다.</p>
+
+<h3 id="object-oriented-programming">Object Oriented Programming</h3>
+
+<p>객체 - 변수와 메소드를 그룹핑한 것 이렇게 그룹핑 하고 나면 다른 사이트에도 또 이용 가능(재활용성에 객체가 기여한 것)</p>
+
+<ol>
+  <li>
+    <p>하나의 객체 안에는 그 객체가 가지고 있는 취지에 따라 객체라는 껍질안에 넣어둔 것.</p>
+  </li>
+  <li>
+    <p>그 사이에서 여러 가지 문제들이 나타나는데 그 문제들을 해결 하기 위한 것이 지금 우리가 마주하고 있는 객체지향의 여러가지 기능들이다.(ex. This. Prototype)</p>
+  </li>
+</ol>
+
+<p>객체 지향 프로그래밍 - 객체를 만들어가는 것</p>
+
+<p>객체 지향 공부 방법</p>
+
+<p>문법 : 객체지향을 편하게 할 수 있도록 언어가 제공하는 기능을 익히는 것.</p>
+
+<p>객체를 만든다는 것은 부품화 시키는 것이다.</p>
+
+<p>메소드를 사용하는 기본 취지는 연관되어 있는 로직들을 결합하여 메소드라는 완제품을 만드는 것.</p>
+
+<p>은닉화 캡슐화 - 제대로 된 부품이라면 어떻게 만들어지는지 몰라도 모르는 사람도 사용 할 수 있도록 하는 것.</p>
+
+<p>내부의 동작 방법을 다양한 케이스 안(객체)으로 숨기고 그 부품의 사용 방법(메소드)만을 알려준다.</p>
+
+<p>인터페이스 - 부품과 부품을 서로 교환 할 수 있도록 한다. 따라서 표준이 필요하다. 그 표준에 맞추어 연결점을 인터페이스 이다.  이질적인 것들을 미리 막을 수 있도록 한다.</p>
+
+<p>설계 : 좋은 객체를 만드는 것 / 현실이 훨씬 복잡하다.</p>
+
+<p>오늘 배운 것 내 스스로 정리해보기</p>
+
+<p>1, 객체 지향의 전체적인 그림</p>
+
+<ul>
+  <li>객체 지향은 큰 프로그램을 만들기 위한 노력의 산물이다. 객체란 큰 프로그램 내에 연관되어 있는 것들을 묶어서 하나의 틀안에 넣어 놓는 것이고, 객체 지향이란 그런 객체들을 만들어가는 과정들이다. 이런 것들은 코드의 재사용성을 높여주는데 다른 곳에 재사용하면서 여러가지 문제점들이 나타난다. 이러한 문제점들을 해결해 주기 위해 객체에는 여러가지 기능들이 존재한다. 예를 들면 this. prototype 같은 것들은 객체의 재사용 과정에 생기는 문제점들을 해결.</li>
+</ul>
+
+<ol>
+  <li>
+    <p>function 과 콜백함수</p>
+
+    <ul>
+      <li>
+        <p>function은 하나의 객체이면서 값이다. 따라서 값이기 때문에 매개변수에 들어갈 수도 있고, 인자로도 들어갈 수 있으며, 배열 속에도 오브젝트 속에도 들어갈 수 있다. (오브젝트의 value로 쓰일 때는 메소드라고 부른다.)</p>
+      </li>
+      <li>
+        <p>콜백함수는 조금 더 정의를 익히기 위해 노력해야겠다. 코드를 통해 명시적으로 호출하는 함수가 아니라 특정시점에 도달하였을 때 시스템에서 호출되는 함수.????…..</p>
+      </li>
+    </ul>
+  </li>
+</ol>
+</div>
+  <div class="share-page">
+  <span style="float: left;">Share this on &rarr;&nbsp;&nbsp;</span>
+
+  <!-- Twitter -->
+  <a href="https://twitter.com/share" class="twitter-share-button" data-via="github.io">Tweet</a>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+  <!-- Facebook -->
+  <div class="fb-share-button" data-href="http://localhost:4000/javascript/2019/01/29/javascript-02.-%E1%84%8F%E1%85%A9%E1%86%AF%E1%84%87%E1%85%A2%E1%86%A8%E1%84%92%E1%85%A1%E1%86%B7%E1%84%89%E1%85%AE,-%E1%84%80%E1%85%A2%E1%86%A8%E1%84%8E%E1%85%A6%E1%84%8C%E1%85%B5%E1%84%92%E1%85%A3%E1%86%BC.html" data-layout="button_count" style="position: relative; top: -8px; left: 3px;"></div>
+</div>
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.6&appId=1749788565247320";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+</div>
+
+
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+            
+            <div class="panel-body">
+              <h4>Related Posts</h4>
+              <ul>
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/javascript/2019/05/18/javascript-05.-ajax%E1%84%85%E1%85%B3%E1%86%AF-%E1%84%92%E1%85%AA%E1%86%AF%E1%84%8B%E1%85%AD%E1%86%BC%E1%84%92%E1%85%A1%E1%84%8B%E1%85%A7-%E1%84%83%E1%85%A2%E1%86%BA%E1%84%80%E1%85%B3%E1%86%AF-%E1%84%80%E1%85%B5%E1%84%82%E1%85%B3%E1%86%BC-%E1%84%80%E1%85%AE%E1%84%92%E1%85%A7%E1%86%AB%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.html">javascript 05. ajax를 활용하여 댓글 기능 구현하기</a>
+                  
+                    (Categories: <a href="/category/Javascript">Javascript</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/javascript/2019/05/17/javascript-04.-jquery-&-ajax-%E1%84%80%E1%85%B5%E1%84%87%E1%85%A9%E1%86%AB-%E1%84%86%E1%85%AE%E1%86%AB%E1%84%87%E1%85%A5%E1%86%B8.html">javascript 04. jquery & ajax 기본 문법</a>
+                  
+                    (Categories: <a href="/category/Javascript">Javascript</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/javascript/2019/02/03/javascript-03.-SCOPE.html">javascript 03. SCOPE</a>
+                  
+                    (Categories: <a href="/category/Javascript">Javascript</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/javascript/2019/01/16/javascript-01.-%E1%84%87%E1%85%A7%E1%86%AB%E1%84%89%E1%85%AE,-%E1%84%8C%E1%85%A9%E1%84%80%E1%85%A5%E1%86%AB%E1%84%86%E1%85%AE%E1%86%AB,-%E1%84%87%E1%85%A1%E1%86%AB%E1%84%87%E1%85%A9%E1%86%A8%E1%84%86%E1%85%AE%E1%86%AB,-%E1%84%92%E1%85%A1%E1%86%B7%E1%84%89%E1%85%AE,-%E1%84%80%E1%85%A2%E1%86%A8%E1%84%8E%E1%85%A6,-%E1%84%87%E1%85%A2%E1%84%8B%E1%85%A7%E1%86%AF.html">javascript 01. 변수, 조건문, 반복문, 함수, 객체, 배열</a>
+                  
+                    (Categories: <a href="/category/Javascript">Javascript</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+  
+  </ul>
+</div>
+
+
+<div class="PageNavigation">
+  
+    <a class="prev" href="/javascript/2019/01/16/javascript-01.-%E1%84%87%E1%85%A7%E1%86%AB%E1%84%89%E1%85%AE,-%E1%84%8C%E1%85%A9%E1%84%80%E1%85%A5%E1%86%AB%E1%84%86%E1%85%AE%E1%86%AB,-%E1%84%87%E1%85%A1%E1%86%AB%E1%84%87%E1%85%A9%E1%86%A8%E1%84%86%E1%85%AE%E1%86%AB,-%E1%84%92%E1%85%A1%E1%86%B7%E1%84%89%E1%85%AE,-%E1%84%80%E1%85%A2%E1%86%A8%E1%84%8E%E1%85%A6,-%E1%84%87%E1%85%A2%E1%84%8B%E1%85%A7%E1%86%AF.html">&laquo; javascript 01. 변수, 조건문, 반복문, 함수, 객체, 배열</a>
+  
+  
+    <a class="next" href="/javascript/2019/02/03/javascript-03.-SCOPE.html">javascript 03. SCOPE &raquo;</a>
+  
+</div>
+
+<div class="disqus-comments">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    /* <![CDATA[ */
+    var disqus_shortname = "https-fabl1106-github-io";
+    var disqus_identifier = "http://localhost:4000_javascript 02. 콜백함수, 객체지향";
+    var disqus_title = "javascript 02. 콜백함수, 객체지향";
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    /* ]]> */
+  </script>
+</div>
+
+        <footer>
+          &copy; Byeonguk Kim
+          
+            - <a href="https://github.com/fabl1106">https://github.com/fabl1106</a> - Powered by Jekyll.
+          
+          <div class="btn-github" style="float:right;">
+            <iframe src="https://ghbtns.com/github-btn.html?user=fabl1106&repo=fabl1106.github.io&type=star&count=true" frameborder="0" scrolling="0" width="85" height="20px"></iframe>
+            <iframe src="https://ghbtns.com/github-btn.html?user=fabl1106&repo=fabl1106.github.io&type=fork&count=true" frameborder="0" scrolling="0" width="85" height="20px"></iframe>
+          </div>
+        </footer>
+      </div>
+      <!-- end /.col-sm-8 -->
+    </div>
+    <!-- end /.container -->
+
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/super-search.js"></script>
+    <script src="/static/js/thickbox-compressed.js"></script>
+    <script src="/static/js/projects.js"></script>
+  </body>
+</html>
+
