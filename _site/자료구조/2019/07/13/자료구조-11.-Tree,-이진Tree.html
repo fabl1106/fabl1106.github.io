@@ -1,0 +1,1578 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" sizes = "32x32" href="/static/img/favicon.ico"/>
+    <title>자료구조 11. Tree - 대구 올빼미의 새벽 개발로그</title>
+    <meta name="author" content="Byeonguk Kim" />
+    <meta name="description" content="자료구조 11. Tree" />
+    <meta name="keywords" content="자료구조 11. Tree, 대구 올빼미의 새벽 개발로그, 자료구조" />
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml">
+    <meta content="1749788565247320" property="fb:app_id">
+    <meta content="대구 올빼미의 새벽 개발로그" property="og:site_name">
+
+    
+
+    
+      <meta content="자료구조 11. Tree" property="og:title">
+      <meta content="article" property="og:type">
+    
+
+    
+      <meta content="Tree에 대한 내용들" property="og:description">
+    
+
+    
+      <meta content="http://localhost:4000/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0/2019/07/13/%E1%84%8C%E1%85%A1%E1%84%85%E1%85%AD%E1%84%80%E1%85%AE%E1%84%8C%E1%85%A9-11.-Tree,-%E1%84%8B%E1%85%B5%E1%84%8C%E1%85%B5%E1%86%ABTree.html" property="og:url">
+    
+
+    
+      <meta content="2019-07-13T23:06:23+09:00" property="article:published_time">
+      <meta content="http://localhost:4000/about/" property="article:author">
+    
+
+    
+      <meta content="http://localhost:4000/static/img/avatar.jpg" property="og:image">
+    
+
+    
+      
+        <meta content="자료구조" property="article:section">
+      
+    
+
+    
+      
+    
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@github.io">
+    <meta name="twitter:creator" content="@github.io">
+
+    
+      <meta name="twitter:title" content="자료구조 11. Tree">
+    
+
+    
+      <meta name="twitter:url" content="http://localhost:4000/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0/2019/07/13/%E1%84%8C%E1%85%A1%E1%84%85%E1%85%AD%E1%84%80%E1%85%AE%E1%84%8C%E1%85%A9-11.-Tree,-%E1%84%8B%E1%85%B5%E1%84%8C%E1%85%B5%E1%86%ABTree.html">
+    
+
+    
+      <meta name="twitter:description" content="Tree에 대한 내용들">
+    
+
+    
+
+    <!-- Font awesome icons -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+    <!-- syntax highlighting CSS -->
+    <link rel="stylesheet" href="/static/css/syntax.css">
+    <!-- Bootstrap core CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300italic,300,400italic,700&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/super-search.css">
+    <link rel="stylesheet" href="/static/css/thickbox.css">
+    <link rel="stylesheet" href="/static/css/projects.css">
+    <link rel="stylesheet" href="/static/css/main.css">
+
+    
+  </head>
+  <body>
+    <div class="container">
+      <div class="col-sm-3">
+        <div class="fixed-condition">
+          <a href="/"><img class="profile-avatar" src="/static/img/avatar.jpg" height="120px" width="120px" /></a>
+          <h1 class="author-name">Byeonguk Kim</h1>
+          
+            <div class="profile-about">
+              <h5>안녕하세요. 29살의 조금은 늦은 나이로 새롭게 개발자로 시작하는 신입 개발자입니다. 포트폴리오 [https://deaguowl.github.io]</h5>
+            </div>
+          
+          <div class="social">
+            <ul>
+              
+                <li><a href="https://web.facebook.com/byungwook.kim.923" target="_blank"><i class="fa fa-facebook"></i></a></li>
+              
+                <li><a href="https://github.com/fabl1106" target="_blank"><i class="fa fa-github"></i></a></li>
+              
+            </ul>
+          </div>
+          <div class="search" id="js-search">
+            <input type="text" placeholder="(sitemap)~$ type to search" class="search__input form-control" id="js-search__input">
+            <ul class="search__results" id="js-search__results"></ul>
+          </div>
+          <hr />
+          <ul class="sidebar-nav">
+            <strong>Navigation</strong>
+            <li><a href="/">Home</a></li>
+            
+              <li><a class="about" href="/about/">About Me</a></li>
+            
+              <li><a class="about" href="https://deaguowl.github.io">Portfolio</a></li>
+            
+          </ul>
+        </div>
+        <!-- end /.fixed-condition -->
+      </div>
+      <div class="col-sm-8 col-offset-1 main-layout">
+        <header class="post-header">
+  <h1 class="post-title">자료구조 11. Tree</h1>
+</header>
+
+<span class="time">13 Jul 2019</span>
+
+  <span class="categories">
+    &raquo; <a href="/category/자료구조">자료구조</a>
+  </span>
+
+
+<div class="content">
+  <div class="post"><h3 id="20190713-tree">2019.07.13 Tree</h3>
+
+<p>(TIL은 스스로 이해한 것을 바탕으로 정리한 것으로 오류가 있을 수 있습니다)</p>
+
+<p># 질문에 답하기</p>
+
+<ol>
+  <li></li>
+</ol>
+
+<h2 id="트리">트리</h2>
+
+<p><img width="742" alt="스크린샷 2019-07-04 오후 3 16 21" src="https://user-images.githubusercontent.com/46436843/61164507-ca35c900-a550-11e9-8935-c10a96c113b0.png" /></p>
+
+<ol>
+  <li>어떤 노드 간에 경로가 존재해야 한다.( 즉 연결이 되어 있어야 한다) - connected</li>
+  <li>단 사이클이 없어야 한다 - acyclic</li>
+  <li>set안에 tree와 tree가 있으면 forest이다</li>
+  <li>루트 노드가 없어지면 각각 분리집합으로 분할 가능</li>
+</ol>
+
+<h2 id="트리-용어">트리 용어</h2>
+
+<p><img width="798" alt="스크린샷 2019-07-04 오후 3 22 11" src="https://user-images.githubusercontent.com/46436843/61164533-17b23600-a551-11e9-8a70-4fdcc63f7049.png" /></p>
+
+<ul>
+  <li>레벨와 트리의 높이가 같다고 하면 한쪽으로 굉장히 치우진 것과 같다.</li>
+</ul>
+
+<p><img width="774" alt="스크린샷 2019-07-04 오후 3 22 32" src="https://user-images.githubusercontent.com/46436843/61164534-1bde5380-a551-11e9-8934-dd23b9e7ad45.png" /></p>
+
+<h3 id="엣지와-노드와의-관계">엣지와 노드와의 관계</h3>
+
+<ul>
+  <li>MST : KRUSKAL 알고리즘 -&gt; 도시계획</li>
+  <li><a href="https://github.com/ythwork/CS/blob/master/data_structure/tree/binary_tree.pdf">CS/binary_tree.pdf at master · ythwork/CS</a></li>
+</ul>
+
+<h2 id="이진트리">이진트리</h2>
+
+<p><img width="759" alt="03C0592B-1945-4C29-BBCD-166E54B1B86E" src="https://user-images.githubusercontent.com/46436843/61164554-44664d80-a551-11e9-8677-6cdf0110af47.png" /></p>
+
+<h2 id="이진트리의-특징">이진트리의 특징</h2>
+
+<p><img width="748" alt="7E694D61-757A-46E8-B196-4A44EC01CEB2" src="https://user-images.githubusercontent.com/46436843/61164555-46301100-a551-11e9-911b-93bf56feda47.png" /></p>
+
+<h2 id="완전-이진-트리">완전 이진 트리</h2>
+
+<p><img width="824" alt="F8B61E1B-FD5A-4DE9-958B-A1D4DC04B71F" src="https://user-images.githubusercontent.com/46436843/61164557-47613e00-a551-11e9-8819-efc6d1358d38.png" /></p>
+
+<h3 id="추가-공부할-사항">추가 공부할 사항</h3>
+<ul>
+  <li>포화 이진 트리</li>
+  <li>편향 이진 트리</li>
+</ul>
+
+<h1 id="이진트리의-순회">이진트리의 순회</h1>
+
+<ol>
+  <li>스텍기반
+    <ol>
+      <li>전회순회</li>
+      <li>중위순회</li>
+      <li>후위순회</li>
+    </ol>
+  </li>
+  <li>큐 기반
+    <ol>
+      <li>레벨 순회</li>
+    </ol>
+  </li>
+</ol>
+
+<h2 id="전위순회pre-order">전위순회(pre order)</h2>
+
+<p><img width="618" alt="8E201DED-3874-4ED4-BBB1-A5EC78ED01DC" src="https://user-images.githubusercontent.com/46436843/61164574-711a6500-a551-11e9-8c3f-1723d2681dc1.png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">TreeNode</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">=</span><span class="n">data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="o">=</span><span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">right</span><span class="o">=</span><span class="bp">None</span>
+
+<span class="k">def</span> <span class="nf">preorder</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+    <span class="c">#base case</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">node</span><span class="p">:</span>
+        <span class="k">return</span>
+
+    <span class="c">#노드를 방문했다고 치고 print로 찍어봄 실제로는 오퍼레이션을 넣고 방문할 떄 마다 실행</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="s">"  "</span><span class="p">)</span>
+    <span class="c"># 왼쪽 자식</span>
+    <span class="n">preorder</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">left</span><span class="p">)</span>
+    <span class="c"># 오른쪽 자식</span>
+    <span class="n">preorder</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">right</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="n">n1</span> <span class="o">=</span> <span class="n">TreeNode</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">n2</span> <span class="o">=</span> <span class="n">TreeNode</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">n3</span> <span class="o">=</span> <span class="n">TreeNode</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">n4</span> <span class="o">=</span> <span class="n">TreeNode</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">n5</span> <span class="o">=</span> <span class="n">TreeNode</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">n6</span> <span class="o">=</span> <span class="n">TreeNode</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+    <span class="n">n7</span> <span class="o">=</span> <span class="n">TreeNode</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+
+    <span class="n">n1</span><span class="o">.</span><span class="n">left</span> <span class="o">=</span> <span class="n">n2</span>
+    <span class="n">n1</span><span class="o">.</span><span class="n">right</span> <span class="o">=</span> <span class="n">n3</span>
+    <span class="n">n2</span><span class="o">.</span><span class="n">left</span> <span class="o">=</span> <span class="n">n4</span>
+    <span class="n">n2</span><span class="o">.</span><span class="n">right</span> <span class="o">=</span> <span class="n">n5</span>
+    <span class="n">n3</span><span class="o">.</span><span class="n">left</span> <span class="o">=</span> <span class="n">n6</span>
+    <span class="n">n3</span><span class="o">.</span><span class="n">right</span> <span class="o">=</span> <span class="n">n7</span>
+
+    <span class="n">preorder</span><span class="p">(</span><span class="n">n1</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="중위순회in-order">중위순회(in order)</h2>
+
+<p><img width="602" alt="스크린샷 2019-07-04 오후 4 00 40" src="https://user-images.githubusercontent.com/46436843/61164582-85f6f880-a551-11e9-953e-c226861fd7e3.png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="k">def</span> <span class="nf">preorder</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+    <span class="c">#base case</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">node</span><span class="p">:</span>
+        <span class="k">return</span>
+
+   
+    <span class="c"># 왼쪽 자식</span>
+    <span class="n">preorder</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">left</span><span class="p">)</span>
+    
+     <span class="c">#노드를 방문했다고 치고 print로 찍어봄 실제로는 오퍼레이션을 		넣고 방문할 떄 마다 실행</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="s">"  "</span><span class="p">)</span>
+    
+    <span class="c"># 오른쪽 자식</span>
+    <span class="n">preorder</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">right</span><span class="p">)</span>
+    
+</code></pre></div></div>
+
+<h2 id="후위순회-post-order">후위순회 (post order)</h2>
+
+<p><img width="839" alt="스크린샷 2019-07-13 오전 9 38 25" src="https://user-images.githubusercontent.com/46436843/61164620-00c01380-a552-11e9-95bc-1470a8239225.png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="k">def</span> <span class="nf">preorder</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+    <span class="c">#base case</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">node</span><span class="p">:</span>
+        <span class="k">return</span>
+
+   
+    <span class="c"># 왼쪽 자식</span>
+    <span class="n">preorder</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">left</span><span class="p">)</span>
+    
+    <span class="c"># 오른쪽 자식</span>
+    <span class="n">preorder</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">right</span><span class="p">)</span>
+    
+     <span class="c">#노드를 방문했다고 치고 print로 찍어봄 실제로는 오퍼레이션을 		넣고 방문할 떄 마다 실행</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="s">"  "</span><span class="p">)</span>
+    
+</code></pre></div></div>
+</div>
+  <div class="share-page">
+  <span style="float: left;">Share this on &rarr;&nbsp;&nbsp;</span>
+
+  <!-- Twitter -->
+  <a href="https://twitter.com/share" class="twitter-share-button" data-via="github.io">Tweet</a>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+  <!-- Facebook -->
+  <div class="fb-share-button" data-href="http://localhost:4000/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0/2019/07/13/%E1%84%8C%E1%85%A1%E1%84%85%E1%85%AD%E1%84%80%E1%85%AE%E1%84%8C%E1%85%A9-11.-Tree,-%E1%84%8B%E1%85%B5%E1%84%8C%E1%85%B5%E1%86%ABTree.html" data-layout="button_count" style="position: relative; top: -8px; left: 3px;"></div>
+</div>
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.6&appId=1749788565247320";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+</div>
+
+
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+            
+            <div class="panel-body">
+              <h4>Related Posts</h4>
+              <ul>
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0/2019/07/13/%E1%84%8C%E1%85%A1%E1%84%85%E1%85%AD%E1%84%80%E1%85%AE%E1%84%8C%E1%85%A9-10.-%E1%84%8C%E1%85%A1%E1%84%85%E1%85%AD%E1%84%80%E1%85%AE%E1%84%8C%E1%85%A9%E1%84%8B%E1%85%B4-%E1%84%8C%E1%85%A5%E1%86%AB%E1%84%8E%E1%85%A6%E1%84%8C%E1%85%A5%E1%86%A8%E1%84%8B%E1%85%B5%E1%86%AB-%E1%84%92%E1%85%B3%E1%84%85%E1%85%B3%E1%86%B7.html">자료구조 10. 자료구조의 전체적인 흐름</a>
+                  
+                    (Categories: <a href="/category/자료구조">자료구조</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0/2019/07/04/%E1%84%8C%E1%85%A1%E1%84%85%E1%85%AD%E1%84%80%E1%85%AE%E1%84%8C%E1%85%A9-09.-%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%85%E1%85%A7%E1%86%AF-O(nlogn)-%E1%84%8F%E1%85%B1%E1%86%A8%E1%84%89%E1%85%A9%E1%84%90%E1%85%B3,-%E1%84%86%E1%85%A5%E1%84%8C%E1%85%B5%E1%84%89%E1%85%A9%E1%84%90%E1%85%B3.html">자료구조 09. 정렬 O(nlogn)-퀵소트, 머지소트</a>
+                  
+                    (Categories: <a href="/category/자료구조">자료구조</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0/2019/07/03/%E1%84%8C%E1%85%A1%E1%84%85%E1%85%AD%E1%84%80%E1%85%AE%E1%84%8C%E1%85%A9-08.-%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%85%E1%85%A7%E1%86%AF-O(n2)-%E1%84%87%E1%85%A5%E1%84%87%E1%85%B3%E1%86%AF%E1%84%89%E1%85%A9%E1%86%AF%E1%84%90%E1%85%B3,%E1%84%89%E1%85%A1%E1%86%B8%E1%84%8B%E1%85%B5%E1%86%B8%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%85%E1%85%A7%E1%86%AF,%E1%84%89%E1%85%A5%E1%86%AB%E1%84%90%E1%85%A2%E1%86%A8%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%85%E1%85%A7%E1%86%AF.html">자료구조 08. 정렬 O(n2)-버블솔트,삽입정렬,선택정렬</a>
+                  
+                    (Categories: <a href="/category/자료구조">자료구조</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0/2019/07/02/%E1%84%8C%E1%85%A1%E1%84%85%E1%85%AD%E1%84%80%E1%85%AE%E1%84%8C%E1%85%A9-07.-%E1%84%8B%E1%85%AF%E1%86%AB%E1%84%92%E1%85%A7%E1%86%BC%E1%84%8F%E1%85%B2(circular-queue).html">자료구조 07. 원형큐(circular queue)</a>
+                  
+                    (Categories: <a href="/category/자료구조">자료구조</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0/2019/04/12/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0-06.-%EC%84%A0%ED%98%95%EA%B5%AC%EC%A1%B0,-%EB%B9%84%EC%84%A0%ED%98%95%EA%B5%AC%EC%A1%B0.html">자료구조 06. 선형구조, 비선형구조</a>
+                  
+                    (Categories: <a href="/category/자료구조">자료구조</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0/2019/04/09/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0-05.-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EB%B2%A0%EC%9D%B4%EC%8A%A4-&-MYSQL.html">자료구조 05. 데이터 베이스 & MYSQL</a>
+                  
+                    (Categories: <a href="/category/자료구조">자료구조</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+  
+  </ul>
+</div>
+
+
+<div class="PageNavigation">
+  
+    <a class="prev" href="/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0/2019/07/13/%E1%84%8C%E1%85%A1%E1%84%85%E1%85%AD%E1%84%80%E1%85%AE%E1%84%8C%E1%85%A9-10.-%E1%84%8C%E1%85%A1%E1%84%85%E1%85%AD%E1%84%80%E1%85%AE%E1%84%8C%E1%85%A9%E1%84%8B%E1%85%B4-%E1%84%8C%E1%85%A5%E1%86%AB%E1%84%8E%E1%85%A6%E1%84%8C%E1%85%A5%E1%86%A8%E1%84%8B%E1%85%B5%E1%86%AB-%E1%84%92%E1%85%B3%E1%84%85%E1%85%B3%E1%86%B7.html">&laquo; 자료구조 10. 자료구조의 전체적인 흐름</a>
+  
+  
+    <a class="next" href="/algorithm/2019/07/17/%E1%84%8B%E1%85%A1%E1%86%AF%E1%84%80%E1%85%A9%E1%84%85%E1%85%B5%E1%84%8C%E1%85%B3%E1%86%B7-09.-runner-up-score-%E1%84%80%E1%85%AE%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.html">알고리즘 09. runner-up score 구하기 &raquo;</a>
+  
+</div>
+
+<div class="disqus-comments">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    /* <![CDATA[ */
+    var disqus_shortname = "https-fabl1106-github-io";
+    var disqus_identifier = "http://localhost:4000_자료구조 11. Tree";
+    var disqus_title = "자료구조 11. Tree";
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    /* ]]> */
+  </script>
+</div>
+
+        <footer>
+          &copy; Byeonguk Kim
+          
+            - <a href="https://github.com/fabl1106">https://github.com/fabl1106</a> - Powered by Jekyll.
+          
+          <div class="btn-github" style="float:right;">
+            <iframe src="https://ghbtns.com/github-btn.html?user=fabl1106&repo=fabl1106.github.io&type=star&count=true" frameborder="0" scrolling="0" width="85" height="20px"></iframe>
+            <iframe src="https://ghbtns.com/github-btn.html?user=fabl1106&repo=fabl1106.github.io&type=fork&count=true" frameborder="0" scrolling="0" width="85" height="20px"></iframe>
+          </div>
+        </footer>
+      </div>
+      <!-- end /.col-sm-8 -->
+    </div>
+    <!-- end /.container -->
+
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/super-search.js"></script>
+    <script src="/static/js/thickbox-compressed.js"></script>
+    <script src="/static/js/projects.js"></script>
+  </body>
+</html>
+

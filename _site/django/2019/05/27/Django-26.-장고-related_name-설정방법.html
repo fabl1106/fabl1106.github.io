@@ -1,0 +1,1482 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" sizes = "32x32" href="/static/img/favicon.ico"/>
+    <title>Django 26. 장고 related_name 설정방법 - 대구 올빼미의 새벽 개발로그</title>
+    <meta name="author" content="Byeonguk Kim" />
+    <meta name="description" content="Django 26. 장고 related_name 설정방법" />
+    <meta name="keywords" content="Django 26. 장고 related_name 설정방법, 대구 올빼미의 새벽 개발로그, Django" />
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml">
+    <meta content="1749788565247320" property="fb:app_id">
+    <meta content="대구 올빼미의 새벽 개발로그" property="og:site_name">
+
+    
+
+    
+      <meta content="Django 26. 장고 related_name 설정방법" property="og:title">
+      <meta content="article" property="og:type">
+    
+
+    
+      <meta content="장고 프로젝트에서 related_name에 대해서 설정하는 방법에 대한 내용입니다. 장고 related_name 설정방법, 장고 related_name, 장고 related_name설정하기" property="og:description">
+    
+
+    
+      <meta content="http://localhost:4000/django/2019/05/27/Django-26.-%E1%84%8C%E1%85%A1%E1%86%BC%E1%84%80%E1%85%A9-related_name-%E1%84%89%E1%85%A5%E1%86%AF%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%87%E1%85%A1%E1%86%BC%E1%84%87%E1%85%A5%E1%86%B8.html" property="og:url">
+    
+
+    
+      <meta content="2019-05-27T17:06:23+09:00" property="article:published_time">
+      <meta content="http://localhost:4000/about/" property="article:author">
+    
+
+    
+      <meta content="http://localhost:4000/static/img/avatar.jpg" property="og:image">
+    
+
+    
+      
+        <meta content="Django" property="article:section">
+      
+    
+
+    
+      
+    
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@github.io">
+    <meta name="twitter:creator" content="@github.io">
+
+    
+      <meta name="twitter:title" content="Django 26. 장고 related_name 설정방법">
+    
+
+    
+      <meta name="twitter:url" content="http://localhost:4000/django/2019/05/27/Django-26.-%E1%84%8C%E1%85%A1%E1%86%BC%E1%84%80%E1%85%A9-related_name-%E1%84%89%E1%85%A5%E1%86%AF%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%87%E1%85%A1%E1%86%BC%E1%84%87%E1%85%A5%E1%86%B8.html">
+    
+
+    
+      <meta name="twitter:description" content="장고 프로젝트에서 related_name에 대해서 설정하는 방법에 대한 내용입니다. 장고 related_name 설정방법, 장고 related_name, 장고 related_name설정하기">
+    
+
+    
+
+    <!-- Font awesome icons -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+    <!-- syntax highlighting CSS -->
+    <link rel="stylesheet" href="/static/css/syntax.css">
+    <!-- Bootstrap core CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300italic,300,400italic,700&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/super-search.css">
+    <link rel="stylesheet" href="/static/css/thickbox.css">
+    <link rel="stylesheet" href="/static/css/projects.css">
+    <link rel="stylesheet" href="/static/css/main.css">
+
+    
+  </head>
+  <body>
+    <div class="container">
+      <div class="col-sm-3">
+        <div class="fixed-condition">
+          <a href="/"><img class="profile-avatar" src="/static/img/avatar.jpg" height="120px" width="120px" /></a>
+          <h1 class="author-name">Byeonguk Kim</h1>
+          
+            <div class="profile-about">
+              <h5>안녕하세요. 29살의 조금은 늦은 나이로 새롭게 개발자로 시작하는 신입 개발자입니다. 포트폴리오 [https://deaguowl.github.io]</h5>
+            </div>
+          
+          <div class="social">
+            <ul>
+              
+                <li><a href="https://web.facebook.com/byungwook.kim.923" target="_blank"><i class="fa fa-facebook"></i></a></li>
+              
+                <li><a href="https://github.com/fabl1106" target="_blank"><i class="fa fa-github"></i></a></li>
+              
+            </ul>
+          </div>
+          <div class="search" id="js-search">
+            <input type="text" placeholder="(sitemap)~$ type to search" class="search__input form-control" id="js-search__input">
+            <ul class="search__results" id="js-search__results"></ul>
+          </div>
+          <hr />
+          <ul class="sidebar-nav">
+            <strong>Navigation</strong>
+            <li><a href="/">Home</a></li>
+            
+              <li><a class="about" href="/about/">About Me</a></li>
+            
+              <li><a class="about" href="https://deaguowl.github.io">Portfolio</a></li>
+            
+          </ul>
+        </div>
+        <!-- end /.fixed-condition -->
+      </div>
+      <div class="col-sm-8 col-offset-1 main-layout">
+        <header class="post-header">
+  <h1 class="post-title">Django 26. 장고 related_name 설정방법</h1>
+</header>
+
+<span class="time">27 May 2019</span>
+
+  <span class="categories">
+    &raquo; <a href="/category/Django">Django</a>
+  </span>
+
+
+<div class="content">
+  <div class="post"><h3 id="20190527-장고-related_name-설정-방법">2019.05.27 장고 related_name 설정 방법</h3>
+
+<h1 id="장고-related_name">장고 related_name</h1>
+
+<p>장고에서 모델을 설정할 때 Foreign키를 설정해주고 뒤에     related_name을 설정해준다.     <br />
+related_name을 설정해주는 것은 장고의 ORM기능을 활용하기 위해서이다.</p>
+
+<p>하지만 이 related_name을 잘못 설정해주는 경우가 많다.    <br />
+따라서 한 가지예를 들어가며 related_name에 대해 설멍해보려고 한다.</p>
+
+<h2 id="user와-user에-대한-comment-설정">USER와 USER에 대한 Comment 설정</h2>
+
+<p>사용자들은 계속 생성될 수 있고 그 사용자 밑에 Comment(댓글)를 달아줄 수 있다고 생각해보자.      <br />
+그럼 장고 모델의 형태는 이렇게 될 것이다.</p>
+
+<p><img width="629" alt="13A89726-279D-4F18-8685-62D98770681D" src="https://user-images.githubusercontent.com/46436843/58404885-29bf3e80-80a1-11e9-9b8a-4a590c2cb2f1.png" /></p>
+
+<p>User모델을 통해 User 객체는 1, 2, 3 지속적으로 생성될 것이고, (primary key)     <br />
+Comment모델을 통해 Comment 객체 역시 지속적으로 생성 될 것이다. (foreign key)</p>
+
+<p>여기에서 중요한 것은 Commnet모델에서 Foreignkey를 통해 User모델로 연결을 해놓았고    <br />
+따라서 각각의 Comment들은 User_id를 통해 어떤 User의 커멘트인지 구분 할 것이다.</p>
+
+<p>그럼 Comment의 모델을 한번 적어보자.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Comment</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">User</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span> <span class="err">?</span> <span class="p">)</span>
+</code></pre></div></div>
+
+<p>단순히 위와 같이 Comment 모델을 만들어 준다고 하면 related_name에는 무엇이 들어가야 할까?     <br />
+처음 내가 프로젝트를 진행할 때 나는 related_name에 너무나도 자연스럽게 user를 넣어주었다.  <br />
+related_name이 무언가 Comment의 User를 사용할 때 연관된 이름으로 무엇을 쓸 것이냐고    <br />
+해석하였기 때문에 필드명과 똑같이 설정해준 것이다.</p>
+
+<p>하지만 내가 새롭게 알게 된 것에 따르면     <br />
+위에 적어놓았다시피 related_name은 장고 ORM모델을 위한 것이며,  <br />
+ORM모델은 쿼리문 없이 장고에서 데이터베이스와 소통하기 위한 것이다.</p>
+
+<p>따라서, 만약에 내가 User 필드의 related_name을 user라고 해놓았을 경우    <br />
+해당 User의 Comment를 불러오기 위해서는 어떻게 해야 할까?</p>
+
+<p>comment = user.user.all() 이라는 이상한 상황이 발생한다….</p>
+
+<p>위의 내용은 comment는 해당 유저객체의 comment달린 것의 all (모든 것) 이라는   <br />
+것인데 내가 comment객체에서 user에 대한 foreignkey의 related_name을 user로 설정해놓아    <br />
+user.user.all()이라는 이상한 ORM이 만들어버린 것이다.</p>
+
+<p>따라서 몇 가지 related_name을 생성해 줄 때 알아야 할 것이 있다.</p>
+
+<ol>
+  <li>폴인키로 연결시켜 놓은 클래스에 related_name = comment라고 해놓으면 user.comment라는 것이 comment모델에 생기는 것이 아나리 comment가 참조하고 있는 user모델에 생긴다.</li>
+  <li>따라서 참조해준 객체 입장에서 related_name을 설정해줘야 한다.</li>
+</ol>
+
+<p>따라서 위의 경우 다시 한번 Comment모델을 적어보면</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Comment</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">User</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span> <span class="s">'comment'</span> <span class="p">)</span>
+</code></pre></div></div>
+
+<p>라고 하는 것이 올바른 related_name을 설정해준 것이고 해당 유저의 comment를 모두 가지고 오고 싶을 때 사용할 ORM은 comment= user.comment.all()이 된다.</p>
+</div>
+  <div class="share-page">
+  <span style="float: left;">Share this on &rarr;&nbsp;&nbsp;</span>
+
+  <!-- Twitter -->
+  <a href="https://twitter.com/share" class="twitter-share-button" data-via="github.io">Tweet</a>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+  <!-- Facebook -->
+  <div class="fb-share-button" data-href="http://localhost:4000/django/2019/05/27/Django-26.-%E1%84%8C%E1%85%A1%E1%86%BC%E1%84%80%E1%85%A9-related_name-%E1%84%89%E1%85%A5%E1%86%AF%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%87%E1%85%A1%E1%86%BC%E1%84%87%E1%85%A5%E1%86%B8.html" data-layout="button_count" style="position: relative; top: -8px; left: 3px;"></div>
+</div>
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.6&appId=1749788565247320";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+</div>
+
+
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+            
+            <div class="panel-body">
+              <h4>Related Posts</h4>
+              <ul>
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/django/2019/06/01/Django-28.-Django-Rest-API-%E1%84%92%E1%85%B3%E1%84%85%E1%85%B3%E1%86%B7-%E1%84%8B%E1%85%B5%E1%86%B0%E1%84%80%E1%85%B5.html">Django 28. Django Rest API 흐름 읽기</a>
+                  
+                    (Categories: <a href="/category/Django">Django</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/django/2019/05/30/Django-27.-Django-Rest-API-%E1%84%80%E1%85%B5%E1%84%87%E1%85%A9%E1%86%AB%E1%84%89%E1%85%A5%E1%86%AF%E1%84%86%E1%85%A7%E1%86%BC.html">Django 27. Django Rest API 기본설명</a>
+                  
+                    (Categories: <a href="/category/Django">Django</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/django/2019/05/21/Django-25.-django-extentions-%E1%84%89%E1%85%A5%E1%86%AF%E1%84%8E%E1%85%B5%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.html">Django 25. django extentions 설치하기</a>
+                  
+                    (Categories: <a href="/category/Django">Django</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/django/2019/05/21/Django-24.-debug-tool-bar-%E1%84%89%E1%85%A5%E1%86%AF%E1%84%8E%E1%85%B5%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.html">Django 24. debug tool bar설치하기</a>
+                  
+                    (Categories: <a href="/category/Django">Django</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/django/2019/05/16/Django-23.-%E1%84%8C%E1%85%A1%E1%86%BC%E1%84%80%E1%85%A9-%E1%84%83%E1%85%A2%E1%86%BA%E1%84%80%E1%85%B3%E1%86%AF-%E1%84%89%E1%85%A1%E1%86%A8%E1%84%8C%E1%85%A6-%E1%84%86%E1%85%B5%E1%86%BE-%E1%84%89%E1%85%AE%E1%84%8C%E1%85%A5%E1%86%BC-%E1%84%80%E1%85%AE%E1%84%92%E1%85%A7%E1%86%AB%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.html">Django 23. 장고 댓글 삭제 및 수정 구현하기</a>
+                  
+                    (Categories: <a href="/category/Django">Django</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/django/2019/05/16/Django-22.-%E1%84%8C%E1%85%A1%E1%86%BC%E1%84%80%E1%85%A9-%E1%84%83%E1%85%A2%E1%86%BA%E1%84%80%E1%85%B3%E1%86%AF-%E1%84%80%E1%85%B5%E1%84%82%E1%85%B3%E1%86%BC-%E1%84%80%E1%85%AE%E1%84%92%E1%85%A7%E1%86%AB%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5(%E1%84%92%E1%85%A1%E1%86%B7%E1%84%89%E1%85%AE%E1%84%92%E1%85%A7%E1%86%BC-%E1%84%87%E1%85%B2).html">Django 22. 장고 댓글 기능 구현하기(함수형 뷰)</a>
+                  
+                    (Categories: <a href="/category/Django">Django</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+  
+  </ul>
+</div>
+
+
+<div class="PageNavigation">
+  
+    <a class="prev" href="/til/2019/05/24/TIL.html">&laquo; 2019_05_24_TIL</a>
+  
+  
+    <a class="next" href="/til/2019/05/29/TIL.html">2019_05_29_TIL &raquo;</a>
+  
+</div>
+
+<div class="disqus-comments">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    /* <![CDATA[ */
+    var disqus_shortname = "https-fabl1106-github-io";
+    var disqus_identifier = "http://localhost:4000_Django 26. 장고 related_name 설정방법";
+    var disqus_title = "Django 26. 장고 related_name 설정방법";
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    /* ]]> */
+  </script>
+</div>
+
+        <footer>
+          &copy; Byeonguk Kim
+          
+            - <a href="https://github.com/fabl1106">https://github.com/fabl1106</a> - Powered by Jekyll.
+          
+          <div class="btn-github" style="float:right;">
+            <iframe src="https://ghbtns.com/github-btn.html?user=fabl1106&repo=fabl1106.github.io&type=star&count=true" frameborder="0" scrolling="0" width="85" height="20px"></iframe>
+            <iframe src="https://ghbtns.com/github-btn.html?user=fabl1106&repo=fabl1106.github.io&type=fork&count=true" frameborder="0" scrolling="0" width="85" height="20px"></iframe>
+          </div>
+        </footer>
+      </div>
+      <!-- end /.col-sm-8 -->
+    </div>
+    <!-- end /.container -->
+
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/super-search.js"></script>
+    <script src="/static/js/thickbox-compressed.js"></script>
+    <script src="/static/js/projects.js"></script>
+  </body>
+</html>
+

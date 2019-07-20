@@ -3,7 +3,7 @@ page.title : Daegu Owl   #page title이라고 달면 블로그의 타이블이 �
 description: 대구 올빼미의 새벽 개발로그
 author: Byeonguk Kim
 github: https://github.com/fabl1106
-about: 안녕하세요. 29살의 조금은 늦은 나이로 새롭게 개발자로 시작하는 신입 개발자입니다.
+about: 안녕하세요. 29살의 조금은 늦은 나이로 새롭게 개발자로 시작하는 신입 개발자입니다. 포트폴리오 [https://deaguowl.github.io]
 disqus_shortname: https-fabl1106-github-io
 google_analytics: UA-XXXXXXXX-Y
 avatar_url: /static/img/avatar.jpg
@@ -19,12 +19,12 @@ collections:
 social:
     - icon: fa-facebook
       link: "https://web.facebook.com/byungwook.kim.923"
-    - icon: fa-twitter
-      link: "#"
-    - icon: fa-linkedin
-      link: "#"
-    - icon: fa-stack-exchange
-      link: "#"
+    # - icon: fa-twitter
+    #   link: "#"
+    # - icon: fa-linkedin
+    #   link: "#"
+    # - icon: fa-stack-exchange
+    #   link: "#"
     - icon: fa-github
       link: "https://github.com/fabl1106"
 
@@ -35,10 +35,10 @@ share:
 urls:
     - text: About Me
       url: /about/
-    - text: My Projects
-      url: /projects/
-    - text: XML Feed
-      url: /feed.xml
+    # - text: My Projects
+    #   url: /projects/
+    - text: Portfolio
+      url: "https://deaguowl.github.io"
 
 url: "https://fabl1106.github.io"
 baseurl: ""

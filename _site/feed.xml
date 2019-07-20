@@ -5,275 +5,983 @@
     <description>대구 올빼미의 새벽 개발로그</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 22 May 2019 10:11:44 +0900</pubDate>
-    <lastBuildDate>Wed, 22 May 2019 10:11:44 +0900</lastBuildDate>
+    <pubDate>Sat, 20 Jul 2019 10:22:51 +0900</pubDate>
+    <lastBuildDate>Sat, 20 Jul 2019 10:22:51 +0900</lastBuildDate>
     <generator>Jekyll v3.7.4</generator>
     
       <item>
-        <title>Django 25. django extentions 설치하기</title>
-        <description>&lt;h3 id=&quot;20190521-장고-django-extentions-설치하기&quot;&gt;2019.05.21 장고 django extentions 설치하기&lt;/h3&gt;
+        <title>알고리즘 09. runner-up score 구하기</title>
+        <description>&lt;h3 id=&quot;20190716&quot;&gt;2019.07.16&lt;/h3&gt;
 
-&lt;h1 id=&quot;django-extentions&quot;&gt;django extentions&lt;/h1&gt;
+&lt;h2 id=&quot;해커랭크-알고리즘-문제-lv1&quot;&gt;해커랭크 알고리즘 문제 (lv1)&lt;/h2&gt;
+
 &lt;ul&gt;
-  &lt;li&gt;django extentions 모듈은 장고의 기본 명령들의 기능을 확장해 주고 여러 부가 기능을 추가해주는 모듈로 장고 프로젝트의 필수 설치 모듈로 불리고 있다. 그 중에서 단연 편리한 기능 중에 한 가지는 모델 간의 관계도를 그려주는 기능과 데이터베이스를 초기화 하는 기능이다.&lt;/li&gt;
+  &lt;li&gt;2번째로 높은 수 구하기(runner-up score)&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&quot;django-extention-모듈-설치하기&quot;&gt;django extention 모듈 설치하기&lt;/h2&gt;
+&lt;h3 id=&quot;문제-설명&quot;&gt;문제 설명&lt;/h3&gt;
 
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;pip install django-extensions&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;먼저 하나의 정수를 줄 것이다.( 2 &amp;lt;= n &amp;lt;= 10)&lt;/li&gt;
+  &lt;li&gt;그리고 그 정수만큼의 list를 넣는다.&lt;/li&gt;
+  &lt;li&gt;그 해당 list에서 2번째로 큰 수를 찾아내야 한다.&lt;/li&gt;
+&lt;/ul&gt;
 
-&lt;h2 id=&quot;installed_apps-에-추가해주기&quot;&gt;INSTALLED_APPS 에 추가해주기&lt;/h2&gt;
+&lt;h3 id=&quot;예시&quot;&gt;예시&lt;/h3&gt;
 
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;n&quot;&gt;INSTALLED_APPS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; 
+&lt;span class=&quot;nb&quot;&gt;input&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;input&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;
 
-     &lt;span class=&quot;s&quot;&gt;'django_extensions'&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;output&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;
 
-&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h2 id=&quot;설정값을-settingspy에-추가해주기&quot;&gt;설정값을 settings.py에 추가해주기&lt;/h2&gt;
+&lt;h3 id=&quot;나의-풀이-방법&quot;&gt;나의 풀이 방법&lt;/h3&gt;
 
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;GRAPH_MODELS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;s&quot;&gt;'all_applications'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;s&quot;&gt;'group_models'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;의식의 흐름&lt;/strong&gt;&lt;/p&gt;
 
-&lt;h2 id=&quot;그래프-출력-기능을-위한-추가-모듈-설치하기&quot;&gt;그래프 출력 기능을 위한 추가 모듈 설치하기&lt;/h2&gt;
-
-&lt;h3 id=&quot;mac&quot;&gt;MAC&lt;/h3&gt;
 &lt;ol&gt;
-  &lt;li&gt;xcode-select –install&lt;/li&gt;
-  &lt;li&gt;brew install graphviz&lt;/li&gt;
-  &lt;li&gt;pip install –install-option=”–include-path=/usr/local/include/” –install-option=”–libary-path=/usr/local/lib/” pygraphviz&lt;/li&gt;
+  &lt;li&gt;먼저 input 창으로 정수를 한개 받는다.&lt;/li&gt;
+  &lt;li&gt;그리고 또 하나의 input창으로 첫 번째 입력한 정수 갯수만큼을 입력 받는다.&lt;/li&gt;
+  &lt;li&gt;해당 입력 받은 것을 list로 만든다.&lt;/li&gt;
+  &lt;li&gt;list를 돌면서 가장 큰 숫자를 제거한다.&lt;/li&gt;
+  &lt;li&gt;제거된 list중에서 가장 큰 숫자를 반환한다.&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h2 id=&quot;설치-이후-그래프-생성-명령-입력하기&quot;&gt;설치 이후 그래프 생성 명령 입력하기&lt;/h2&gt;
-&lt;ol&gt;
-  &lt;li&gt;전체 모델에 대한 그래프 출력
-    &lt;ol&gt;
-      &lt;li&gt;python manage.py graph_models -a -g -o model_graph.png&lt;/li&gt;
-    &lt;/ol&gt;
-  &lt;/li&gt;
-  &lt;li&gt;특정 앱에 대한 그래프 출력
-    &lt;ol&gt;
-      &lt;li&gt;python manage.py graph_models board -o models.png&lt;/li&gt;
-    &lt;/ol&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
+&lt;h2 id=&quot;코드&quot;&gt;코드&lt;/h2&gt;
 
-&lt;h2 id=&quot;나온-관계도-확인하기&quot;&gt;나온 관계도 확인하기&lt;/h2&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;__name__&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'__main__'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;n&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;input&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;input&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;split&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()))&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;largest&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;max&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/46436843/58081442-0e12ee80-7bf0-11e9-929c-18e2a18c3499.png&quot; alt=&quot;스크린샷 2019-05-21 오후 5 43 51&quot; /&gt;&lt;/p&gt;
-</description>
-        <pubDate>Tue, 21 May 2019 17:06:23 +0900</pubDate>
-        <link>http://localhost:4000/django/2019/05/21/Django-25.-django-extentions-%E1%84%89%E1%85%A5%E1%86%AF%E1%84%8E%E1%85%B5%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.html</link>
-        <guid isPermaLink="true">http://localhost:4000/django/2019/05/21/Django-25.-django-extentions-%E1%84%89%E1%85%A5%E1%86%AF%E1%84%8E%E1%85%B5%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.html</guid>
-        
-        
-        <category>Django</category>
-        
-      </item>
-    
-      <item>
-        <title>Django 24. debug tool bar설치하기</title>
-        <description>&lt;h3 id=&quot;20190521-장고-debug-tool-bar-설치하기&quot;&gt;2019.05.21 장고 debug tool bar 설치하기&lt;/h3&gt;
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;largest&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;max&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;remove&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;max&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
 
-&lt;h1 id=&quot;debug-tool-bar&quot;&gt;debug tool bar&lt;/h1&gt;
-&lt;ul&gt;
-  &lt;li&gt;장고 프로젝트에서 성능 측정과 개선을 위해서 많이 사용하는 모듈&lt;/li&gt;
-  &lt;li&gt;여러가지 성능 측정 툴을 별도로 설치하거나 화면을 별도로 볼 필요없이 디버그 모드에서는 기능을 편리하게 사용할 수 있다.&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://django-debug-toolbar.readthedocs.io/en/latest/installation.html&quot;&gt;참고 : Installation — Django Debug Toolbar 1.11 documentation&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;max&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
 
-&lt;h2 id=&quot;debug-tool-bar-설치하기&quot;&gt;debug tool bar 설치하기&lt;/h2&gt;
-&lt;p&gt;`pip install django-debug-toolbar’&lt;/p&gt;
-
-&lt;h2 id=&quot;settingspy에-installed_apps와-middleware에-관련-항목-추가하기&quot;&gt;settings.py에 installed_apps와 middleware에 관련 항목 추가하기&lt;/h2&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;INSTALLED_APPS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-
-    &lt;span class=&quot;s&quot;&gt;'debug_toolbar'&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;MIDDLEWARE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-    &lt;span class=&quot;s&quot;&gt;'debug_toolbar.middleware.DebugToolbarMiddleware'&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;settingspy에-패널-설정값과-internal_ips값-추가하기&quot;&gt;settings.py에 패널 설정값과 internal_ips값 추가하기&lt;/h2&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;INTERNAL_IPS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'127.0.0.1'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;DEBUG_TOOLBAR_PANELS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-       &lt;span class=&quot;s&quot;&gt;'debug_toolbar.panels.versions.VersionsPanel'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;s&quot;&gt;'debug_toolbar.panels.timer.TimerPanel'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;s&quot;&gt;'debug_toolbar.panels.settings.SettingsPanel'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;s&quot;&gt;'debug_toolbar.panels.headers.HeadersPanel'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;s&quot;&gt;'debug_toolbar.panels.request.RequestPanel'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;s&quot;&gt;'debug_toolbar.panels.sql.SQLPanel'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;s&quot;&gt;'debug_toolbar.panels.staticfiles.StaticFilesPanel'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;s&quot;&gt;'debug_toolbar.panels.templates.TemplatesPanel'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;s&quot;&gt;'debug_toolbar.panels.cache.CachePanel'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;s&quot;&gt;'debug_toolbar.panels.signals.SignalsPanel'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;s&quot;&gt;'debug_toolbar.panels.logging.LoggingPanel'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;s&quot;&gt;'debug_toolbar.panels.redirects.RedirectsPanel'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h2 id=&quot;root-urlspy-파일에-내용-추가&quot;&gt;Root urls.py 파일에 내용 추가&lt;/h2&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;settings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DEBUG&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;debug_toolbar&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;urlpatterns&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'__debug__/'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;include&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;debug_toolbar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;urls&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)),&lt;/span&gt;
-
-        &lt;span class=&quot;c&quot;&gt;# For django versions before 2.0:&lt;/span&gt;
-        &lt;span class=&quot;c&quot;&gt;# url(r'^__debug__/', include(debug_toolbar.urls)),&lt;/span&gt;
-
-    &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;urlpatterns&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;스태틱-파일-업로드-명령-실행&quot;&gt;스태틱 파일 업로드 명령 실행&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;python manage.py collectstatic&lt;/code&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;해당-페이지에-접속하여-잘-되는지-확인해보기&quot;&gt;해당 페이지에 접속하여 잘 되는지 확인해보기&lt;/h2&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/46436843/58080626-84aeec80-7bee-11e9-8db1-5896aacbd6b6.png&quot; alt=&quot;B3FEB1F5-260B-41AF-9603-C952446D128E&quot; /&gt;&lt;/p&gt;
-
 &lt;ul&gt;
-  &lt;li&gt;오른 편에 관련 내용이 잘 나오는 것을 확인할 수 있다.&lt;/li&gt;
-&lt;/ul&gt;
-
-</description>
-        <pubDate>Tue, 21 May 2019 16:06:23 +0900</pubDate>
-        <link>http://localhost:4000/django/2019/05/21/Django-24.-debug-tool-bar-%E1%84%89%E1%85%A5%E1%86%AF%E1%84%8E%E1%85%B5%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.html</link>
-        <guid isPermaLink="true">http://localhost:4000/django/2019/05/21/Django-24.-debug-tool-bar-%E1%84%89%E1%85%A5%E1%86%AF%E1%84%8E%E1%85%B5%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.html</guid>
-        
-        
-        <category>Django</category>
-        
-      </item>
-    
-      <item>
-        <title>2019_05_20_TIL</title>
-        <description>&lt;h3 id=&quot;20190520-til&quot;&gt;2019.05.20 TIL&lt;/h3&gt;
-
-&lt;h1 id=&quot;to-do&quot;&gt;To do&lt;/h1&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;DEV (10 ~ 18:00)
+  &lt;li&gt;map을 써서 해당 input에 대해서 int형으로 받는다.&lt;/li&gt;
+  &lt;li&gt;map의 기본 양식
     &lt;ul&gt;
-      &lt;li&gt;&lt;del&gt;수업 시간에 배운 것 TIL (16:00 ~ 18:00)&lt;/del&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;del&gt;금요일 수업 한 것 TIL (7:30 ~ 9:30)&lt;/del&gt;&lt;/li&gt;
-      &lt;li&gt;알고리즘 1문제 진행&lt;/li&gt;
-      &lt;li&gt;&lt;del&gt;해커톤 그림 그리기(나만의 영화평점 사이트 제작하기)&lt;/del&gt;
+      &lt;li&gt;map(f, iterable) #mapobject를 반환한다. map은 함수와 iterable을 받는다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;map 앞에 list를 붙이면 한번에 list로 받아 올 수 있다.&lt;/li&gt;
+  &lt;li&gt;그리고 처음 받아왔던 n만큼 돌면서 최대값들을 arr에서 remove해준다.
+    &lt;ul&gt;
+      &lt;li&gt;항상 포문을 쓸 때는 해당 i가 안에서 쓰여야 된다고 생각했는데 절대 그럴 필요가 없다는 것을 깨달았다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;마지막으로 남은 list에서 최대값을 반환해준다.&lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+        <pubDate>Wed, 17 Jul 2019 00:06:23 +0900</pubDate>
+        <link>http://localhost:4000/algorithm/2019/07/17/%E1%84%8B%E1%85%A1%E1%86%AF%E1%84%80%E1%85%A9%E1%84%85%E1%85%B5%E1%84%8C%E1%85%B3%E1%86%B7-09.-runner-up-score-%E1%84%80%E1%85%AE%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.html</link>
+        <guid isPermaLink="true">http://localhost:4000/algorithm/2019/07/17/%E1%84%8B%E1%85%A1%E1%86%AF%E1%84%80%E1%85%A9%E1%84%85%E1%85%B5%E1%84%8C%E1%85%B3%E1%86%B7-09.-runner-up-score-%E1%84%80%E1%85%AE%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.html</guid>
+        
+        
+        <category>Algorithm</category>
+        
+      </item>
+    
+      <item>
+        <title>자료구조 11. Tree</title>
+        <description>&lt;h3 id=&quot;20190713-tree&quot;&gt;2019.07.13 Tree&lt;/h3&gt;
+
+&lt;p&gt;(TIL은 스스로 이해한 것을 바탕으로 정리한 것으로 오류가 있을 수 있습니다)&lt;/p&gt;
+
+&lt;p&gt;# 질문에 답하기&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;트리&quot;&gt;트리&lt;/h2&gt;
+
+&lt;p&gt;&lt;img width=&quot;742&quot; alt=&quot;스크린샷 2019-07-04 오후 3 16 21&quot; src=&quot;https://user-images.githubusercontent.com/46436843/61164507-ca35c900-a550-11e9-8935-c10a96c113b0.png&quot; /&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;어떤 노드 간에 경로가 존재해야 한다.( 즉 연결이 되어 있어야 한다) - connected&lt;/li&gt;
+  &lt;li&gt;단 사이클이 없어야 한다 - acyclic&lt;/li&gt;
+  &lt;li&gt;set안에 tree와 tree가 있으면 forest이다&lt;/li&gt;
+  &lt;li&gt;루트 노드가 없어지면 각각 분리집합으로 분할 가능&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;트리-용어&quot;&gt;트리 용어&lt;/h2&gt;
+
+&lt;p&gt;&lt;img width=&quot;798&quot; alt=&quot;스크린샷 2019-07-04 오후 3 22 11&quot; src=&quot;https://user-images.githubusercontent.com/46436843/61164533-17b23600-a551-11e9-8a70-4fdcc63f7049.png&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;레벨와 트리의 높이가 같다고 하면 한쪽으로 굉장히 치우진 것과 같다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img width=&quot;774&quot; alt=&quot;스크린샷 2019-07-04 오후 3 22 32&quot; src=&quot;https://user-images.githubusercontent.com/46436843/61164534-1bde5380-a551-11e9-8934-dd23b9e7ad45.png&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;엣지와-노드와의-관계&quot;&gt;엣지와 노드와의 관계&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;MST : KRUSKAL 알고리즘 -&amp;gt; 도시계획&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/ythwork/CS/blob/master/data_structure/tree/binary_tree.pdf&quot;&gt;CS/binary_tree.pdf at master · ythwork/CS&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;이진트리&quot;&gt;이진트리&lt;/h2&gt;
+
+&lt;p&gt;&lt;img width=&quot;759&quot; alt=&quot;03C0592B-1945-4C29-BBCD-166E54B1B86E&quot; src=&quot;https://user-images.githubusercontent.com/46436843/61164554-44664d80-a551-11e9-8677-6cdf0110af47.png&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;이진트리의-특징&quot;&gt;이진트리의 특징&lt;/h2&gt;
+
+&lt;p&gt;&lt;img width=&quot;748&quot; alt=&quot;7E694D61-757A-46E8-B196-4A44EC01CEB2&quot; src=&quot;https://user-images.githubusercontent.com/46436843/61164555-46301100-a551-11e9-911b-93bf56feda47.png&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;완전-이진-트리&quot;&gt;완전 이진 트리&lt;/h2&gt;
+
+&lt;p&gt;&lt;img width=&quot;824&quot; alt=&quot;F8B61E1B-FD5A-4DE9-958B-A1D4DC04B71F&quot; src=&quot;https://user-images.githubusercontent.com/46436843/61164557-47613e00-a551-11e9-8819-efc6d1358d38.png&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;추가-공부할-사항&quot;&gt;추가 공부할 사항&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;포화 이진 트리&lt;/li&gt;
+  &lt;li&gt;편향 이진 트리&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;이진트리의-순회&quot;&gt;이진트리의 순회&lt;/h1&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;스텍기반
+    &lt;ol&gt;
+      &lt;li&gt;전회순회&lt;/li&gt;
+      &lt;li&gt;중위순회&lt;/li&gt;
+      &lt;li&gt;후위순회&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+  &lt;li&gt;큐 기반
+    &lt;ol&gt;
+      &lt;li&gt;레벨 순회&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;전위순회pre-order&quot;&gt;전위순회(pre order)&lt;/h2&gt;
+
+&lt;p&gt;&lt;img width=&quot;618&quot; alt=&quot;8E201DED-3874-4ED4-BBB1-A5EC78ED01DC&quot; src=&quot;https://user-images.githubusercontent.com/46436843/61164574-711a6500-a551-11e9-8c3f-1723d2681dc1.png&quot; /&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;TreeNode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;__init__&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;
+        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;left&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;None&lt;/span&gt;
+        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;right&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;None&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;preorder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;#base case&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;
+
+    &lt;span class=&quot;c&quot;&gt;#노드를 방문했다고 치고 print로 찍어봄 실제로는 오퍼레이션을 넣고 방문할 떄 마다 실행&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;  &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# 왼쪽 자식&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;preorder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;left&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# 오른쪽 자식&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;preorder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;right&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;__name__&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;__main__&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;n1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TreeNode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;n2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TreeNode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;n3&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TreeNode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;n4&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TreeNode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;n5&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TreeNode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;n6&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TreeNode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;n7&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TreeNode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;n1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;left&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n2&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;n1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;right&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n3&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;n2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;left&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n4&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;n2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;right&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n5&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;n3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;left&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n6&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;n3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;right&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n7&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;preorder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;중위순회in-order&quot;&gt;중위순회(in order)&lt;/h2&gt;
+
+&lt;p&gt;&lt;img width=&quot;602&quot; alt=&quot;스크린샷 2019-07-04 오후 4 00 40&quot; src=&quot;https://user-images.githubusercontent.com/46436843/61164582-85f6f880-a551-11e9-953e-c226861fd7e3.png&quot; /&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;preorder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;#base case&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;
+
+   
+    &lt;span class=&quot;c&quot;&gt;# 왼쪽 자식&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;preorder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;left&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    
+     &lt;span class=&quot;c&quot;&gt;#노드를 방문했다고 치고 print로 찍어봄 실제로는 오퍼레이션을 		넣고 방문할 떄 마다 실행&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;  &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    
+    &lt;span class=&quot;c&quot;&gt;# 오른쪽 자식&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;preorder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;right&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;후위순회-post-order&quot;&gt;후위순회 (post order)&lt;/h2&gt;
+
+&lt;p&gt;&lt;img width=&quot;839&quot; alt=&quot;스크린샷 2019-07-13 오전 9 38 25&quot; src=&quot;https://user-images.githubusercontent.com/46436843/61164620-00c01380-a552-11e9-95bc-1470a8239225.png&quot; /&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;preorder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;#base case&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;
+
+   
+    &lt;span class=&quot;c&quot;&gt;# 왼쪽 자식&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;preorder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;left&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    
+    &lt;span class=&quot;c&quot;&gt;# 오른쪽 자식&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;preorder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;right&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    
+     &lt;span class=&quot;c&quot;&gt;#노드를 방문했다고 치고 print로 찍어봄 실제로는 오퍼레이션을 		넣고 방문할 떄 마다 실행&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;  &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+        <pubDate>Sat, 13 Jul 2019 23:06:23 +0900</pubDate>
+        <link>http://localhost:4000/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0/2019/07/13/%E1%84%8C%E1%85%A1%E1%84%85%E1%85%AD%E1%84%80%E1%85%AE%E1%84%8C%E1%85%A9-11.-Tree,-%E1%84%8B%E1%85%B5%E1%84%8C%E1%85%B5%E1%86%ABTree.html</link>
+        <guid isPermaLink="true">http://localhost:4000/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0/2019/07/13/%E1%84%8C%E1%85%A1%E1%84%85%E1%85%AD%E1%84%80%E1%85%AE%E1%84%8C%E1%85%A9-11.-Tree,-%E1%84%8B%E1%85%B5%E1%84%8C%E1%85%B5%E1%86%ABTree.html</guid>
+        
+        
+        <category>자료구조</category>
+        
+      </item>
+    
+      <item>
+        <title>자료구조 10. 자료구조의 전체적인 흐름</title>
+        <description>&lt;h3 id=&quot;20190713-til&quot;&gt;2019.07.13 TIL&lt;/h3&gt;
+
+&lt;p&gt;(TIL은 스스로 이해한 것을 바탕으로 정리한 것으로 오류가 있을 수 있습니다)&lt;/p&gt;
+
+&lt;p&gt;# 질문에 답하기&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;자료구조&quot;&gt;자료구조&lt;/h2&gt;
+&lt;ol&gt;
+  &lt;li&gt;자료구조는 데이터베이스에 어떻게 데이터를 담을 것인지에 대한 이론이다.&lt;/li&gt;
+  &lt;li&gt;서버 개발자로서 굉장히 중요한 부분이다.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;1-전체적인-흐름&quot;&gt;1. 전체적인 흐름&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;동적배열(Dynamic array) vs 연결리스트(linked list)
+    &lt;ol&gt;
+      &lt;li&gt;insert, delete, search에 따라서 효율이 다름&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+  &lt;li&gt;BST(array list와 linked list의 단점 보완)
+    &lt;ol&gt;
+      &lt;li&gt;insert, delete, search 모두 O(log(n))&lt;/li&gt;
+      &lt;li&gt;트리의 깊이가 깊어지면 문제 발생&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+  &lt;li&gt;레드블랙트리(red black tree)
+    &lt;ol&gt;
+      &lt;li&gt;self-balancing 기능이 생기면서 BST문제 해결&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+  &lt;li&gt;B-Tree
+    &lt;ol&gt;
+      &lt;li&gt;캐시기능 추가 보완&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+  &lt;li&gt;B+Tree&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;동적배열-vs-연결리스트&quot;&gt;동적배열 vs 연결리스트&lt;/h2&gt;
+
+&lt;p&gt;&lt;img width=&quot;711&quot; alt=&quot;스크린샷 2019-07-13 오전 9 04 25&quot; src=&quot;https://user-images.githubusercontent.com/46436843/61164176-1cc1b600-a54e-11e9-8ffe-e61647446a9d.png&quot; /&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;동적배열(파이썬에서는 list가 동적배열이다 - 따라서  append와 pop은 O(1) )
+    &lt;ol&gt;
+      &lt;li&gt;장점 : search -  (O(1) : 인덱싱때문에)&lt;/li&gt;
+      &lt;li&gt;단점 : Insert, delete : O(n) - 최악의 경우는 제일 앞에 것을 지우고, 삭제할 때이다. 하나씩 다 옴겨줘야 한다.&lt;/li&gt;
+      &lt;li&gt;할당되어 있는 전체 크기가 capacity라고 하는데, 만약 특정 위치에 값을 넣거나 삭제하려고 하면 자리를 계속 옴겨야 한다.&lt;/li&gt;
+      &lt;li&gt;만약에 capacity가 꽉 찼는데 append해야 한다면 amortized analysis (분할 상환 분석-뒤에서 참고)&lt;/li&gt;
+      &lt;li&gt;예) 파이썬의 list&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+  &lt;li&gt;연결리스트
+    &lt;ol&gt;
+      &lt;li&gt;장점 : insert, delete : O(1)&lt;/li&gt;
+      &lt;li&gt;단점 : search : O(n)&lt;/li&gt;
+      &lt;li&gt;예) 더미 더블링크드 리스트&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+  &lt;li&gt;만약에 쓴다고 하면 동적배열을 써야 한다. 정말 배열이 붙어있어서 지역성으로 캐시가 발생할 확률이 높다. 하드웨어의 이점을 받을 수 있다.&lt;/li&gt;
+  &lt;li&gt;이거 2개를 보완해주는게 BST이다.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;bst이진탐색트리&quot;&gt;BST(이진탐색트리)&lt;/h2&gt;
+
+&lt;p&gt;&lt;img width=&quot;484&quot; alt=&quot;BBC3A0EB-8974-4B56-9491-890B65AA0023&quot; src=&quot;https://user-images.githubusercontent.com/46436843/61164276-c43ee880-a54e-11e9-98e0-88a212345ddf.png&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;이진탐색트리&lt;/li&gt;
+  &lt;li&gt;루트를 기준으로 왼쪽에는 항상 더 작은 자료가 위치하고 오른쪽에는 더 큰 자료가 위치한다.&lt;/li&gt;
+  &lt;li&gt;*insert, delete, search 모두 O(log(n))&lt;/li&gt;
+  &lt;li&gt;아무리 많이 해도 트리의 높이(height of tree)만큼만 하면 된다.log(n)&lt;/li&gt;
+  &lt;li&gt;트리에 있는 것은 파이썬에서 key값이라고 볼 수 있다.
+    &lt;ul&gt;
+      &lt;li&gt;dictionary이고 a collection of pairs(key, item)&lt;/li&gt;
+      &lt;li&gt;해당 key에 item을 참조하게만 해놓으면 문제해결&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;bst를-공부하기-위해서-기본적으로-tree에-대해서-알아야-한다-tree의-search-delete-insert에-대해서-공부해야-한다&quot;&gt;BST를 공부하기 위해서 기본적으로 Tree에 대해서 알아야 한다. Tree의 search, delete, insert에 대해서 공부해야 한다.&lt;/h3&gt;
+
+&lt;h2 id=&quot;redblack-tree&quot;&gt;redblack tree&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;https://nesoy.github.io/articles/2018-08/Algorithm-RedblackTree&quot;&gt;참고 : RedBlack Tree에 대해&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img width=&quot;554&quot; alt=&quot;스크린샷 2019-07-13 오전 9 20 52&quot; src=&quot;https://user-images.githubusercontent.com/46436843/61164372-8a221680-a54f-11e9-898e-c66e59350aee.png&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;7,6,5,4,3,2,1 순서대로 삽입해서 이진탐색 트리(Binary Search Tree)를 만들어 보면 위의 그림과 같이 한쪽으로 치우처진 tree가 완성된다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;1을-찾으려고-한다면&quot;&gt;1을 찾으려고 한다면?&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;항상 트리의 높이만큼 시간이 필요하다. 그렇다면 이진탐색 트리(Binary Search Tree)를 사용하는 이유가 없다.&lt;/li&gt;
+  &lt;li&gt;이러한 문제점을 해결하기 위해 나온 자료구조가 Balanced binary search tree의 한 종류인 RedBlack Tree이다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img width=&quot;947&quot; alt=&quot;스크린샷 2019-07-13 오전 9 23 11&quot; src=&quot;https://user-images.githubusercontent.com/46436843/61164415-dcfbce00-a54f-11e9-8e57-9315f99b8883.png&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;각 노드에 색깔을 저장하는 공간을 추가하여 색깔을 기준으로 균형을 맞추는 트리이다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;자세한-사항은-또-뒤에서-redblack-tree만-다루어보자&quot;&gt;자세한 사항은 또 뒤에서 redblack tree만 다루어보자.&lt;/h3&gt;
+
+&lt;h2 id=&quot;b-tree&quot;&gt;B TREE&lt;/h2&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;[참고 : B-Tree 개념 정리&lt;/td&gt;
+      &lt;td&gt;Jlog](https://hyungjoon6876.github.io/jlog/2018/07/20/btree.html)&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;기존에 tree에서 할 수 없었던 캐시를(지역성) 추가하여 보완&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img width=&quot;1240&quot; alt=&quot;스크린샷 2019-07-13 오전 9 25 41&quot; src=&quot;https://user-images.githubusercontent.com/46436843/61164463-5abfd980-a550-11e9-8c64-dd5601c42f3c.png&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;한 개의 노드에 여러개의 데이터가 들어갈 수 있다.&lt;/li&gt;
+  &lt;li&gt;지역성 문제를 해결하여 훨씬 효율을 높였다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;자세한-사항은-b-tree만-다룬다&quot;&gt;자세한 사항은 B tree만 다룬다.&lt;/h3&gt;
+
+&lt;h2 id=&quot;추가&quot;&gt;추가&lt;/h2&gt;
+
+&lt;h3 id=&quot;분할-상환-분석amortized-analysis&quot;&gt;분할 상환 분석(Amortized analysis)&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;등장배경: 우리가 짜는 함수의 경우는 빅오를 구하기에 굉장히 애매한 경우가 많다. 따라서 대략적으로 빅오를 구하는 방법&lt;/li&gt;
+  &lt;li&gt;DA(동적배열)에서 append를 할때 메모리(capacity)가 꽉 찬 경우&lt;/li&gt;
+  &lt;li&gt;메모리(heap)을 돌아다니면서 가능한 공간을 찾아다닌다. 가능한 위치를 찾아서 복사해서 넣게 되면 최소한 O(n)&lt;/li&gt;
+  &lt;li&gt;heap이 linked list로 구성되어 있다.&lt;/li&gt;
+  &lt;li&gt;해결방안
+    &lt;ul&gt;
+      &lt;li&gt;우리가 아는 데이터의 갯수가 200개이면 키자마자 250개를 잡아 놓는다.
         &lt;ul&gt;
-          &lt;li&gt;영화 정보 크롤링해서 서칭할 수 있도록 하기&lt;/li&gt;
-          &lt;li&gt;만약에 내 DB에 없으면 크롤링해서 있던 것 처럼 보여주고 내 db에 넣기&lt;/li&gt;
-          &lt;li&gt;내가 영화에 대한 글을 남길 수 있고 그 영화에 대한 추천 영화 보여주기&lt;/li&gt;
-          &lt;li&gt;내가 남긴 평점을 기준으로 관련 영화 띄어주기&lt;/li&gt;
+          &lt;li&gt;만약에 3개만 쓰게 되면 굉장히 비효율적이다.&lt;/li&gt;
         &lt;/ul&gt;
       &lt;/li&gt;
+      &lt;li&gt;한 개씩 늘리면서 모든 공간이 다 차게 되면 크기를 X2 한다.&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
-  &lt;li&gt;프로젝트
-    &lt;ul&gt;
-      &lt;li&gt;메모가 아닌 최근 연락메모 띄어주기&lt;/li&gt;
-      &lt;li&gt;&lt;del&gt;댓글 수정 및 삭제 기능 구현하기&lt;/del&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;딥러닝 PASS
-    &lt;ul&gt;
-      &lt;li&gt;딥러닝 책 공부하기(주말간 공부 했음!)&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;About me
-    &lt;ul&gt;
-      &lt;li&gt;&lt;del&gt;운동 : 러닝 (05:40 ~ 07:00)&lt;/del&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;del&gt;데일리 리포트 및 피드백 진행&lt;/del&gt;&lt;/li&gt;
-      &lt;li&gt;독서&lt;/li&gt;
-      &lt;li&gt;영어 단어 암기&lt;/li&gt;
-      &lt;li&gt;영어 1개 암기&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
+  &lt;li&gt;가끔 한번씩 O(n)이 필요한데 그만큼 하고 나몬 지속적으로 O(1)이 되므로 이정도는 그렇게 치자.&lt;/li&gt;
+  &lt;li&gt;ex) 데이터의 갯수가 3개이면 4개면 된다.&lt;/li&gt;
+  &lt;li&gt;이렇게 하면 캐시히트와 인덱싱을 유지할 수 있다.&lt;/li&gt;
+  &lt;li&gt;heap안에 찾아다니면서 2배 크기가 가능한 곳을 찾아다니는 것이다.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&quot;til&quot;&gt;TIL&lt;/h1&gt;
+</description>
+        <pubDate>Sat, 13 Jul 2019 23:06:23 +0900</pubDate>
+        <link>http://localhost:4000/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0/2019/07/13/%E1%84%8C%E1%85%A1%E1%84%85%E1%85%AD%E1%84%80%E1%85%AE%E1%84%8C%E1%85%A9-10.-%E1%84%8C%E1%85%A1%E1%84%85%E1%85%AD%E1%84%80%E1%85%AE%E1%84%8C%E1%85%A9%E1%84%8B%E1%85%B4-%E1%84%8C%E1%85%A5%E1%86%AB%E1%84%8E%E1%85%A6%E1%84%8C%E1%85%A5%E1%86%A8%E1%84%8B%E1%85%B5%E1%86%AB-%E1%84%92%E1%85%B3%E1%84%85%E1%85%B3%E1%86%B7.html</link>
+        <guid isPermaLink="true">http://localhost:4000/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0/2019/07/13/%E1%84%8C%E1%85%A1%E1%84%85%E1%85%AD%E1%84%80%E1%85%AE%E1%84%8C%E1%85%A9-10.-%E1%84%8C%E1%85%A1%E1%84%85%E1%85%AD%E1%84%80%E1%85%AE%E1%84%8C%E1%85%A9%E1%84%8B%E1%85%B4-%E1%84%8C%E1%85%A5%E1%86%AB%E1%84%8E%E1%85%A6%E1%84%8C%E1%85%A5%E1%86%A8%E1%84%8B%E1%85%B5%E1%86%AB-%E1%84%92%E1%85%B3%E1%84%85%E1%85%B3%E1%86%B7.html</guid>
+        
+        
+        <category>자료구조</category>
+        
+      </item>
+    
+      <item>
+        <title>프로젝트 09. filter에서 해당 모델의 user_id걸기</title>
+        <description>&lt;h3 id=&quot;20190706-filter기능에서-한번에-user_id-걸기&quot;&gt;2019.07.06 filter기능에서 한번에 user_id 걸기&lt;/h3&gt;
+
+&lt;h2 id=&quot;문제의-시작&quot;&gt;문제의 시작&lt;/h2&gt;
+
+&lt;p&gt;&lt;img width=&quot;1062&quot; alt=&quot;스크린샷 2019-07-06 오전 11 28 28&quot; src=&quot;https://user-images.githubusercontent.com/46436843/60750293-889d9f00-9fe1-11e9-822d-373b90b55104.png&quot; /&gt;&lt;/p&gt;
+
 &lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;http://raccoonyy.github.io/django-rest-framework-tutorial-by-devissue/&quot;&gt;괜찮은 Django Rest Framework 강좌를 찾아서 소개합니다&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Rest Framework 강좌를 듣기 (다음주)&lt;/li&gt;
-  &lt;li&gt;오늘은 전체적인 그림에 대해 다시 한번 그리기 시작하였다. 선생님이 많은 준비를 해주셔서 그것이 모두 돋보였다.&lt;/li&gt;
-  &lt;li&gt;금요일날 해커톤 프로젝트를 잘 준비해야 마무리해야 되는데 무슨 아이템으로 할지 잘 모르겠다.&lt;/li&gt;
-  &lt;li&gt;지난 주 금요일날 배웠던 것에 대해 TIL 마무리 해야 한다.&lt;/li&gt;
-  &lt;li&gt;그리고 다음주에 있을 해커톤에 대비해서 api에 대해 공부해야한다.&lt;/li&gt;
-  &lt;li&gt;ㅠㅠ 너무 할게 많은게 문제넹 @.@&lt;/li&gt;
-  &lt;li&gt;딥러닝 공부도 해야 하는데….&lt;/li&gt;
+  &lt;li&gt;Connect 프로젝트의 오늘 연락할 인맥에 사람이 안나오기 시작했다.&lt;/li&gt;
+  &lt;li&gt;매일 5명이 보여져야 하는데(만약에 연락해야 될 사람들이 있다면) 어느 순간 연락해야 할 사람이 5명이 넘는데도, 그렇게 나오지 않는 문제가 발생했다.&lt;/li&gt;
+  &lt;li&gt;filter기능을 통해 정확히 DB에서 가지고 오는데 forloop.counter &amp;lt;= 5를 설정해주었는데 왜 이 for문이 제대로 작동하지 않는지 이해가 되지 않았다.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&quot;today-was&quot;&gt;Today was&lt;/h1&gt;
+&lt;h2 id=&quot;해결을-위한-방법&quot;&gt;해결을 위한 방법&lt;/h2&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;05:30 기상&lt;/li&gt;
-  &lt;li&gt;06:00 ~ 07:20 운동 러닝 : 러닝 13km 완료!&lt;/li&gt;
-  &lt;li&gt;08:00 ~ 09:30 금요일 수업 복습 (아직 완료는 못함)
-    &lt;ul&gt;
-      &lt;li&gt;이 내용 내 프로젝트에 추가시켜보기&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;10:00 ~ 12:00 수업 1&lt;/li&gt;
-  &lt;li&gt;13:00 ~ 15:00 수업 2&lt;/li&gt;
-  &lt;li&gt;16:00 ~ 21:00 수업 복습 및 프로젝트 진행&lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;21:00 ~ 23:00 저녁 식사 및 철인 대회 관련 안내 방송 숙지&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;내일은 사이클 운동을 해야 한다.&lt;/li&gt;
-  &lt;li&gt;굉장히 긴 시간 운동을 해야하니 완주 할 수 있을까 걱정이 되기도 한다.&lt;/li&gt;
-  &lt;li&gt;하지만 난 완주 할 것이고 너무나도 재미있게 즐길 것이다.&lt;/li&gt;
-  &lt;li&gt;할 수 있다 ㅎㅎ 걱정하지말자.&lt;/li&gt;
-  &lt;li&gt;이번주 프로젝트도 굉장히 잘 마무리 할 것이다!.&lt;/li&gt;
+  &lt;li&gt;먼저 데이터가 잘 넘어가고 있는지에 대한 의문이 들었다.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&quot;tomorrow-do&quot;&gt;Tomorrow do&lt;/h1&gt;
+&lt;p&gt;&lt;img width=&quot;1069&quot; alt=&quot;스크린샷 2019-07-06 오전 11 29 47&quot; src=&quot;https://user-images.githubusercontent.com/46436843/60750337-0b265e80-9fe2-11e9-9051-aaec67fdc0e9.png&quot; /&gt;&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;DEV (10 ~ 18:00)
-    &lt;ul&gt;
-      &lt;li&gt;수업 시간에 배운 것 TIL (15:00 ~ 18:00)&lt;/li&gt;
-      &lt;li&gt;금요일 수업 한 것 TIL (7:30 ~ 8:90)&lt;/li&gt;
-      &lt;li&gt;알고리즘 1문제 진행&lt;/li&gt;
-      &lt;li&gt;해커톤 그림 그리기(나만의 영화평점 사이트 제작하기)&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;프로젝트
-    &lt;ul&gt;
-      &lt;li&gt;메모가 아닌 최근 연락메모 띄어주기&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;딥러닝 (08:00 ~ 09:30)
-    &lt;ul&gt;
-      &lt;li&gt;딥러닝 책 공부하기&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;About me
-    &lt;ul&gt;
-      &lt;li&gt;운동 : 사이클 (05:40 ~ 07:00)&lt;/li&gt;
-      &lt;li&gt;데일리 리포트 및 피드백 진행&lt;/li&gt;
-      &lt;li&gt;독서&lt;/li&gt;
-      &lt;li&gt;영어 단어 암기&lt;/li&gt;
-      &lt;li&gt;영어 1개 암기&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
+  &lt;li&gt;내가 뷰에서 작업한 화면이었고&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img width=&quot;602&quot; alt=&quot;스크린샷 2019-07-06 오전 11 30 16&quot; src=&quot;https://user-images.githubusercontent.com/46436843/60750339-0c578b80-9fe2-11e9-957c-5399773ad0f5.png&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;내가 템플릿에서 작업한 화면이었다.(원래는 forloop.counter가 5명이었으나 10명으로 늘려서 또 실험해보았다.)&lt;/li&gt;
+  &lt;li&gt;1명 나오던 것이 10명으로 늘리니 3명이 화면에 나왔다.&lt;/li&gt;
+  &lt;li&gt;무언가 object_list를 가지고 오는데 문제가 있다고 생각하였다.&lt;/li&gt;
+  &lt;li&gt;그렇게 나는 print를 통해 화면을 찍어보았다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img width=&quot;1002&quot; alt=&quot;스크린샷 2019-07-06 오전 11 38 18&quot; src=&quot;https://user-images.githubusercontent.com/46436843/60750384-a0295780-9fe2-11e9-8c77-46881f702842.png&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;뷰에서 context에 들어간 object_list에 대해서 얼마나 많은 데이터가 들어가 있는지 확인해보았다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img width=&quot;1462&quot; alt=&quot;스크린샷 2019-07-06 오전 11 38 30&quot; src=&quot;https://user-images.githubusercontent.com/46436843/60750385-a15a8480-9fe2-11e9-9b09-e59dd73ace27.png&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;나에게 넘어와야 할 데이터는 14명이었는데 34명이 들어가 있었다.&lt;/li&gt;
+  &lt;li&gt;그리고 여기서 넘어 온 데이터가 template에서 for문을 돌면서 나오고 있었는데, 문제점은 바로 템플릿에서의&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img width=&quot;602&quot; alt=&quot;스크린샷 2019-07-06 오전 11 30 16&quot; src=&quot;https://user-images.githubusercontent.com/46436843/60750339-0c578b80-9fe2-11e9-957c-5399773ad0f5.png&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;이 부분 이었다. 넘어온 object_list에서 해당 로그인한 사람의 아이디를 통해 한번 더 필터링 하였고, 그 정보에서 forloop.counter를 하니 사이사이에 다른 사람들의 friend가 들어오는 것이 문제였다.&lt;/li&gt;
+  &lt;li&gt;view의 로직에서 처리해줄 방법이 필요했다.&lt;/li&gt;
+  &lt;li&gt;먼저 애초에 Friend에 대해 해당 user의 Friend만 넘겨주고&lt;/li&gt;
+  &lt;li&gt;또 forloop.counter가 아닌 객체 5개만을 넘겨주면 저 해당 코드 2줄을 깔끔하게 지울 수 있었다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;해결&quot;&gt;해결&lt;/h2&gt;
+
+&lt;p&gt;&lt;img width=&quot;1351&quot; alt=&quot;스크린샷 2019-07-06 오전 11 44 48&quot; src=&quot;https://user-images.githubusercontent.com/46436843/60750445-7ae91900-9fe3-11e9-9b0f-40d8133e6e24.png&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;filter 내부에 user_id =self.request.user.id를 추가하여 해당 Friend를 가지고 올 떄 한번 더 해당 user에 대해서 filter하도록 추가하였다.(굉장히 단순한 코드인데… 해결 방법을 알았음에도 어떻게 코드를 쳐야 할지 굉장히 고민하였다.)&lt;/li&gt;
+  &lt;li&gt;그리고 그렇게 filter된 값에 [:5] 인덱스를 이렇게 설정해줌으로서 5개만 가지고 오게 하였고&lt;/li&gt;
+  &lt;li&gt;해당 결과 print를 해보니 5명이 잘 넘어오는 것을 확인할 수 있었다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;개선-사항&quot;&gt;개선 사항&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;기존에 발생하였던 문제를 해결하였고&lt;/li&gt;
+  &lt;li&gt;기존에는 모든 사람들에게서 scheduled_connect가 오늘 날짜를 지난 사람들은 다 보내준 후에 template에서 랜더링 하였으나, 해당 문제에 대해서 view에서 처리하게 됨으로서 template 랜더링 시간이 훨씬 개선 되었을 거라 생각된다.&lt;/li&gt;
 &lt;/ul&gt;
 </description>
-        <pubDate>Mon, 20 May 2019 23:06:23 +0900</pubDate>
-        <link>http://localhost:4000/til/2019/05/20/TIL.html</link>
-        <guid isPermaLink="true">http://localhost:4000/til/2019/05/20/TIL.html</guid>
+        <pubDate>Sat, 06 Jul 2019 16:06:23 +0900</pubDate>
+        <link>http://localhost:4000/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/2019/07/06/%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%8C%E1%85%A6%E1%86%A8%E1%84%90%E1%85%B3-09.-filter%E1%84%8B%E1%85%A6%E1%84%89%E1%85%A5-%E1%84%92%E1%85%A2%E1%84%83%E1%85%A1%E1%86%BC-%E1%84%86%E1%85%A9%E1%84%83%E1%85%A6%E1%86%AF%E1%84%8B%E1%85%B4-user_id%E1%84%80%E1%85%A5%E1%86%AF%E1%84%80%E1%85%B5.html</link>
+        <guid isPermaLink="true">http://localhost:4000/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/2019/07/06/%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%8C%E1%85%A6%E1%86%A8%E1%84%90%E1%85%B3-09.-filter%E1%84%8B%E1%85%A6%E1%84%89%E1%85%A5-%E1%84%92%E1%85%A2%E1%84%83%E1%85%A1%E1%86%BC-%E1%84%86%E1%85%A9%E1%84%83%E1%85%A6%E1%86%AF%E1%84%8B%E1%85%B4-user_id%E1%84%80%E1%85%A5%E1%86%AF%E1%84%80%E1%85%B5.html</guid>
+        
+        
+        <category>프로젝트</category>
+        
+      </item>
+    
+      <item>
+        <title>자료구조 09. 정렬 O(nlogn)-퀵소트, 머지소트</title>
+        <description>&lt;h3 id=&quot;20190704-til&quot;&gt;2019.07.04 TIL&lt;/h3&gt;
+
+&lt;p&gt;(TIL은 스스로 이해한 것을 바탕으로 정리한 것으로 오류가 있을 수 있습니다)&lt;/p&gt;
+
+&lt;p&gt;# 질문에 답하기&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;정렬-onlogn---자료의-구조가-많아-질수록-정렬의-효율이-높아진다&quot;&gt;정렬 O(nlogn) - 자료의 구조가 많아 질수록 정렬의 효율이 높아진다.&lt;/h2&gt;
+&lt;ol&gt;
+  &lt;li&gt;퀵소트&lt;/li&gt;
+  &lt;li&gt;머지소트&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;1-퀵소트&quot;&gt;1. 퀵소트&lt;/h3&gt;
+
+&lt;p&gt;&lt;img width=&quot;734&quot; alt=&quot;A32D87E5-9EB4-452C-8050-9B417056689A&quot; src=&quot;https://user-images.githubusercontent.com/46436843/61163932-6d381400-a54c-11e9-8d2c-45c3fcffd44e.png&quot; /&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;하나의 스택프레임 안에서 conquer를 한 이후에 다시 호출 할 때 divide가 되는 것이다.&lt;/li&gt;
+  &lt;li&gt;파티션을 알고 있으면 좋다.
+    &lt;ol&gt;
+      &lt;li&gt;피벗을 기준으로 왼쪽에는 작은 값이, 큰 값은 오른쪽에 오도록 몰아버리는 것&lt;/li&gt;
+      &lt;li&gt;conquer이다.&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+  &lt;li&gt;pivot은 인덱스가 아니라 값이다.(처음 혹은 끝, 중간)&lt;/li&gt;
+  &lt;li&gt;재귀 함수 사용&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;quick_sort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;start&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;#기저조건(base case)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;start&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;left&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;start&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;right&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;end&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;pivot&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;left&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;right&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;#정수형 나누기 해야됨&lt;/span&gt;
+
+    &lt;span class=&quot;c&quot;&gt;#파티션&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;#left와 right가 교차하기 전이라면 파티션을 계속 수행한다.&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;left&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;right&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;c&quot;&gt;#left가 언제 멈춰야 하나?&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;left&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pivot&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;left&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+        &lt;span class=&quot;c&quot;&gt;#right가 언제 멈춰야 하나?&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;right&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pivot&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;right&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+
+        &lt;span class=&quot;c&quot;&gt;# left와 right가 교차하지 않았다면 교환&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;left&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;right&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;left&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;right&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;right&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;left&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;left&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;right&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+
+
+    &lt;span class=&quot;n&quot;&gt;quick_sort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;start&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;right&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;quick_sort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;left&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;__name__&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;__main__&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;start&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;quick_sort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;start&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;2-머지소트&quot;&gt;2. 머지소트&lt;/h3&gt;
+
+&lt;p&gt;&lt;img width=&quot;527&quot; alt=&quot;1C39EE46-73A2-4C49-97B1-05CABD106754&quot; src=&quot;https://user-images.githubusercontent.com/46436843/61163966-8f319680-a54c-11e9-8c52-428bc23f9fde.png&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;먼저 다 나누고 정렬을 한다.&lt;/li&gt;
+  &lt;li&gt;하나 하나가 다 스택프레임으로 쌓인다.&lt;/li&gt;
+  &lt;li&gt;다 나눈 이후에 왼쪽은 left 오른쪽은 right&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;merge&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;start&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;left&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;start&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;right&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mid&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;temp&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;  &lt;span class=&quot;c&quot;&gt;#로컬 베리어블이라서 업데이트 안하면 사라져버린다.&lt;/span&gt;
+
+
+    &lt;span class=&quot;c&quot;&gt;# 둘 중에 하나라도 범위를 벗어나기 전가지&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;left&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mid&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;and&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;right&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;left&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;right&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]:&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;temp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;left&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;left&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;temp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;right&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;right&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+
+    &lt;span class=&quot;c&quot;&gt;#만약에 남아있는 것이 right라면&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;#right를 돌면서 temp에에 넣는다.&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;right&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;temp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;right&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;right&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;left&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;temp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;left&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;left&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+
+    &lt;span class=&quot;c&quot;&gt;# arr에 temp를 업데이트 하는 코드&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;start&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;temp&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;temp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;merge_sort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;start&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;#base_case&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;start&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;mid&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;start&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;
+
+    &lt;span class=&quot;c&quot;&gt;#divide&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;merge_sort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;start&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;merge_sort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mid&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;c&quot;&gt;#conquer&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;merge&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;start&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;__name__&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;__main__&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;start&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;merge_sort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;start&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+        <pubDate>Thu, 04 Jul 2019 23:06:23 +0900</pubDate>
+        <link>http://localhost:4000/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0/2019/07/04/%E1%84%8C%E1%85%A1%E1%84%85%E1%85%AD%E1%84%80%E1%85%AE%E1%84%8C%E1%85%A9-09.-%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%85%E1%85%A7%E1%86%AF-O(nlogn)-%E1%84%8F%E1%85%B1%E1%86%A8%E1%84%89%E1%85%A9%E1%84%90%E1%85%B3,-%E1%84%86%E1%85%A5%E1%84%8C%E1%85%B5%E1%84%89%E1%85%A9%E1%84%90%E1%85%B3.html</link>
+        <guid isPermaLink="true">http://localhost:4000/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0/2019/07/04/%E1%84%8C%E1%85%A1%E1%84%85%E1%85%AD%E1%84%80%E1%85%AE%E1%84%8C%E1%85%A9-09.-%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%85%E1%85%A7%E1%86%AF-O(nlogn)-%E1%84%8F%E1%85%B1%E1%86%A8%E1%84%89%E1%85%A9%E1%84%90%E1%85%B3,-%E1%84%86%E1%85%A5%E1%84%8C%E1%85%B5%E1%84%89%E1%85%A9%E1%84%90%E1%85%B3.html</guid>
+        
+        
+        <category>자료구조</category>
+        
+      </item>
+    
+      <item>
+        <title>자료구조 08. 정렬 O(n2)-버블솔트,삽입정렬,선택정렬</title>
+        <description>&lt;h3 id=&quot;20190703-til&quot;&gt;2019.07.03 TIL&lt;/h3&gt;
+
+&lt;p&gt;(TIL은 스스로 이해한 것을 바탕으로 정리한 것으로 오류가 있을 수 있습니다)&lt;/p&gt;
+
+&lt;p&gt;# 질문에 답하기&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;정렬-on2---그나마-제일-좋은것은--insertion이-제일-좋다&quot;&gt;정렬 O(n2) - 그나마 제일 좋은것은  insertion이 제일 좋다.&lt;/h2&gt;
+&lt;ol&gt;
+  &lt;li&gt;버블솔트&lt;/li&gt;
+  &lt;li&gt;삽입정렬&lt;/li&gt;
+  &lt;li&gt;선택정렬&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;1-버블-솔트&quot;&gt;1. 버블 솔트&lt;/h3&gt;
+
+&lt;p&gt;&lt;img width=&quot;915&quot; alt=&quot;BF4CA13D-C508-4044-B31B-D6098C0CBFD4&quot; src=&quot;https://user-images.githubusercontent.com/46436843/60575450-85729b00-9db6-11e9-89fa-fa0a2e841c41.png&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;일반적으로 for문이 2개면 n2이다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;bubble_sort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;n&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;j&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]:&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;__name__&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;__main__&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;bubble_sort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;2-삽입-정렬&quot;&gt;2. 삽입 정렬&lt;/h3&gt;
+
+&lt;p&gt;&lt;img width=&quot;355&quot; alt=&quot;스크린샷 2019-07-01 오후 2 35 21&quot; src=&quot;https://user-images.githubusercontent.com/46436843/60575518-a509c380-9db6-11e9-9e4b-d81be26a9503.png&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;[5, 2, 6, 1, 8]&lt;/li&gt;
+  &lt;li&gt;첫 번째 인덱스는 지나가고 2번 째 인덱스부터 temp에 넣어서 그 숫자를 첫 번째 인덱스부터 비교한다.&lt;/li&gt;
+  &lt;li&gt;i를 temp에 넣고, j는 i-1부터 인덱스를 줄여가며 temp와 비교한다. i의 앞쪽은 정렬되어 있을 것이기 때문에 그 해당 위치에 insert를 하는 것이기 때문에 insertion이다.&lt;/li&gt;
+  &lt;li&gt;insertion은 끝까지 다 비교하지 않아도 되기 때문에 bubble_sort보다 더 효율적이다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;while문을-통한-구현&quot;&gt;while문을 통한 구현&lt;/h3&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;insertion_sort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;n&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;temp&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;j&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!=-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;temp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+                &lt;span class=&quot;k&quot;&gt;break&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;temp&lt;/span&gt;
+        
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;__name__&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;__main__&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;insertion_sort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;    
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;for문을-통한-구현&quot;&gt;for문을 통한 구현&lt;/h3&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;insertion_sort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;li&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;li&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;temp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;None&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;temp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;li&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;j&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;#-2까지 해야지 -1까지 된다.&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;==-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+                &lt;span class=&quot;k&quot;&gt;break&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;li&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;temp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;li&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;li&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+                &lt;span class=&quot;k&quot;&gt;break&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;li&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;temp&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;__name__&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;__main__&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;insertion_sort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;    
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;선택-정렬selection&quot;&gt;선택 정렬(selection)&lt;/h3&gt;
+
+&lt;p&gt;&lt;img width=&quot;827&quot; alt=&quot;0D595E6A-C6A6-41FA-98A1-8E91D148873E&quot; src=&quot;https://user-images.githubusercontent.com/46436843/60575714-0336a680-9db7-11e9-914e-36596428ad57.png&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;첫 번째 인덱스에 적합한 가장 작은 값을 선택한다.&lt;/li&gt;
+  &lt;li&gt;그리고 해당 인덱스를 첫 번째 인덱스와 바꾼다.&lt;/li&gt;
+  &lt;li&gt;i를 0부터 시작해서 일단 첫 번째 인덱스를 가장 작은 값으로 가정하고 시작&lt;/li&gt;
+  &lt;li&gt;바깥 포문은 제일 마지막꺼 전 까지만 돌면 되므로 n-2까지&lt;/li&gt;
+  &lt;li&gt;안 쪽 포문은 i+1부터 n-1(끝까지)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;selection_sort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;n&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;min_idx&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;j&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;min_idx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]:&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;min_idx&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;min_idx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;min_idx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;__name__&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;__main__&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;selection_sort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+        <pubDate>Wed, 03 Jul 2019 23:06:23 +0900</pubDate>
+        <link>http://localhost:4000/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0/2019/07/03/%E1%84%8C%E1%85%A1%E1%84%85%E1%85%AD%E1%84%80%E1%85%AE%E1%84%8C%E1%85%A9-08.-%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%85%E1%85%A7%E1%86%AF-O(n2)-%E1%84%87%E1%85%A5%E1%84%87%E1%85%B3%E1%86%AF%E1%84%89%E1%85%A9%E1%86%AF%E1%84%90%E1%85%B3,%E1%84%89%E1%85%A1%E1%86%B8%E1%84%8B%E1%85%B5%E1%86%B8%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%85%E1%85%A7%E1%86%AF,%E1%84%89%E1%85%A5%E1%86%AB%E1%84%90%E1%85%A2%E1%86%A8%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%85%E1%85%A7%E1%86%AF.html</link>
+        <guid isPermaLink="true">http://localhost:4000/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0/2019/07/03/%E1%84%8C%E1%85%A1%E1%84%85%E1%85%AD%E1%84%80%E1%85%AE%E1%84%8C%E1%85%A9-08.-%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%85%E1%85%A7%E1%86%AF-O(n2)-%E1%84%87%E1%85%A5%E1%84%87%E1%85%B3%E1%86%AF%E1%84%89%E1%85%A9%E1%86%AF%E1%84%90%E1%85%B3,%E1%84%89%E1%85%A1%E1%86%B8%E1%84%8B%E1%85%B5%E1%86%B8%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%85%E1%85%A7%E1%86%AF,%E1%84%89%E1%85%A5%E1%86%AB%E1%84%90%E1%85%A2%E1%86%A8%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%85%E1%85%A7%E1%86%AF.html</guid>
+        
+        
+        <category>자료구조</category>
+        
+      </item>
+    
+      <item>
+        <title>자료구조 07. 원형큐(circular queue)</title>
+        <description>&lt;h3 id=&quot;20190702-til&quot;&gt;2019.07.02 TIL&lt;/h3&gt;
+
+&lt;p&gt;(TIL은 스스로 이해한 것을 바탕으로 정리한 것으로 오류가 있을 수 있습니다)&lt;/p&gt;
+
+&lt;p&gt;# 질문에 답하기&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;원형규&quot;&gt;원형규&lt;/h2&gt;
+
+&lt;p&gt;&lt;img width=&quot;428&quot; alt=&quot;스크린샷 2019-07-03 오후 5 24 12&quot; src=&quot;https://user-images.githubusercontent.com/46436843/60575938-63c5e380-9db7-11e9-88b6-43bfc4dcb62d.png&quot; /&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;circular queue(원형큐)
+    &lt;ol&gt;
+      &lt;li&gt;크기가 정해져 있는 배열!! or linked list로도 만들 수 있다.&lt;/li&gt;
+      &lt;li&gt;head, tail&lt;/li&gt;
+      &lt;li&gt;배열, head, tail 만 있으면 구현할 수 있다.&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+  &lt;li&gt;구현 특징
+    &lt;ol&gt;
+      &lt;li&gt;핵심포인트 : 텅빈 큐를 어떻게 표현할 것이냐?/ tail이 인덱스를 벗어낫을 떄 어떻게 처리할 것인가?&lt;/li&gt;
+      &lt;li&gt;텅빈 큐는 head == tail 이면 비었다고 표현한다.&lt;/li&gt;
+      &lt;li&gt;full은 한 칸을 버리지만 tail + 1을 했을 때 h면 full로 표현한다.&lt;/li&gt;
+      &lt;li&gt;tail은 마지막 데이터의 다음을 가르키게 구현을 한다.&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+  &lt;li&gt;큐사이즈는 정해주거나, 작은 숫자를 바탕으로 테스트하면 좋다.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;CQueue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;#모든 인스턴스가 필요하면 클래스 멤버로 선언&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;MAXSIZE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;__init__&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;c&quot;&gt;#리스트 컨프렌션&lt;/span&gt;
+        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;__container&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;None&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CQueue&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;MAXSIZE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)]&lt;/span&gt;
+        &lt;span class=&quot;c&quot;&gt;#인포메이션 하이딩&lt;/span&gt;
+        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;__head&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;__tail&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;is_empty&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;__head&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;__tail&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;is_full&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;nb&quot;&gt;next&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;__step_forward&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;__tail&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;next&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;__head&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;enqueue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;is_full&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;raise&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Exception&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;The queue is full&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;__container&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;__tail&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;
+        &lt;span class=&quot;c&quot;&gt;#tail은 마지막 데이터의 다음을 가르킨다.&lt;/span&gt;
+        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;__tail&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;__step_forward&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;__tail&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;dequeue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;is_empty&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;raise&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Exception&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;The queue is empty&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+        &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;__container&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;__head&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;__head&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;__step_forward&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;__head&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;peek&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;is_empty&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;raise&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Exception&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;The queue is empty&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;__container&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;__head&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+    &lt;span class=&quot;c&quot;&gt;# 편의함수&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;__step_forward&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CQueue&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;MAXSIZE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;__name__&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;__main__&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;cq&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CQueue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;cq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;enqueue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;is_empty&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dequeue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;   &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+</description>
+        <pubDate>Tue, 02 Jul 2019 23:06:23 +0900</pubDate>
+        <link>http://localhost:4000/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0/2019/07/02/%E1%84%8C%E1%85%A1%E1%84%85%E1%85%AD%E1%84%80%E1%85%AE%E1%84%8C%E1%85%A9-07.-%E1%84%8B%E1%85%AF%E1%86%AB%E1%84%92%E1%85%A7%E1%86%BC%E1%84%8F%E1%85%B2(circular-queue).html</link>
+        <guid isPermaLink="true">http://localhost:4000/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0/2019/07/02/%E1%84%8C%E1%85%A1%E1%84%85%E1%85%AD%E1%84%80%E1%85%AE%E1%84%8C%E1%85%A9-07.-%E1%84%8B%E1%85%AF%E1%86%AB%E1%84%92%E1%85%A7%E1%86%BC%E1%84%8F%E1%85%B2(circular-queue).html</guid>
+        
+        
+        <category>자료구조</category>
+        
+      </item>
+    
+      <item>
+        <title>2019_06_23_TIL</title>
+        <description>&lt;h3 id=&quot;20190623-til&quot;&gt;2019.06.23 TIL&lt;/h3&gt;
+
+&lt;h1 id=&quot;앞으로의-방향들&quot;&gt;앞으로의 방향들&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;무엇을 어떻게 해야할지 가장 고민이 많이 되는 시기이다. 이제 학원 수업도 끝났고 나에게는 딱 2달간의 시간이 주어졌다. 나는 무엇을 해야할까?&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;1비즈니스를-한다&quot;&gt;1.비즈니스를 한다.&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;장거리 카풀 서비스를 좀 더 구체화 시켜본다.&lt;/li&gt;
+  &lt;li&gt;실제 사용자들을 모으면서 버전업을 지속적으로 시켜본다.&lt;/li&gt;
+  &lt;li&gt;사용자에만 집중하자… 다른 것은 다 필요없다. 오로지 사용자에만 집중하자. 이 좋은 서비스를 왜 사람들에게 안 알리고 있느냐, 지금이라도 빨리 알려야지 뭐 하고 있냐??????????&lt;/li&gt;
+  &lt;li&gt;어떻게 하면 사용자들을 확보할 수 있을지 고민해보고 하나씩 매일 매일 실험을 해본다.&lt;/li&gt;
+  &lt;li&gt;노를 젓자.. 노를 젓자. 노를 젓자&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;2새로운-기술을-익힌다&quot;&gt;2.새로운 기술을 익힌다.&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;딥러닝에 집중한다.&lt;/li&gt;
+  &lt;li&gt;내가 무엇을 하려고 했는지 생각을 해봐라&lt;/li&gt;
+  &lt;li&gt;나는 무엇을 하려고 기술을 배우고 있냐?&lt;/li&gt;
+  &lt;li&gt;내가 만들고 싶은 서비스를 먼저… 고민해보자.&lt;/li&gt;
+  &lt;li&gt;그럴려면 딥러닝에 대해서 어느정도 알아야 한다.&lt;/li&gt;
+  &lt;li&gt;딥러닝 프로젝트들에 대해서 진행해보자.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;3일상-생활을-통제한다&quot;&gt;3.일상 생활을 통제한다.&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;매일 영어공부를 한다.
+    &lt;ul&gt;
+      &lt;li&gt;영어 단어 및 영어 암기를 이어간다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;책을 읽는다.
+    &lt;ul&gt;
+      &lt;li&gt;독서 및 관련 서적들을 읽어나간다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;운동을 한다.
+    &lt;ul&gt;
+      &lt;li&gt;매일 매일 한시간씩 운동을 한다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;루틴&quot;&gt;루틴&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;일단 하루에서 가장 중요한 2가지 일로 시간을 나눈다.&lt;/li&gt;
+  &lt;li&gt;1.비즈니스를 한다.	2.딥러닝에 대해서 배운다.&lt;/li&gt;
+  &lt;li&gt;로켓스타트를 적용한다.&lt;/li&gt;
+  &lt;li&gt;새벽 4시의 시작 6시 30분까지 완전한 2시간 30분의 보내고, 아침식사 및 운동한 이후에 8시부터 12시까지의 2차 업무 시작&lt;/li&gt;
+  &lt;li&gt;점심 이후에 잠깐의 휴식(잠)&lt;/li&gt;
+  &lt;li&gt;13:30 ~ 4:00 까지 또 완전한 2시간 30분 이후에 4~7시까지 2차 업무 시작&lt;/li&gt;
+  &lt;li&gt;저녁 식사 이후에는 8시부터 10시까지 독서 및 기타 하고 싶은 것들 위주로 진행&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;나만의-루틴을-이어나가자&quot;&gt;나만의 루틴을 이어나가자.&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;취업에 대해서 너무 스트레스 받지말자.&lt;/li&gt;
+  &lt;li&gt;내가 지금 해야 한다고 판단한 것들에 대해서 하자.&lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+        <pubDate>Sun, 23 Jun 2019 23:06:23 +0900</pubDate>
+        <link>http://localhost:4000/til/2019/06/23/TIL.html</link>
+        <guid isPermaLink="true">http://localhost:4000/til/2019/06/23/TIL.html</guid>
         
         
         <category>TIL</category>
@@ -281,98 +989,114 @@
       </item>
     
       <item>
-        <title>2019_05_19_TIL</title>
-        <description>&lt;h3 id=&quot;20190519-til&quot;&gt;2019.05.19 TIL&lt;/h3&gt;
+        <title>2019_06_20_TIL</title>
+        <description>&lt;h3 id=&quot;20190620-til&quot;&gt;2019.06.20 TIL&lt;/h3&gt;
 
 &lt;h1 id=&quot;to-do&quot;&gt;To do&lt;/h1&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;프로젝트 개발 (08:00 ~ 13:00)
+  &lt;li&gt;DEV
     &lt;ul&gt;
-      &lt;li&gt;2중 ajax 기능 구현&lt;/li&gt;
-      &lt;li&gt;연락 예정일도 수정되도록 구현&lt;/li&gt;
-      &lt;li&gt;댓글 기능 추가 구현&lt;/li&gt;
+      &lt;li&gt;&lt;del&gt;TIL하기&lt;/del&gt;&lt;/li&gt;
+      &lt;li&gt;쇼핑몰 리스트 나열 부분 수정하기&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
-  &lt;li&gt;데이트 (13:00 ~ 19:00)&lt;/li&gt;
-  &lt;li&gt;주간 피드백 및 다음 주 일정 정리 (19:00 ~ 22:00)&lt;/li&gt;
+  &lt;li&gt;프로젝트
+    &lt;ul&gt;
+      &lt;li&gt;&lt;del&gt;장카 프로젝트 진행&lt;/del&gt;
+        &lt;ul&gt;
+          &lt;li&gt;&lt;del&gt;수정하기 부분 수정&lt;/del&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;del&gt;배포하기&lt;/del&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;딥러닝
+    &lt;ul&gt;
+      &lt;li&gt;금주까지는 장카와 쇼핑몰을 마무리하자!&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;About me
+    &lt;ul&gt;
+      &lt;li&gt;운동 헬스 셋트 수 : 25&lt;/li&gt;
+      &lt;li&gt;&lt;del&gt;데일리 리포트 및 피드백 진행&lt;/del&gt;&lt;/li&gt;
+      &lt;li&gt;독서&lt;/li&gt;
+      &lt;li&gt;영어 단어 암기&lt;/li&gt;
+      &lt;li&gt;영어 1개 암기&lt;/li&gt;
+      &lt;li&gt;&lt;del&gt;일기쓰기!&lt;/del&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&quot;주간-피드백-513--519&quot;&gt;주간 피드백 (5.13 ~ 5.19)&lt;/h1&gt;
+&lt;h1 id=&quot;til&quot;&gt;TIL&lt;/h1&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;월요일 : ORM 모델링 발표, 함수형 뷰 구현, 나에게 상을 줄 수 있도록 무언가를 설정해보도록 하자고 하였으나 따로 설정하지 않았다.&lt;/li&gt;
-  &lt;li&gt;화요일 : 디스타그램 유튜브 촬영, 페이징 및 서칭에 대해 공부, 영어 공부 및 영어 단어 공부를 못함&lt;/li&gt;
-  &lt;li&gt;수요일 : 수업 복습을 하지 못함. 딥러닝 책이 안와서 공부를 시작못함. 사이클 운동/ filter를 통해 or 기능 구현/ 알고리즘 x/ 영어 공부 x/ 반 회식 진행 / 그래도 회식 후 또 공부하러 옴 / 제강 빌딩 이동&lt;/li&gt;
-  &lt;li&gt;목요일 : 딥러닝 공부 시작, 댓글 기능 구현하기 / 영어 공부 x&lt;/li&gt;
-  &lt;li&gt;금요일 : 수업 이후에 복습 x , 포항으로 이동&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;문제점-및-개선사항&quot;&gt;문제점 및 개선사항&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;수업 시간에 코드를 옴겨 가는 부분에 대해서 잘 따라가지 못하고 있다. 노션을 통해 좀 더 쉽게 필기를 진행하도록 해보자!&lt;/li&gt;
-  &lt;li&gt;딥러닝 공부 부분 : 오전 7시 30분 ~ 9시 00분 까지 시간을 내어서 항상 공부를 진행하자&lt;/li&gt;
-  &lt;li&gt;영어 공부 부분 : 영어 공부를 따로 할 시간을 내야 한다. 진짜 아니면 할 수가 없다.. 딥러닝도 프로그래밍도..! 단어를 꼭 외울 시간을 내자. 9시 ~ 9시 30분 / 9시 30분 ~ 10시 스크립트 1개 / 길가면서 영어 명언들 듣기&lt;/li&gt;
-  &lt;li&gt;수업 복습 : 15:00 ~ 18:00 학원에서 복습을 마무리 하고 오기&lt;/li&gt;
-  &lt;li&gt;알고리즘 : 스터디를 만들어서 30분간 항상 1문제 진행하기(15:00 ~ 15:30)&lt;/li&gt;
-  &lt;li&gt;독서 : 18:00 ~ 19:00 저녁 식사 및 독서 진행/ 잠자기 전 진행&lt;/li&gt;
-  &lt;li&gt;주간 정한 독서 1권을 꼭 읽고 글도 적어보자!!&lt;/li&gt;
-  &lt;li&gt;프로젝트 진행 : 19:00 ~ 22:00&lt;/li&gt;
-  &lt;li&gt;부족한 부분 추가 공부 : 22:00 ~ 23:00&lt;/li&gt;
-  &lt;li&gt;어차피 정해진 시간에 완벽하게 복습 혹은 내가 원하는 기능을 구현할 수 없기 때문에 … 시간 단위로 나누어서 공부를 진행해 나가자.&lt;/li&gt;
-  &lt;li&gt;내가 지금 부족하다는 생각을 버리고 할 수 있는만큼 자부심을 가지고 참여하자. ㅠㅠ 다음주 해커톤이 정말 걱정되긴한다… 금주 해커톤에서는 영화 평점 사이트를 제작해보자.&lt;/li&gt;
+  &lt;li&gt;오늘은 도커를 배웠다. 도커의 전반적인 흐름부터 배포 직전까지의 상황.&lt;/li&gt;
+  &lt;li&gt;음 도커의 모토는 개발 환경을 그대로 배포 환경까지 이어가겠다이다.&lt;/li&gt;
+  &lt;li&gt;기존에 우리는 맥 혹은 윈도우에서 개발 작업을 하고 막상 EC2에 올릴 때도 또 우분투로 변경시켜줘서 올려줘야했다. 즉 개발 환경과 배포 환경이 다른 것이다. 하지만 도커는 개발 환경을 그대로 배포 환경까지 가져가서 이런 불편한 사항들을 해결해준다.&lt;/li&gt;
+  &lt;li&gt;기본 베이스 이미지들을 선택해서 그것을 바탕으로 컨테이너를 생성하고 그 컨테이너를 활용한다.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h1 id=&quot;today-was&quot;&gt;Today was&lt;/h1&gt;
 
 &lt;ul&gt;
   &lt;li&gt;07:00 기상&lt;/li&gt;
-  &lt;li&gt;08:00 ~ 13:00 프로젝트 진행&lt;/li&gt;
-  &lt;li&gt;13:00 ~ 19:00 데이트!&lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;19:00 ~ 22:00 데일리 피드백&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;지난 주 금요일 수업 복습을 하지 못해서 걱정이 된다.&lt;/li&gt;
-  &lt;li&gt;내일 오전에는 수업 복습을 진행하도록 하자.&lt;/li&gt;
-  &lt;li&gt;내일 매일 집중해서 해야 할 일들을 끝을 내도록 하자.&lt;/li&gt;
+  &lt;li&gt;07:00 ~ 08:00 빨래 및 씻기&lt;/li&gt;
+  &lt;li&gt;08:00 ~ 09:30 아침 공부&lt;/li&gt;
+  &lt;li&gt;10:00 ~ 12:00 도커 수업&lt;/li&gt;
+  &lt;li&gt;12:00 ~ 13:00 점심식사&lt;/li&gt;
+  &lt;li&gt;13:00 ~ 14:00 도커 수업&lt;/li&gt;
+  &lt;li&gt;14:00 ~ 16:00 도커 수업&lt;/li&gt;
+  &lt;li&gt;16:00 ~ 17:30 jangcar프로젝트&lt;/li&gt;
+  &lt;li&gt;17:30 ~ 19:00 jangcar 프로젝트&lt;/li&gt;
+  &lt;li&gt;19:00 ~ 22:00 jangcar프로젝트&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&quot;tomorrow-do&quot;&gt;Tomorrow do&lt;/h1&gt;
+&lt;ol&gt;
+  &lt;li&gt;ㅠㅠ 시간을 잘 측정하지 못해서 아쉬움이 가득한 하루다.&lt;/li&gt;
+  &lt;li&gt;이런 날들이 쌓이면 매우 아쉬울 것 같다.&lt;/li&gt;
+  &lt;li&gt;… ㅠㅠ 시간을 소비하고도 해결하지 못할 때 참 … 걱정이 된다.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h1 id=&quot;tomorrow-to-do&quot;&gt;Tomorrow to do&lt;/h1&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;DEV (10 ~ 18:00)
+  &lt;li&gt;DEV
     &lt;ul&gt;
-      &lt;li&gt;수업 시간에 배운 것 TIL (15:00 ~ 18:00)&lt;/li&gt;
-      &lt;li&gt;금요일 수업 한 것 TIL (7:30 ~ 9:30)&lt;/li&gt;
-      &lt;li&gt;알고리즘 1문제 진행&lt;/li&gt;
-      &lt;li&gt;해커톤 그림 그리기(나만의 영화평점 사이트 제작하기)&lt;/li&gt;
+      &lt;li&gt;TIL하기&lt;/li&gt;
+      &lt;li&gt;쇼핑몰 리스트 나열 부분 수정하기&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;프로젝트
     &lt;ul&gt;
-      &lt;li&gt;메모가 아닌 최근 연락메모 띄어주기&lt;/li&gt;
+      &lt;li&gt;장카 프로젝트 진행
+        &lt;ul&gt;
+          &lt;li&gt;화면 크기 고정시키기&lt;/li&gt;
+          &lt;li&gt;하단에 이메일 고정시키기&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
-  &lt;li&gt;딥러닝 PASS
+  &lt;li&gt;딥러닝
     &lt;ul&gt;
-      &lt;li&gt;딥러닝 책 공부하기(주말간 공부 했음!)&lt;/li&gt;
+      &lt;li&gt;금주까지는 장카와 쇼핑몰을 마무리하자!&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;About me
     &lt;ul&gt;
-      &lt;li&gt;운동 : 사이클 (05:00 ~ 07:30)&lt;/li&gt;
+      &lt;li&gt;운동 헬스 셋트 수 : 25&lt;/li&gt;
       &lt;li&gt;데일리 리포트 및 피드백 진행&lt;/li&gt;
       &lt;li&gt;독서&lt;/li&gt;
       &lt;li&gt;영어 단어 암기&lt;/li&gt;
       &lt;li&gt;영어 1개 암기&lt;/li&gt;
+      &lt;li&gt;일기쓰기!&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
 &lt;/ul&gt;
 </description>
-        <pubDate>Sun, 19 May 2019 23:06:23 +0900</pubDate>
-        <link>http://localhost:4000/til/2019/05/19/TIL.html</link>
-        <guid isPermaLink="true">http://localhost:4000/til/2019/05/19/TIL.html</guid>
+        <pubDate>Thu, 20 Jun 2019 23:06:23 +0900</pubDate>
+        <link>http://localhost:4000/til/2019/06/20/TIL.html</link>
+        <guid isPermaLink="true">http://localhost:4000/til/2019/06/20/TIL.html</guid>
         
         
         <category>TIL</category>
@@ -380,695 +1104,120 @@
       </item>
     
       <item>
-        <title>javascript 05. ajax를 활용하여 댓글 기능 구현하기</title>
-        <description>&lt;h3 id=&quot;20190518-jquery--ajax를-활용하여-댓글-구현하기입니다&quot;&gt;2019.05.18 jquery &amp;amp; ajax를 활용하여 댓글 구현하기입니다.&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;패스트캠퍼스 웹 프로그래밍 스쿨 수업 정리 내용&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&quot;목표&quot;&gt;목표&lt;/h1&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;댓글을 달 때 ajax가 작동하여 새롭게 페이지가 리로드 되지 않게 하기&lt;/li&gt;
-  &lt;li&gt;ajax를 통해 단 댓글을 해당 DB에 저장하고&lt;/li&gt;
-  &lt;li&gt;그 댓글만을 가지고와서 댓글창의 가장 상단에 끼워넣기&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;로직&quot;&gt;로직&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;먼저 해당 댓글 입렴 폼의 태그를 확인한다.&lt;/li&gt;
-  &lt;li&gt;그리고 그 폼의 submit을 눌렀을 때 해당 변화가 없도록 막고
-    &lt;ul&gt;
-      &lt;li&gt;submit의 경우 return false를 활용한다.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;url을 지정하고 serialize를 통해 현재 폼에 담겨져 있는 값들을 가지고 온다.&lt;/li&gt;
-  &lt;li&gt;ajax를 통해 url이 작동하도록 하고 해당 url을 views로 연결하여&lt;/li&gt;
-  &lt;li&gt;해당 views.py(댓글 구현 뷰)에서 처리할 수 있도록 한다.&lt;/li&gt;
-  &lt;li&gt;해당 뷰에서 처리 이후에 해당 채워넣을 부분의 html을 반환해줄 수 있도록 comment_single.html을 구현한다.&lt;/li&gt;
-  &lt;li&gt;그리고 뷰에서 그 html파일을 JsonResponse를 통해 반환해준다.&lt;/li&gt;
-  &lt;li&gt;다시 해당 템플릿에서 .done 부분에 prepend(가장 상단에 넣어주기)를 통해 해당 파일을 넣는다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;1-해당-댓글-입력폼의-태그-확인하기&quot;&gt;1. 해당 댓글 입력폼의 태그 확인하기&lt;/h2&gt;
-
-&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;form&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;action=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;{ % url &quot;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;board:comment&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;}&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;method=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;POST&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;comment_form&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-{ % csrf_token % }
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;hidden&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;is_ajax&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-    
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;submit&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Comment&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;btn btn-outline-primary&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;/form&amp;gt;&lt;/span&gt;
-
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;table&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;table table-striped&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;comment_list&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;tbody&amp;gt;&lt;/span&gt;
-    { % for comment in comments % }
-   &lt;span class=&quot;nt&quot;&gt;&amp;lt;tr&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;td&amp;gt;&amp;lt;/td&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;td&amp;gt;&amp;lt;/td&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;td&amp;gt;&amp;lt;/td&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;td&amp;gt;&amp;lt;a&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;href=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;{ % url 'board:comment_delete' comment.id % }&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;삭제하기&lt;span class=&quot;nt&quot;&gt;&amp;lt;/a&amp;gt;&amp;lt;/td&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;td&amp;gt;&amp;lt;a&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;href=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;{ % url 'board:comment_update' comment.id % }&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;수정하기&lt;span class=&quot;nt&quot;&gt;&amp;lt;/a&amp;gt;&amp;lt;/td&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/tr&amp;gt;&lt;/span&gt;
-    { % endfor % }
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/tbody&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;/table&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;2-그-폼의-submit을-눌렀을-때-해당-변화가-없도록-막는다&quot;&gt;2. 그 폼의 submit을 눌렀을 때 해당 변화가 없도록 막는다.&lt;/h2&gt;
-
-&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{ % block extra_script % }
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text/javascript&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'#comment_form'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;submit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
-            &lt;span class=&quot;nx&quot;&gt;alert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'댓글쓰기 완료'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;   &lt;span class=&quot;c1&quot;&gt;//이게 없으면 다시 리로드 되서 다녀온다.&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
-
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
-{ % endblock % }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;3-url을-지정하고-serialize를-통해-현재-폼에-담겨져-있는-값들을-가지고-온다&quot;&gt;3. url을 지정하고 serialize를 통해 현재 폼에 담겨져 있는 값들을 가지고 온다.&lt;/h2&gt;
-&lt;ul&gt;
-  &lt;li&gt;url의 경우 기존에 연결되어 있는 url을 활용한다.&lt;/li&gt;
-  &lt;li&gt;serialize를 통해 현재 폼에 담겨져 있는 값들을 가지고 온다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;4-viewspy-완성하기&quot;&gt;4. views.py 완성하기&lt;/h2&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;comment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;document_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;is_ajax&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;POST&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'is_ajax'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-    &lt;span class=&quot;n&quot;&gt;document&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;get_object_or_404&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pk&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-    &lt;span class=&quot;n&quot;&gt;comment_form&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CommentForm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;POST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;comment_form&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;author_id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;id&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;comment_form&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document_id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;document_id&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;comment_form&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;is_valid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;comment&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;comment_form&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;save&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-
-    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;is_ajax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;html&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;render_to_string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'board/comment/comment_single.html'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-                                &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'comment'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;comment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;JsonResponse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'html'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;html&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
-
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;redirect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;is_ajax를 POST를 통해 is_ajax를 받는다. html의 jquery가 제대로 작동했다면 1을 가지고 있다.&lt;/li&gt;
-  &lt;li&gt;해당 새롭게 생긴 댓글을 넣어주기 위한 간단한 html을 새롭게 제작한다.
-    &lt;ul&gt;
-      &lt;li&gt;만약 is_ajax가 있다면 html은 single.html을 rendering하고 위에 comment와 함께 넘겨줄 수 있도록 한다.&lt;/li&gt;
-      &lt;li&gt;JsonResponse를 통해 html을 넘겨준다.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;commentcomment_singlehtml&quot;&gt;comment/comment_single.html&lt;/h2&gt;
-
-&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &lt;span class=&quot;nt&quot;&gt;&amp;lt;tr&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;comment_row&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;td&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;comment_text&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/td&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;td&amp;gt;&amp;lt;/td&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;td&amp;gt;&amp;lt;/td&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;td&amp;gt;&amp;lt;a&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;href=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;{ % url 'board:comment_delete' comment.id % }&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;btn_comment_delete&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;삭제하기&lt;span class=&quot;nt&quot;&gt;&amp;lt;/a&amp;gt;&amp;lt;/td&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;td&amp;gt;&amp;lt;a&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;href=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;{ % url 'board:comment_update' comment.id % }&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;btn_comment_update&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;수정하기&lt;span class=&quot;nt&quot;&gt;&amp;lt;/a&amp;gt;&amp;lt;/td&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/tr&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;해당 페이지를 통해 가장 위에 끼워 넣을 댓글을 만들어낸다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;5-jquery-완성하기&quot;&gt;5. jquery 완성하기&lt;/h2&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;block&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;extra_script&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text/javascript&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'#comment_form'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;submit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
-            &lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'input[name=&quot;is_ajax&quot;]'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;val&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-            &lt;span class=&quot;o&quot;&gt;//&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;alert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'댓글쓰기 완료'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'action'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;원래&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;다녀와야하는&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;params&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;serialize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;현재&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;폼에&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;담겨있는&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;값들을&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;가지고&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;올&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;수&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;있게&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;해준다&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;
-            &lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ajax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
-                &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-                &lt;span class=&quot;n&quot;&gt;method&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;POST&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-                &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-
-            &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;done&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
-                &lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'#id_text'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;val&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-                &lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'#comment_list tbody'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;prepend&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;html&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tbody&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;시작지점에&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;요소&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;끼워넣기&lt;/span&gt;
-                &lt;span class=&quot;o&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'comment_list tbody'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tbody&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;끝&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;지점에&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;요소&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;끼워넣기&lt;/span&gt;
-                &lt;span class=&quot;o&quot;&gt;//&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;is_ajax&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;값&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;초기화&lt;/span&gt;
-                &lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'input[name=&quot;is_ajax&quot;]'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;val&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-            &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
-
-            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;   &lt;span class=&quot;o&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;이게&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;없으면&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;다시&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;리로드&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;되서&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;다녀온다&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;endblock&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;해석하기
-    &lt;ul&gt;
-      &lt;li&gt;comment_form이라는 id를 가진 곳에서 submit을 누르면 막는다.(e, return false)&lt;/li&gt;
-      &lt;li&gt;is_ajax라는 이름에 1의 값을 부여해준다.&lt;/li&gt;
-      &lt;li&gt;url은 원래 이동하는 url로 설정한다.&lt;/li&gt;
-      &lt;li&gt;params는 serialize()를 통해 현재 폼에 담겨 있는 값들을 가지고 올 수 있게 한다.&lt;/li&gt;
-      &lt;li&gt;ajax를 url 요청이 위에 정의해놓은 url로 왔을 때 그리고 method는 POST방식으로 왔을 때 작동한다.&lt;/li&gt;
-      &lt;li&gt;data는 params를 받는다.&lt;/li&gt;
-      &lt;li&gt;위의 ajax를 통해 URLConf를 통해 views.py를 다녀오고 JsonResponse를 통해 해당 데이터를 반환 받는다.&lt;/li&gt;
-      &lt;li&gt;params도 views.py를 통해 data : params로 넣어서 보내준다.&lt;/li&gt;
-      &lt;li&gt;야는 왜 id_text 값을 어디에서도 설정해주지 않았는데 적었던 데이터가 사라지는 것일까?
-        &lt;ul&gt;
-          &lt;li&gt;폼 형태로 끼워넣으면 알아서 id_text가 설정된다.&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;댓글달기-전체-과정보기&quot;&gt;댓글달기 전체 과정보기&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;submit이 일어나면 is_ajax를 1로 바꾼다.&lt;/li&gt;
-  &lt;li&gt;url 은 댓글남기기 페이지 주소를 가지고 온다.&lt;/li&gt;
-  &lt;li&gt;params = serialize를 통해 폼에 있는 데이터들을 하나로 붙인다.&lt;/li&gt;
-  &lt;li&gt;리 다이렉션이 안되고 데이터를 추가로 가지고 오고 싶퍼서 is_ajax를 설정한 것이다.&lt;/li&gt;
-  &lt;li&gt;뷰에서 is_ajax이 있으면 return Jsonresponse를 하고&lt;/li&gt;
-  &lt;li&gt;아니면 redirect를 하도록 한다.&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        <pubDate>Sat, 18 May 2019 17:06:23 +0900</pubDate>
-        <link>http://localhost:4000/javascript/2019/05/18/javascript-05.-ajax%E1%84%85%E1%85%B3%E1%86%AF-%E1%84%92%E1%85%AA%E1%86%AF%E1%84%8B%E1%85%AD%E1%86%BC%E1%84%92%E1%85%A1%E1%84%8B%E1%85%A7-%E1%84%83%E1%85%A2%E1%86%BA%E1%84%80%E1%85%B3%E1%86%AF-%E1%84%80%E1%85%B5%E1%84%82%E1%85%B3%E1%86%BC-%E1%84%80%E1%85%AE%E1%84%92%E1%85%A7%E1%86%AB%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.html</link>
-        <guid isPermaLink="true">http://localhost:4000/javascript/2019/05/18/javascript-05.-ajax%E1%84%85%E1%85%B3%E1%86%AF-%E1%84%92%E1%85%AA%E1%86%AF%E1%84%8B%E1%85%AD%E1%86%BC%E1%84%92%E1%85%A1%E1%84%8B%E1%85%A7-%E1%84%83%E1%85%A2%E1%86%BA%E1%84%80%E1%85%B3%E1%86%AF-%E1%84%80%E1%85%B5%E1%84%82%E1%85%B3%E1%86%BC-%E1%84%80%E1%85%AE%E1%84%92%E1%85%A7%E1%86%AB%E1%84%92%E1%85%A1%E1%84%80%E1%85%B5.html</guid>
-        
-        
-        <category>Javascript</category>
-        
-      </item>
-    
-      <item>
-        <title>2019_05_17_TIL</title>
-        <description>&lt;h3 id=&quot;20190517-til&quot;&gt;2019.05.17 TIL&lt;/h3&gt;
+        <title>2019_06_18_TIL</title>
+        <description>&lt;h3 id=&quot;20190618-til&quot;&gt;2019.06.18 TIL&lt;/h3&gt;
 
 &lt;h1 id=&quot;to-do&quot;&gt;To do&lt;/h1&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;DEV (10 ~ 16:30)
+  &lt;li&gt;DEV
     &lt;ul&gt;
-      &lt;li&gt;수업 시간에 배운 것 TIL&lt;/li&gt;
+      &lt;li&gt;&lt;del&gt;TIL하기&lt;/del&gt;&lt;/li&gt;
+      &lt;li&gt;쇼핑몰 나열 수정하기&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;프로젝트
     &lt;ul&gt;
-      &lt;li&gt;커멘트 기능 구현하기(ajax 연동해보기)&lt;/li&gt;
+      &lt;li&gt;장카 프로젝트 진행
+        &lt;ul&gt;
+          &lt;li&gt;&lt;del&gt;DB 연동하기&lt;/del&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;del&gt;모달 숫자 및 영어 입력안되는 문제 해결&lt;/del&gt;&lt;/li&gt;
+          &lt;li&gt;배포하기&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
-  &lt;li&gt;딥러닝 ( 07:30 ~ 09:30 )
+  &lt;li&gt;딥러닝
     &lt;ul&gt;
-      &lt;li&gt;딥러닝 책 공부하기&lt;/li&gt;
+      &lt;li&gt;금주까지는 장카와 쇼핑몰을 마무리하자!&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;About me
     &lt;ul&gt;
-      &lt;li&gt;운동 : 러닝 (05:30 ~ 07:00)&lt;/li&gt;
-      &lt;li&gt;데일리 리포트 및 피드백 진행&lt;/li&gt;
+      &lt;li&gt;운동 헬스 셋트 수 : 25&lt;/li&gt;
+      &lt;li&gt;&lt;del&gt;데일리 리포트 및 피드백 진행&lt;/del&gt;&lt;/li&gt;
       &lt;li&gt;독서&lt;/li&gt;
       &lt;li&gt;영어 단어 암기&lt;/li&gt;
-      &lt;li&gt;영어 1개 암기&lt;/li&gt;
+      &lt;li&gt;&lt;del&gt;영어 1개 암기&lt;/del&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;del&gt;일기쓰기!&lt;/del&gt;&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h1 id=&quot;til&quot;&gt;TIL&lt;/h1&gt;
+
 &lt;ul&gt;
-  &lt;li&gt;ajax를 활용하여 새롭게 페이지가 로드되지 않도록 하였다.&lt;/li&gt;
-  &lt;li&gt;ajax를 통해 단 댓글을 해당 DB에 저장하고&lt;/li&gt;
-  &lt;li&gt;그 댓글만을 가지고 와서 댓글창의 가장 상단에 끼워넣도록 하였다.&lt;/li&gt;
-  &lt;li&gt;로직을 설명해보고자 한다.&lt;/li&gt;
-  &lt;li&gt;먼저 해당 댓글 입력 폼의 태그를 확인한다.&lt;/li&gt;
-  &lt;li&gt;그리고 그 폼의 submit을 눌렀을 때 해당 변화가 없도록 하고
-    &lt;ul&gt;
-      &lt;li&gt;submit의 경우 return false를 통해 막는다.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;url을 지정하고 serialize를 통해 현대 폼에 담겨져 있는 값들을 가지고 온다.&lt;/li&gt;
-  &lt;li&gt;ajax를 통해 url이 작동되도록 하고 해당 url을 views로 연결하여 해당 views.py에서 처리할 수 있도록 한다.&lt;/li&gt;
-  &lt;li&gt;해당 뷰에서 처리 이후에 해당 채워넣을 부분의 html을 반환해줄 수 있도록 single.html을 구현한다.&lt;/li&gt;
-  &lt;li&gt;그리고 뷰에서 그 html 파일을 JsonResponse를 통해 반환해준다.&lt;/li&gt;
-  &lt;li&gt;다시 해당 탬플릿에서 .done 부분에 prepend를 통해 해당 파일을 넣는다.&lt;/li&gt;
+  &lt;li&gt;오늘은 REST API에 대해서 배웠다. 기본적으로 폼 역할을 serializer가 진행하는 것, 그리고 템플릿 랜더링 부분이 없다는 것, 그 밖에 전체적인 로직은 크게 어렵지 않았다.&lt;/li&gt;
+  &lt;li&gt;하지만 정말  사용해봐야 알 것 같다.&lt;/li&gt;
+  &lt;li&gt;elastic beanstoke로 배포를 하였다. 정말 기존에 하던 것에 비해서 너무 쉽다는 것을 깨달았다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img width=&quot;298&quot; alt=&quot;스크린샷 2019-06-18 오후 10 03 08&quot; src=&quot;https://user-images.githubusercontent.com/46436843/59684418-ef1a7300-9214-11e9-84d5-131321e600de.png&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;오늘 한 시간을 보니 13시간정도 하였다. 하지만 그 중에  수업이 7시간 가까이 되었고 혼자서 한 시간은 6시간 정도 밖에 되지 않았다. 왜 이렇게 생각보다 공부한 시간이 적지?? 한번 더 의문이 생겼다.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h1 id=&quot;today-was&quot;&gt;Today was&lt;/h1&gt;
 
 &lt;ul&gt;
   &lt;li&gt;05:30 기상&lt;/li&gt;
-  &lt;li&gt;06:00 ~ 07:20 운동 러닝 : 러닝 11km 완료!&lt;/li&gt;
-  &lt;li&gt;08:00 ~ 09:30 딥러닝 공부&lt;/li&gt;
-  &lt;li&gt;10:00 ~ 12:00 수업 1&lt;/li&gt;
-  &lt;li&gt;13:00 ~ 15:00 수업 2&lt;/li&gt;
-  &lt;li&gt;15:00 ~ 17:00 수업 복습 TIL&lt;/li&gt;
-  &lt;li&gt;17:00 ~ 20:00 포항 이동&lt;/li&gt;
-  &lt;li&gt;20:00 ~ 22:00 친구보기&lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;22:00 ~ 23:00 집으로 이동&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;오늘은 수업도 정말 멘붕이었지만… 포항으로 또 가야해서 많은 부분 복습을 하지 못헀다. 전체적인 흐름을 익히고 그것을 쓸 수 있도록 해야 하는데 걱정이 많이 된다. 반복하다 보면 괜찮아지겠지…?&lt;/li&gt;
-  &lt;li&gt;다음 주가 출시인데… 잘 할 수 있곘지??&lt;/li&gt;
-  &lt;li&gt;딥러닝 공부도 시간을 내서 시작하기 시작했다!! 시작이 의미가 있는 것이다.&lt;/li&gt;
+  &lt;li&gt;06:00 ~ 06:30 기상 및 도서관 이동&lt;/li&gt;
+  &lt;li&gt;06:00 ~ 09:30 jangcar프로젝트&lt;/li&gt;
+  &lt;li&gt;10:00 ~ 12:00 API수업&lt;/li&gt;
+  &lt;li&gt;12:00 ~ 13:00 점심식사&lt;/li&gt;
+  &lt;li&gt;13:00 ~ 14:00 API수업&lt;/li&gt;
+  &lt;li&gt;14:00 ~ 16:00 API수업&lt;/li&gt;
+  &lt;li&gt;16:00 ~ 17:30 jangcar프로젝트&lt;/li&gt;
+  &lt;li&gt;17:30 ~ 19:00 jangcar 프로젝트&lt;/li&gt;
+  &lt;li&gt;19:00 ~ 22:00 jangcar프로젝트&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&quot;tomorrow-do&quot;&gt;Tomorrow do&lt;/h1&gt;
+&lt;ol&gt;
+  &lt;li&gt;오늘은 원래 풋살이 예정되어 있었는데 하지 못하였다.&lt;/li&gt;
+  &lt;li&gt;대신에 장카 프로젝트를 대부분 진행하였다. 이제 몇가지만 더 마무리하면 된다. ㅎㅎㅎ&lt;/li&gt;
+  &lt;li&gt;오늘 집에 의자가 왔다. ㅎㅎㅎ 책상 배열등을 바꾸었다. 이제 독서실 뿐만 아니라 집에서도 할 수 있다!!&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h1 id=&quot;tomorrow-to-do&quot;&gt;Tomorrow to do&lt;/h1&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;포항에서 농사일…&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        <pubDate>Fri, 17 May 2019 23:06:23 +0900</pubDate>
-        <link>http://localhost:4000/til/2019/05/17/TIL.html</link>
-        <guid isPermaLink="true">http://localhost:4000/til/2019/05/17/TIL.html</guid>
-        
-        
-        <category>TIL</category>
-        
-      </item>
-    
-      <item>
-        <title>딥러닝 02. 딥러닝의 학습원리</title>
-        <description>&lt;h3 id=&quot;20190517-딥러닝-원리-알아보기&quot;&gt;2019.05.17 딥러닝 원리 알아보기&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;신경망 첫걸음 책을 활용하여 공부하고 있습니다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&quot;딥러닝의-원리&quot;&gt;딥러닝의 원리&lt;/h1&gt;
-
-&lt;h2 id=&quot;예측&quot;&gt;예측&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;어떤 것을 명확히 파악할 수 없을 때 모델을 정교화 해나가는 좋은 방법은 오차에 기초해 매개변수 값을 조정해 나가는 것이다.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;학습률&quot;&gt;학습률&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;조정 과정을 거치면서 가장 큰 문제점은 바로 이전의 학습 데이터는 무시하고 최종 학습 데이터에만 맞춰 업데이트 된다는 것이다.&lt;/li&gt;
-  &lt;li&gt;이를 해결하기 위해 학습률을 도입함으로서 단일 학습 데이터가 학습에 지배적인 영향을 주는 것을 방지한다.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;분류자&quot;&gt;분류자&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;특정 기준으로 데이터를 분류해야 할 때 그 특정 기준이 한개로는 부족한 경우가 대부분이다. (단순한 선형 분류자)&lt;/li&gt;
-  &lt;li&gt;이런 경우 여러개의 선형 분류자를 이용해 데이터를 분류할 수 있다.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;노드&quot;&gt;노드&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;데이터를 학습 시키기 위한 각각의 인공 뉴런을 노드라고 부른다.&lt;/li&gt;
-  &lt;li&gt;각각의 노드들은 서로 연결되어 있는 형태로 구성하고(꼭 그런 것은 아니지만 이렇게 연결하는 것이 프로그램 구현에 더 편리하고 효율적이다)&lt;/li&gt;
-  &lt;li&gt;이러한 노드들은 여러 계층(layer)에 걸쳐 위치시킨다.&lt;/li&gt;
-  &lt;li&gt;각각 노드들의 연결은 가중치를 포함한다.&lt;/li&gt;
-  &lt;li&gt;각 신호들은 특정 분계점을 지나야 출력되게 된다.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;신경망의-신호-계산&quot;&gt;신경망의 신호 계산&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;행렬을 통해 이 문제를 해결할 수 있다.&lt;/li&gt;
-  &lt;li&gt;X = W * I
-    &lt;ol&gt;
-      &lt;li&gt;W는 각각의 가중치&lt;/li&gt;
-      &lt;li&gt;I는 input으로 초기 주어진 값들&lt;/li&gt;
-    &lt;/ol&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;계층&quot;&gt;계층&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;입력계층(input layer) / 은닉계층(hidden layer) / 출력계층(output layer)&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;결과값-도출&quot;&gt;결과값 도출&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;결국 계층 노드의 입력값에 가중치를 곱해서 계산하고 활성화 함수(sigmoid 등)를 적용함으로서 최종 결과값을 도출할 수 있다.&lt;/li&gt;
-  &lt;li&gt;이렇게 얻어진 결과 값을 학습 데이터의 실제 값과 비교해 오차를 구하고 그 구한 오차를 이용해 우리의 신경망을 정교하게 업데이트해감으로서 보다 개선된 결과 값을 내는 것이 우리가 할 일이다.&lt;/li&gt;
-&lt;/ol&gt;
-</description>
-        <pubDate>Fri, 17 May 2019 17:06:23 +0900</pubDate>
-        <link>http://localhost:4000/%EB%94%A5%EB%9F%AC%EB%8B%9D/2019/05/17/%E1%84%83%E1%85%B5%E1%86%B8%E1%84%85%E1%85%A5%E1%84%82%E1%85%B5%E1%86%BC-02.-%E1%84%83%E1%85%B5%E1%86%B8%E1%84%85%E1%85%A5%E1%84%82%E1%85%B5%E1%86%BC%E1%84%8B%E1%85%B4-%E1%84%92%E1%85%A1%E1%86%A8%E1%84%89%E1%85%B3%E1%86%B8-%E1%84%8B%E1%85%AF%E1%86%AB%E1%84%85%E1%85%B5.html</link>
-        <guid isPermaLink="true">http://localhost:4000/%EB%94%A5%EB%9F%AC%EB%8B%9D/2019/05/17/%E1%84%83%E1%85%B5%E1%86%B8%E1%84%85%E1%85%A5%E1%84%82%E1%85%B5%E1%86%BC-02.-%E1%84%83%E1%85%B5%E1%86%B8%E1%84%85%E1%85%A5%E1%84%82%E1%85%B5%E1%86%BC%E1%84%8B%E1%85%B4-%E1%84%92%E1%85%A1%E1%86%A8%E1%84%89%E1%85%B3%E1%86%B8-%E1%84%8B%E1%85%AF%E1%86%AB%E1%84%85%E1%85%B5.html</guid>
-        
-        
-        <category>딥러닝</category>
-        
-      </item>
-    
-      <item>
-        <title>javascript 04. jquery &amp; ajax 기본 문법</title>
-        <description>&lt;h3 id=&quot;20190517-jquery--ajax-기본-문법&quot;&gt;2019.05.17 jquery &amp;amp; ajax 기본 문법&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;패스트캠퍼스 웹 프로그래밍 스쿨 수업 정리 내용&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&quot;jquery--ajax-기본-문법&quot;&gt;jquery &amp;amp; ajax 기본 문법&lt;/h1&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;text/javascript&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(){&lt;/span&gt;
-        &lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'특정 테그'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;특정모션&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;preventDefault&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;일어날&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;행동을&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;일단&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;막고&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'href'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;#정의 할 데이터가 있을 때 정의&lt;/span&gt;
-            &lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ajax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
-                &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;
-                &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;#넘겨줄 데이터가 있을 때 적는다.&lt;/span&gt;
-            &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;done&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;funtion&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
-                &lt;span class=&quot;n&quot;&gt;ajax&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;실행&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;뒤에&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;일어날&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;행동&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;정의&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;html&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;단에서&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}};&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;특정한 테그 혹은 class혹은 id에 어떤 모션이 일어났을 때(click, submit 등)&lt;/li&gt;
-  &lt;li&gt;원래 일어나는 행동을 막고&lt;/li&gt;
-  &lt;li&gt;이후에 필요로 쓰게될 특정 데이터 혹은 url에 대해 정의 해준 다음에&lt;/li&gt;
-  &lt;li&gt;ajax를 실행시켜 ajax가 설정된 url을 통해 view를 실행시켜 해당 뷰가 db를 정리 한뒤에 필요한 것은 JsonResponse로 반환해주고 그 반환 값을 ajax에서는 받아와&lt;/li&gt;
-  &lt;li&gt;.done뒤에 일어날 행동들을 설정해서 html 단에서 일어나는 행동들을 정의시켜준다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&quot;ajax-기본-연습하기-간단한-데이터-삽입해보기&quot;&gt;ajax 기본 연습하기 (간단한 데이터 삽입해보기)&lt;/h1&gt;
-
-&lt;h2 id=&quot;python-viewspy-만들기&quot;&gt;python views.py 만들기&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;바꿔 끼울 데이터를 딕셔너리 형태로 입력해준다.&lt;/li&gt;
-  &lt;li&gt;일반적인 경우 데이터를 전송하기 위해 json형태로 데이터를 보낸다.&lt;/li&gt;
-  &lt;li&gt;따라서 jsonResponse를 활용한다.&lt;/li&gt;
-  &lt;li&gt;json은 딕셔너리 형태로 데이터를 전송한다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;django.http&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;JsonResponse&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;get_data_ajax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;s&quot;&gt;&quot;name&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'jake'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-        &lt;span class=&quot;s&quot;&gt;&quot;age&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-        &lt;span class=&quot;s&quot;&gt;&quot;blood&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;O&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;JsonResponse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;해당-url을-연결시켜준다&quot;&gt;해당 url을 연결시켜준다.&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;path('ajax/get_data/', get_data_ajax, name='get_data_ajax')&lt;/code&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;템플릿에-데이터-들어갈-곳-및-버튼-추가하기&quot;&gt;템플릿에 데이터 들어갈 곳 및 버튼 추가하기&lt;/h2&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;= &quot;&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;data_area&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&amp;gt;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;    데이터 입력될 곳&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
-
-&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;lt;a href=&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'board:get_data_ajax'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot; class=&quot;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;btn_get_data&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;btn&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;btn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;primary&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&amp;gt;데이터 가져오기&amp;lt;/a&amp;gt;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
-
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;템플릿에-jquery-추가하기&quot;&gt;템플릿에 jquery 추가하기&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;먼저 url을 연결해준다.&lt;/li&gt;
-  &lt;li&gt;다음으로 버튼을 눌렀을 때 이동하지 않도록 한다.&lt;/li&gt;
-  &lt;li&gt;다음으로 데이터를 가지고 와야 한다.&lt;/li&gt;
-  &lt;li&gt;base.html에 script아래 extra_script를 추가해준다.
-    &lt;ol&gt;
-      &lt;li&gt;jquery 다운로드 사이트에 접속하여 jquery를 가지고 온다.&lt;/li&gt;
-      &lt;li&gt;
-        &lt;script src=&quot;https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js&quot;&gt;&lt;/script&gt;
-      &lt;/li&gt;
-      &lt;li&gt;base.html에 있는 slim jquery를 바꾸어 줘야 한다.&lt;/li&gt;
-    &lt;/ol&gt;
-  &lt;/li&gt;
-  &lt;li&gt;script type을 추가해준다.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;block&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;extra_script&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text/javascript&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(){&lt;/span&gt;
-        &lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'.btn_get_data'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;click&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;preventDefault&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;버튼이&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;클릭하면&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;이동못하게&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;기본&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;기능&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;취소&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;alert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'clicked'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;확인을&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;위해&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;알림창&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;띄우기&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'href'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;   &lt;span class=&quot;o&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;는&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;이벤트&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;대상&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;btn_get_data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-            &lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ajax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
-                &lt;span class=&quot;o&quot;&gt;//&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ajax&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;호출시&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;사용할&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;매개변수&lt;/span&gt;
-                &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;
-            &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;done&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
-                &lt;span class=&quot;o&quot;&gt;//&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;호출이&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;끝나면&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;받은&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;데이터를&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;처리하는&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;부분&lt;/span&gt;
-                &lt;span class=&quot;n&quot;&gt;alert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-                &lt;span class=&quot;o&quot;&gt;//&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;새로운&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;데이터를&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;추가해주고&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;싶을&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;때&lt;/span&gt;
-
-                &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-                &lt;span class=&quot;n&quot;&gt;age&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-                &lt;span class=&quot;n&quot;&gt;bloodtype&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bloodtype&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-                &lt;span class=&quot;n&quot;&gt;html&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&amp;lt;ul&amp;gt;&amp;lt;li&amp;gt;&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&amp;lt;/li&amp;gt;&amp;lt;li&amp;gt;&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&amp;lt;/li&amp;gt;&amp;lt;li&amp;gt;&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bloodtype&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&amp;lt;/li&amp;gt;&amp;lt;/ul&amp;gt;&quot;&lt;/span&gt;
-                &lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'.data_area'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;html&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;html&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-            &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
-
-&lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;script&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;endblock&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;해당 동작이 일어날 페이지 아래에 위의 내용을 끼워넣는다. block extra_script의 경우 base.html에서 미리 지정해놓는다.&lt;/li&gt;
-  &lt;li&gt;해석하기
+  &lt;li&gt;DEV
     &lt;ul&gt;
-      &lt;li&gt;.btn_get_data 클래스가 지정된 것을 찾아 만약에 클릭이 되면&lt;/li&gt;
-      &lt;li&gt;일단 일어날 일을 막고&lt;/li&gt;
-      &lt;li&gt;clicked가 된 알람창을 띄어줘라&lt;/li&gt;
-      &lt;li&gt;그리고 이후에 사용하게 될 것들을 지정해주는데&lt;/li&gt;
-      &lt;li&gt;url은 그 이벤트가 일어난 것에 연결된 링크를 연결해서 사용한다.
-        &lt;ul&gt;
-          &lt;li&gt;아마 보통 어떤 형태가 일어나기 위해서는 링크가 연결되어야 하기 때문에 대부분 링크가 있을 것이다.&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-      &lt;li&gt;ajax를 실행하고&lt;/li&gt;
-      &lt;li&gt;ajax가 실행될 때 url은 위에서 설정된 url을 바탕으로 URLSConf를 바탕으로 해당 views.py로 찾아가고&lt;/li&gt;
-      &lt;li&gt;views.py에서 넣어놓은 data를 JsonResponse로 넘겨서 받아온다.&lt;/li&gt;
-      &lt;li&gt;그 받아온 데이터를 done(function(data)를 통해 가지고 오고&lt;/li&gt;
-      &lt;li&gt;name와 age/ bloodtype에 넣어서 그 값들을 html 태그 속에 넣는다.&lt;/li&gt;
-      &lt;li&gt;그리고 지정된 class=”data_area” 위치를 찾아가서 해당 html을 채워넣고 화면에 보여준다.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        <pubDate>Fri, 17 May 2019 17:06:23 +0900</pubDate>
-        <link>http://localhost:4000/javascript/2019/05/17/javascript-04.-jquery-&-ajax-%E1%84%80%E1%85%B5%E1%84%87%E1%85%A9%E1%86%AB-%E1%84%86%E1%85%AE%E1%86%AB%E1%84%87%E1%85%A5%E1%86%B8.html</link>
-        <guid isPermaLink="true">http://localhost:4000/javascript/2019/05/17/javascript-04.-jquery-&-ajax-%E1%84%80%E1%85%B5%E1%84%87%E1%85%A9%E1%86%AB-%E1%84%86%E1%85%AE%E1%86%AB%E1%84%87%E1%85%A5%E1%86%B8.html</guid>
-        
-        
-        <category>Javascript</category>
-        
-      </item>
-    
-      <item>
-        <title>딥러닝 01. 딥러닝의 원리 알아보기</title>
-        <description>&lt;h3 id=&quot;20190517-딥러닝-원리-알아보기&quot;&gt;2019.05.17 딥러닝 원리 알아보기&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;신경망 첫걸음 책을 활용하여 공부하고 있습니다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&quot;딥러닝의-원리&quot;&gt;딥러닝의 원리&lt;/h1&gt;
-
-&lt;h2 id=&quot;예측&quot;&gt;예측&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;어떤 것을 명확히 파악할 수 없을 때 모델을 정교화 해나가는 좋은 방법은 오차에 기초해 매개변수 값을 조정해 나가는 것이다.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;학습률&quot;&gt;학습률&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;조정 과정을 거치면서 가장 큰 문제점은 바로 이전의 학습 데이터는 무시하고 최종 학습 데이터에만 맞춰 업데이트 된다는 것이다.&lt;/li&gt;
-  &lt;li&gt;이를 해결하기 위해 학습률을 도입함으로서 단일 학습 데이터가 학습에 지배적인 영향을 주는 것을 방지한다.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;분류자&quot;&gt;분류자&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;특정 기준으로 데이터를 분류해야 할 때 그 특정 기준이 한개로는 부족한 경우가 대부분이다. (단순한 선형 분류자)&lt;/li&gt;
-  &lt;li&gt;이런 경우 여러개의 선형 분류자를 이용해 데이터를 분류할 수 있다.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;노드&quot;&gt;노드&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;데이터를 학습 시키기 위한 각각의 인공 뉴런을 노드라고 부른다.&lt;/li&gt;
-  &lt;li&gt;각각의 노드들은 서로 연결되어 있는 형태로 구성하고(꼭 그런 것은 아니지만 이렇게 연결하는 것이 프로그램 구현에 더 편리하고 효율적이다)&lt;/li&gt;
-  &lt;li&gt;이러한 노드들은 여러 계층(layer)에 걸쳐 위치시킨다.&lt;/li&gt;
-  &lt;li&gt;각각 노드들의 연결은 가중치를 포함한다.&lt;/li&gt;
-  &lt;li&gt;각 신호들은 특정 분계점을 지나야 출력되게 된다.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;신경망의-신호-계산&quot;&gt;신경망의 신호 계산&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;행렬을 통해 이 문제를 해결할 수 있다.&lt;/li&gt;
-  &lt;li&gt;X = W * I
-    &lt;ol&gt;
-      &lt;li&gt;W는 각각의 가중치&lt;/li&gt;
-      &lt;li&gt;I는 input으로 초기 주어진 값들&lt;/li&gt;
-    &lt;/ol&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;계층&quot;&gt;계층&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;입력계층(input layer) / 은닉계층(hidden layer) / 출력계층(output layer)&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;결과값-도출&quot;&gt;결과값 도출&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;결국 계층 노드의 입력값에 가중치를 곱해서 계산하고 활성화 함수(sigmoid 등)를 적용함으로서 최종 결과값을 도출할 수 있다.&lt;/li&gt;
-  &lt;li&gt;이렇게 얻어진 결과 값을 학습 데이터의 실제 값과 비교해 오차를 구하고 그 구한 오차를 이용해 우리의 신경망을 정교하게 업데이트해감으로서 보다 개선된 결과 값을 내는 것이 우리가 할 일이다.&lt;/li&gt;
-&lt;/ol&gt;
-</description>
-        <pubDate>Fri, 17 May 2019 16:06:23 +0900</pubDate>
-        <link>http://localhost:4000/%EB%94%A5%EB%9F%AC%EB%8B%9D/2019/05/17/%E1%84%83%E1%85%B5%E1%86%B8%E1%84%85%E1%85%A5%E1%84%82%E1%85%B5%E1%86%BC-01.-%E1%84%83%E1%85%B5%E1%86%B8%E1%84%85%E1%85%A5%E1%84%82%E1%85%B5%E1%86%BC%E1%84%8B%E1%85%B4-%E1%84%8B%E1%85%AF%E1%86%AB%E1%84%85%E1%85%B5-%E1%84%8B%E1%85%A1%E1%86%AF%E1%84%8B%E1%85%A1%E1%84%87%E1%85%A9%E1%84%80%E1%85%B5.html</link>
-        <guid isPermaLink="true">http://localhost:4000/%EB%94%A5%EB%9F%AC%EB%8B%9D/2019/05/17/%E1%84%83%E1%85%B5%E1%86%B8%E1%84%85%E1%85%A5%E1%84%82%E1%85%B5%E1%86%BC-01.-%E1%84%83%E1%85%B5%E1%86%B8%E1%84%85%E1%85%A5%E1%84%82%E1%85%B5%E1%86%BC%E1%84%8B%E1%85%B4-%E1%84%8B%E1%85%AF%E1%86%AB%E1%84%85%E1%85%B5-%E1%84%8B%E1%85%A1%E1%86%AF%E1%84%8B%E1%85%A1%E1%84%87%E1%85%A9%E1%84%80%E1%85%B5.html</guid>
-        
-        
-        <category>딥러닝</category>
-        
-      </item>
-    
-      <item>
-        <title>2019_05_16_TIL</title>
-        <description>&lt;h3 id=&quot;20190516-til&quot;&gt;2019.05.16 TIL&lt;/h3&gt;
-
-&lt;h1 id=&quot;to-do&quot;&gt;To do&lt;/h1&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;DEV (10:00 ~ 18:00 )
-    &lt;ul&gt;
-      &lt;li&gt;&lt;del&gt;수업 시간에 배운 것 TIL&lt;/del&gt;&lt;/li&gt;
-      &lt;li&gt;알고리즘 1문제&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;프로젝트 (19:00 ~ 22:30 )
-    &lt;ul&gt;
-      &lt;li&gt;커멘트 기능 구현하기(ajax 연동해보기)&lt;/li&gt;
-      &lt;li&gt;check box 모양 바꾸기&lt;/li&gt;
-      &lt;li&gt;주/월 연락해야 되는 사람 보여주기
-        &lt;ul&gt;
-          &lt;li&gt;내부에서 filter를 2회 걸어야 하는 경우 who&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;딥러닝 (7:30 ~ 9:30)
-    &lt;ul&gt;
-      &lt;li&gt;&lt;del&gt;딥러닝 책 공부하기&lt;/del&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;About me
-    &lt;ul&gt;
-      &lt;li&gt;&lt;del&gt;운동 : 러닝 (6 ~ 7:30)&lt;/del&gt;&lt;/li&gt;
-      &lt;li&gt;데일리 리포트 및 피드백 진행 ( 22시 이후 )&lt;/li&gt;
-      &lt;li&gt;&lt;del&gt;독서 ( 18:00 ~ 19:00 )&lt;/del&gt;: 독서겸 딥러닝 공부&lt;/li&gt;
-      &lt;li&gt;영어 단어 암기 (9:30 ~ 10:00)&lt;/li&gt;
-      &lt;li&gt;영어 1개 암기 (오가는 길에 계속 듣기)&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&quot;til&quot;&gt;TIL&lt;/h1&gt;
-&lt;ul&gt;
-  &lt;li&gt;오늘은 댓글 기능을 구현하였다.&lt;/li&gt;
-  &lt;li&gt;함수형 뷰에서 댓글 기능을 구현하였고 또 그 댓글을 수정 및 삭제하는 것을 구현하였다.&lt;/li&gt;
-  &lt;li&gt;함수형 뷰에서 댓글 기능을 구현하기 위해서 폼을 만들었다.&lt;/li&gt;
-  &lt;li&gt;함수형 뷰를 구현하기 위해서 크게 2가지 방법을 활용하였는데 첫 째는 그냥 해당 댓글이 달리는 뷰에서 처리를 하는 것이었고 또 한가지 방법은 댓글 뷰를 따로 뺴서 만드는 것이었다.&lt;/li&gt;
-  &lt;li&gt;댓글 뷰를 따로 뺴서 만들어 줄 때는 그 뷰가 실행되기 위한 url이 필요하고 그 url을 실현시켜주기 위해 form 안에 url 주소를 연결시켜주어 그 url로 연결되도록 구현해주어야 한다.&lt;/li&gt;
-  &lt;li&gt;또한 수정 기능에서 중요한 것은 바로 그 전 데이터가 들어가 있어야 한다는 것이다. 인스턴스 값을 넣어 줘야 해야 한다.&lt;/li&gt;
-  &lt;li&gt;그리고 수정 및 삭제 기능에서 중요한 것은 그것을 실행하는 사람이 글쓴이 인지 확인해야 한다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&quot;today-was&quot;&gt;Today was&lt;/h1&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;05:30 기상 : 기상 이후에 계속 휴대폰을 만지면서 닝기적 거렸다. 뭔가 휴대폰으로 손이 간다는 것 자체가 문제가 되는 것 같다. 책을 읽으면 차라리 나을 것 같다는 생각이 든다.&lt;/li&gt;
-  &lt;li&gt;06:00 ~ 07:20 운동 헬스 : 가슴운동(최대 80kg) + 턱걸이(최대 10개)&lt;/li&gt;
-  &lt;li&gt;07:30 ~ 09:30 딥러닝 공부&lt;/li&gt;
-  &lt;li&gt;10:00 ~ 12:00 수업 1&lt;/li&gt;
-  &lt;li&gt;13:00 ~ 15:00 수업 2&lt;/li&gt;
-  &lt;li&gt;15:00 ~ 17:00 수업 복습 TIL&lt;/li&gt;
-  &lt;li&gt;17:00 ~ 18:00 클래스형 뷰에서 댓글 기능 구현하기&lt;/li&gt;
-  &lt;li&gt;17:00 ~ 18:00 Connect 오늘 연락해줘야하는 사람 구현&lt;/li&gt;
-  &lt;li&gt;18:00 ~ 19:00 저녁 및 독서&lt;/li&gt;
-  &lt;li&gt;19:00 ~ 19:30 놀았당&lt;/li&gt;
-  &lt;li&gt;19:30 ~ 21:00 ajax 공부&lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;21:00 ~ 22:00 생활 코딩 강의&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;음… 저녁시간 이후에 갑자기 너무 피곤해져서… 당황스러웠다.&lt;/li&gt;
-  &lt;li&gt;이런 경우 어떻게 하는 것이 좋을까? 그냥 한숨 잠자고 하는 것이 좋은 것일까?&lt;/li&gt;
-  &lt;li&gt;저녁시간 이후에 굉장히 피곤해 질 때 어떻게 해야 할지 생각을 해봐야 되겠다.&lt;/li&gt;
-  &lt;li&gt;오늘 일상 생활을 보면 나쁘지 않았다. 각각의 시간을 주고 시행하는 것은 굉장히 효율적이라는 생각이 든다.&lt;/li&gt;
-  &lt;li&gt;왜냐하면 어차피 무언가를 끝내는데 시간을 명확히 측정하기도 어렵고, 차라리 시간을 주어서 특정 것을 할 수 있도록 확보해주는 것이 좋다는 생각이 든다.&lt;/li&gt;
-  &lt;li&gt;딥러닝 공부도 시작하였고, 나쁘지 않은 하루였다.&lt;/li&gt;
-  &lt;li&gt;잠이 너무 온다 ㅎㅎ&lt;/li&gt;
-  &lt;li&gt;잠이 올 때는 음악을 들으면서 알바를 하자. ㅎㅎ&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&quot;tomorrow-do&quot;&gt;Tomorrow do&lt;/h1&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;DEV (10 ~ 16:30)
-    &lt;ul&gt;
-      &lt;li&gt;수업 시간에 배운 것 TIL&lt;/li&gt;
+      &lt;li&gt;TIL하기&lt;/li&gt;
+      &lt;li&gt;쇼핑몰 리스트 나열 부분 수정하기&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;프로젝트
     &lt;ul&gt;
-      &lt;li&gt;커멘트 기능 구현하기(ajax 연동해보기)&lt;/li&gt;
+      &lt;li&gt;장카 프로젝트 진행
+        &lt;ul&gt;
+          &lt;li&gt;수정하기 부분 수정&lt;/li&gt;
+          &lt;li&gt;배포하기&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
-  &lt;li&gt;딥러닝 ( 07:30 ~ 09:30 )
+  &lt;li&gt;딥러닝
     &lt;ul&gt;
-      &lt;li&gt;딥러닝 책 공부하기&lt;/li&gt;
+      &lt;li&gt;금주까지는 장카와 쇼핑몰을 마무리하자!&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;About me
     &lt;ul&gt;
-      &lt;li&gt;운동 : 러닝 (05:30 ~ 07:00)&lt;/li&gt;
+      &lt;li&gt;운동 헬스 셋트 수 : 25&lt;/li&gt;
       &lt;li&gt;데일리 리포트 및 피드백 진행&lt;/li&gt;
       &lt;li&gt;독서&lt;/li&gt;
       &lt;li&gt;영어 단어 암기&lt;/li&gt;
       &lt;li&gt;영어 1개 암기&lt;/li&gt;
+      &lt;li&gt;일기쓰기!&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
 &lt;/ul&gt;
 </description>
-        <pubDate>Thu, 16 May 2019 23:06:23 +0900</pubDate>
-        <link>http://localhost:4000/til/2019/05/16/TIL.html</link>
-        <guid isPermaLink="true">http://localhost:4000/til/2019/05/16/TIL.html</guid>
+        <pubDate>Tue, 18 Jun 2019 23:06:23 +0900</pubDate>
+        <link>http://localhost:4000/til/2019/06/18/TIL.html</link>
+        <guid isPermaLink="true">http://localhost:4000/til/2019/06/18/TIL.html</guid>
         
         
         <category>TIL</category>

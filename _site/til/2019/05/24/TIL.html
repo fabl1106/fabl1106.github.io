@@ -1,0 +1,1494 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" sizes = "32x32" href="/static/img/favicon.ico"/>
+    <title>2019_05_24_TIL - 대구 올빼미의 새벽 개발로그</title>
+    <meta name="author" content="Byeonguk Kim" />
+    <meta name="description" content="2019_05_24_TIL" />
+    <meta name="keywords" content="2019_05_24_TIL, 대구 올빼미의 새벽 개발로그, TIL" />
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml">
+    <meta content="1749788565247320" property="fb:app_id">
+    <meta content="대구 올빼미의 새벽 개발로그" property="og:site_name">
+
+    
+
+    
+      <meta content="2019_05_24_TIL" property="og:title">
+      <meta content="article" property="og:type">
+    
+
+    
+      <meta content="TIL 하는 방법 및 오늘의 TIL에 대한 내용들" property="og:description">
+    
+
+    
+      <meta content="http://localhost:4000/til/2019/05/24/TIL.html" property="og:url">
+    
+
+    
+      <meta content="2019-05-24T23:06:23+09:00" property="article:published_time">
+      <meta content="http://localhost:4000/about/" property="article:author">
+    
+
+    
+      <meta content="http://localhost:4000/static/img/avatar.jpg" property="og:image">
+    
+
+    
+      
+        <meta content="TIL" property="article:section">
+      
+    
+
+    
+      
+    
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@github.io">
+    <meta name="twitter:creator" content="@github.io">
+
+    
+      <meta name="twitter:title" content="2019_05_24_TIL">
+    
+
+    
+      <meta name="twitter:url" content="http://localhost:4000/til/2019/05/24/TIL.html">
+    
+
+    
+      <meta name="twitter:description" content="TIL 하는 방법 및 오늘의 TIL에 대한 내용들">
+    
+
+    
+
+    <!-- Font awesome icons -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+    <!-- syntax highlighting CSS -->
+    <link rel="stylesheet" href="/static/css/syntax.css">
+    <!-- Bootstrap core CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300italic,300,400italic,700&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/super-search.css">
+    <link rel="stylesheet" href="/static/css/thickbox.css">
+    <link rel="stylesheet" href="/static/css/projects.css">
+    <link rel="stylesheet" href="/static/css/main.css">
+
+    
+  </head>
+  <body>
+    <div class="container">
+      <div class="col-sm-3">
+        <div class="fixed-condition">
+          <a href="/"><img class="profile-avatar" src="/static/img/avatar.jpg" height="120px" width="120px" /></a>
+          <h1 class="author-name">Byeonguk Kim</h1>
+          
+            <div class="profile-about">
+              <h5>안녕하세요. 29살의 조금은 늦은 나이로 새롭게 개발자로 시작하는 신입 개발자입니다. 포트폴리오 [https://deaguowl.github.io]</h5>
+            </div>
+          
+          <div class="social">
+            <ul>
+              
+                <li><a href="https://web.facebook.com/byungwook.kim.923" target="_blank"><i class="fa fa-facebook"></i></a></li>
+              
+                <li><a href="https://github.com/fabl1106" target="_blank"><i class="fa fa-github"></i></a></li>
+              
+            </ul>
+          </div>
+          <div class="search" id="js-search">
+            <input type="text" placeholder="(sitemap)~$ type to search" class="search__input form-control" id="js-search__input">
+            <ul class="search__results" id="js-search__results"></ul>
+          </div>
+          <hr />
+          <ul class="sidebar-nav">
+            <strong>Navigation</strong>
+            <li><a href="/">Home</a></li>
+            
+              <li><a class="about" href="/about/">About Me</a></li>
+            
+              <li><a class="about" href="https://deaguowl.github.io">Portfolio</a></li>
+            
+          </ul>
+        </div>
+        <!-- end /.fixed-condition -->
+      </div>
+      <div class="col-sm-8 col-offset-1 main-layout">
+        <header class="post-header">
+  <h1 class="post-title">2019_05_24_TIL</h1>
+</header>
+
+<span class="time">24 May 2019</span>
+
+  <span class="categories">
+    &raquo; <a href="/category/TIL">TIL</a>
+  </span>
+
+
+<div class="content">
+  <div class="post"><h3 id="20190524-til">2019.05.24 TIL</h3>
+
+<h1 id="to-do">To do</h1>
+
+<ul>
+  <li>DEV (10 ~ 21:00)
+    <ul>
+      <li>해커톤 프로젝트</li>
+    </ul>
+  </li>
+  <li>
+    <p>프로젝트</p>
+  </li>
+  <li>딥러닝
+    <ul>
+      <li>이번 주는 pass ㅠㅠ</li>
+    </ul>
+  </li>
+  <li>About me
+    <ul>
+      <li><del>운동 : 사이클 (05:30 ~ 08:00)</del></li>
+      <li><del>철인 경기 필수 용품 준비</del></li>
+      <li><del>데일리 리포트 및 피드백 진행</del></li>
+      <li>독서</li>
+      <li>영어 단어 암기</li>
+      <li><del>영어 1개 암기</del></li>
+    </ul>
+  </li>
+  <li>About me
+    <ul>
+      <li><del>운동 : 러닝 (05:30 ~ 06:30)</del></li>
+      <li><del>데일리 리포트 및 피드백 진행</del></li>
+      <li>독서</li>
+      <li>영어 단어 암기</li>
+      <li><del>영어 1개 암기</del></li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="til">TIL</h1>
+
+<ul>
+  <li>오늘은 해커톤을 진행하였다. 하루종일 진행되는 해커톤 속에서 나는 무엇을 배웠을까? 팀원들간의 협업, 그리고 깃을 통해서 서로 clone해오고 하는 것들 push해오는 것들 등등. 생각하지 못했던 많은 부분들을 알 수 있게 되었다. git이 얼마나 편한지도 알 수 있었고 한편으로는 너무 답답한 부분도 있었다.</li>
+  <li>프로그래밍을 시간 제한을 가지고 구현하게 되면 얼마나 촉박하게 되는지 ㅠㅠ 알게 되었다. 항상 여유 시간을 많이 가지고 빠르게 구현한 뒤에 고치는 방향으로 가야되겠다는 생각이 들었다.</li>
+  <li>그래도 결론적으로 우리가 1등 할 수 있게 되어서 기분이 좋다!! 와 해커톤 1등 1등!!!</li>
+</ul>
+
+<h1 id="today-was">Today was</h1>
+
+<ul>
+  <li>05:30 기상</li>
+  <li>06:00 ~ 08:00 사이클</li>
+  <li>08:00 ~ 09:00 개인프로젝트 마무리 진행</li>
+  <li>10:00 ~ 18:00 팀별 해커톤 진행</li>
+  <li>18:00 ~ 20:00 해커톤 발표</li>
+  <li>20:30 ~ 21:00 성수역이동</li>
+  <li>
+    <p>21:00 ~ 23:00 개인 정리</p>
+  </li>
+  <li>오늘은 해커톤을 한다고 정말 정신이 없었던 하루다.</li>
+  <li>그래도 정말 잘 마무리해서 다행이라고 생각한다!! 수고 많았다.</li>
+  <li>남형 형님의 명언
+    <ul>
+      <li>1등할 줄 알았는데 1등했네 …</li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="주말간-미션">주말간 미션</h1>
+
+<ul>
+  <li>철인 경기 고성 이동 및 완주 하기..</li>
+</ul>
+</div>
+  <div class="share-page">
+  <span style="float: left;">Share this on &rarr;&nbsp;&nbsp;</span>
+
+  <!-- Twitter -->
+  <a href="https://twitter.com/share" class="twitter-share-button" data-via="github.io">Tweet</a>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+  <!-- Facebook -->
+  <div class="fb-share-button" data-href="http://localhost:4000/til/2019/05/24/TIL.html" data-layout="button_count" style="position: relative; top: -8px; left: 3px;"></div>
+</div>
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.6&appId=1749788565247320";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+</div>
+
+
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+            
+            <div class="panel-body">
+              <h4>Related Posts</h4>
+              <ul>
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/til/2019/06/23/TIL.html">2019_06_23_TIL</a>
+                  
+                    (Categories: <a href="/category/TIL">TIL</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/til/2019/06/20/TIL.html">2019_06_20_TIL</a>
+                  
+                    (Categories: <a href="/category/TIL">TIL</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/til/2019/06/18/TIL.html">2019_06_18_TIL</a>
+                  
+                    (Categories: <a href="/category/TIL">TIL</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/til/2019/06/17/TIL.html">2019_06_17_TIL</a>
+                  
+                    (Categories: <a href="/category/TIL">TIL</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/til/2019/06/12/TIL.html">2019_06_12_TIL</a>
+                  
+                    (Categories: <a href="/category/TIL">TIL</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+            
+                <li class="relatedPost">
+                  <a href="http://localhost:4000/til/2019/06/11/TIL.html">2019_06_11_TIL</a>
+                  
+                    (Categories: <a href="/category/TIL">TIL</a>)
+                  
+                </li>
+          
+          
+        
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+    
+      
+        
+          
+      
+    
+  
+  
+  </ul>
+</div>
+
+
+<div class="PageNavigation">
+  
+    <a class="prev" href="/til/2019/05/23/TIL.html">&laquo; 2019_05_23_TIL</a>
+  
+  
+    <a class="next" href="/django/2019/05/27/Django-26.-%E1%84%8C%E1%85%A1%E1%86%BC%E1%84%80%E1%85%A9-related_name-%E1%84%89%E1%85%A5%E1%86%AF%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%87%E1%85%A1%E1%86%BC%E1%84%87%E1%85%A5%E1%86%B8.html">Django 26. 장고 related_name 설정방법 &raquo;</a>
+  
+</div>
+
+<div class="disqus-comments">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    /* <![CDATA[ */
+    var disqus_shortname = "https-fabl1106-github-io";
+    var disqus_identifier = "http://localhost:4000_2019_05_24_TIL";
+    var disqus_title = "2019_05_24_TIL";
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    /* ]]> */
+  </script>
+</div>
+
+        <footer>
+          &copy; Byeonguk Kim
+          
+            - <a href="https://github.com/fabl1106">https://github.com/fabl1106</a> - Powered by Jekyll.
+          
+          <div class="btn-github" style="float:right;">
+            <iframe src="https://ghbtns.com/github-btn.html?user=fabl1106&repo=fabl1106.github.io&type=star&count=true" frameborder="0" scrolling="0" width="85" height="20px"></iframe>
+            <iframe src="https://ghbtns.com/github-btn.html?user=fabl1106&repo=fabl1106.github.io&type=fork&count=true" frameborder="0" scrolling="0" width="85" height="20px"></iframe>
+          </div>
+        </footer>
+      </div>
+      <!-- end /.col-sm-8 -->
+    </div>
+    <!-- end /.container -->
+
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/super-search.js"></script>
+    <script src="/static/js/thickbox-compressed.js"></script>
+    <script src="/static/js/projects.js"></script>
+  </body>
+</html>
+
